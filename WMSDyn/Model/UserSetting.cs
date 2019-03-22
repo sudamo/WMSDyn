@@ -4,18 +4,20 @@ namespace CBSys.WMSDyn.Model
 {
     public class UserSetting
     {
-        public UserSetting(UserInfo pUserInf, DepartmentInfo pDeptInf, string pDBConnectionString, K3CloudInfo pK3CloudInf)
+        public UserSetting(string pDBConnectionString, K3CloudInfo pK3CloudInf, UserInfo pUserInf, DepartmentInfo pDeptInf, Drawing_RInfo pDrawing_RInf)
         {
-            _UserInf = pUserInf;
-            _DeptInf = pDeptInf;
             _DB_ConnectionString = pDBConnectionString;
             _K3CloudInf = pK3CloudInf;
+            _UserInf = pUserInf;
+            _DeptInf = pDeptInf;
+            _Drawing_RInf = pDrawing_RInf;
         }
 
         private static string _DB_ConnectionString;
+        private static K3CloudInfo _K3CloudInf;
         private static UserInfo _UserInf;
         private static DepartmentInfo _DeptInf;
-        private static K3CloudInfo _K3CloudInf;
+        private static Drawing_RInfo _Drawing_RInf;
 
         /// <summary>
         /// 数据库连接字符串
@@ -75,6 +77,21 @@ namespace CBSys.WMSDyn.Model
             set
             {
                 _K3CloudInf = value;
+            }
+        }
+        /// <summary>
+        /// 图纸权限
+        /// </summary>
+        public static Drawing_RInfo Drawing_RInf
+        {
+            get
+            {
+                return _Drawing_RInf;
+            }
+
+            set
+            {
+                _Drawing_RInf = value;
             }
         }
     }

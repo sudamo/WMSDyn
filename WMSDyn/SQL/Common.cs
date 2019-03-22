@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Collections;
 using System.Collections.Generic;
 using CBSys.WMSDyn.Model;
 using CBSys.WMSDyn.Unity;
@@ -12,13 +11,7 @@ namespace CBSys.WMSDyn.SQL
     /// </summary>
     public class Common : ICommon
     {
-        #region Fields,Properties & Structor
-        /// <summary>
-        /// 构造函数-带默认数据库连接字符串
-        /// </summary>
         public Common() { }
-        #endregion
-
         /// <summary>
         /// 注销-当前用户
         /// </summary>
@@ -49,76 +42,6 @@ namespace CBSys.WMSDyn.SQL
         }
 
         /// <summary>
-        /// 获取当前用户所有条码
-        /// </summary>
-        /// <returns></returns>
-        public DataTable GetUserDrawing()
-        {
-            return CommonFunction.GetUserDrawing(UserSetting.UserInf.UserName);
-        }
-
-        /// <summary>
-        /// 根据条码查询图纸路径-当前用户
-        /// </summary>
-        /// <param name="pBarcode">条码</param>
-        /// <returns></returns>
-        public string GetUserDrawing(string pBarcode)
-        {
-            return CommonFunction.GetUserDrawing(UserSetting.UserInf.UserName, pBarcode);
-        }
-
-        /// <summary>
-        /// 根据用户名和条码查询图纸路径-指定用户
-        /// </summary>
-        /// <param name="pName">用户名</param>
-        /// <param name="pBarcode">条码</param>
-        /// <returns></returns>
-        public string GetUserDrawing(string pName, string pBarcode)
-        {
-            return CommonFunction.GetUserDrawing(pName, pBarcode);
-        }
-
-        /// <summary>
-        /// 根据条码获取任务单信息
-        /// </summary>
-        /// <param name="pBarcode">条码</param>
-        /// <returns></returns>
-        public MoInfo GetMoInfoByBarcode(string pBarcode)
-        {
-            return CommonFunction.GetMoInfoByBarcode(pBarcode);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pDeptId"></param>
-        /// <returns></returns>
-        public List<string> GetFNumbersByDepartId(int pDeptId)
-        {
-            return CommonFunction.GetFNumbersByDepartId(pDeptId);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pFNumbers"></param>
-        /// <returns></returns>
-        public IList GetMTLListByFNumbers(List<string> pFNumbers)
-        {
-            return CommonFunction.GetMTLListByFNumbers(pFNumbers);
-        }
-
-        /// <summary>
-        /// 根据物料编码获取图纸信息
-        /// </summary>
-        /// <param name="pFNumber">物料编码</param>
-        /// <returns></returns>
-        public DrawingInfo GetDrawingInfoByFNumber(string pFNumber)
-        {
-            return CommonFunction.GetDrawingInfoByFNumber(pFNumber);
-        }
-
-        /// <summary>
         /// 根据物料编码获取物料信息
         /// </summary>
         /// <param name="pFNumber">物料编码</param>
@@ -126,49 +49,6 @@ namespace CBSys.WMSDyn.SQL
         public MaterialInfo GetMaterialInfoByFNumber(string pFNumber)
         {
             return CommonFunction.GetMaterialInfoByFNumber(pFNumber);
-        }
-
-        /// <summary>
-        /// 根据条码获取操作日志信息
-        /// </summary>
-        /// <param name="pBarcode">条码</param>
-        /// <returns></returns>
-        public OperationInfo GetOperationInfoByBarcode(string pBarcode)
-        {
-            return CommonFunction.GetOperationInfoByBarcode(pBarcode);
-        }
-
-        /// <summary>
-        /// 获取日志信息
-        /// </summary>
-        /// <param name="pBarcode">条码</param>
-        /// <param name="pFBillNo">任务单号</param>
-        /// <param name="pOperator">操作员</param>
-        /// <param name="pFrom">开始时间</param>
-        /// <param name="pTo">结束时间</param>
-        /// <returns></returns>
-        public DataTable GetOperations(string pBarcode, string pFBillNo, string pOperator, DateTime pFrom, DateTime pTo)
-        {
-            return CommonFunction.GetOperations(pBarcode, pFBillNo, pOperator, pFrom, pTo);
-        }
-
-        /// <summary>
-        /// 写入操作日志
-        /// </summary>
-        /// <param name="pOperation">操作日志实体</param>
-        public void Log_Operation(OperationInfo pOperation)
-        {
-            CommonFunction.Log_Operation(pOperation);
-        }
-
-        /// <summary>
-        /// 密码加密
-        /// </summary>
-        /// <param name="pPassword"></param>
-        /// <returns></returns>
-        public string EncryptData(string pPassword)
-        {
-            return CommonFunction.EncryptData(pPassword);
         }
 
         /// <summary>
@@ -187,15 +67,6 @@ namespace CBSys.WMSDyn.SQL
         public void UpdateDrawing(DrawingInfo pDrawingInf)
         {
             CommonFunction.UpdateDrawing(pDrawingInf);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pDrawingInf"></param>
-        public void MergeDrawing(DrawingInfo pDrawingInf)
-        {
-            CommonFunction.MergeDrawing(pDrawingInf);
         }
 
         /// <summary>
@@ -241,9 +112,61 @@ namespace CBSys.WMSDyn.SQL
         /// </summary>
         /// <param name="pBarcode"></param>
         /// <returns></returns>
-        public DrawingInfo DownLoadDrawing(string pBarcode)
+        public DrawingInfo GetDrawing(string pSourcePath)
         {
-            return CommonFunction.DownLoadDrawing(pBarcode);
+            return CommonFunction.GetDrawing(pSourcePath);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pSourcePathList">SourcePathList</param>
+        /// <returns></returns>
+        public List<DrawingInfo> GetDrawing(List<string> pSourcePathList)
+        {
+            return CommonFunction.GetDrawing(pSourcePathList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pFileName"></param>
+        /// <param name="pFlag"></param>
+        /// <returns></returns>
+        public DataTable GetDrawing(string pFileName, bool? pFlag)
+        {
+            return CommonFunction.GetDrawing(pFileName, pFlag);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pFileName"></param>
+        /// <param name="pGeneral"></param>
+        /// <param name="pArt"></param>
+        /// <param name="pCust"></param>
+        /// <returns></returns>
+        public DataTable GetDrawing(string pFileName, bool pGeneral, bool pArt, bool pCust)
+        {
+            return CommonFunction.GetDrawing(pFileName, pGeneral, pArt, pCust);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Drawing_RInfo GetDrawing_RInfo()
+        {
+            return CommonFunction.GetDrawing_RInfo("BD_Drawing");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ModifyDrawing_RInfo()
+        {
+            CommonFunction.ModifyDrawing_RInfo();
         }
 
         /// <summary>
@@ -269,10 +192,10 @@ namespace CBSys.WMSDyn.SQL
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
-        public DataTable GetDrawing()
+        /// <param name="pProcessName"></param>
+        public void KillPro(string pProcessName)
         {
-            return CommonFunction.GetDrawing();
+            CommonFunction.KillPro(pProcessName);
         }
     }
 }

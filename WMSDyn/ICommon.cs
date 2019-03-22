@@ -35,80 +35,11 @@ namespace CBSys.WMSDyn
         /// <returns></returns>
         DepartmentInfo GetDeptmentInfoById(int? pDeptId);
         /// <summary>
-        /// 根据用户名和条码查询图纸路径
-        /// </summary>
-        /// <param name="pBarcode"></param>
-        /// <returns></returns>
-        string GetUserDrawing(string pBarcode);
-        /// <summary>
-        /// 根据用户名获取用户的所有条码
-        /// </summary>
-        /// <returns></returns>
-        DataTable GetUserDrawing();
-        /// <summary>
-        /// 根据用户名和条码查询图纸路径-指定用户
-        /// </summary>
-        /// <param name="pName"></param>
-        /// <param name="pBarcode"></param>
-        /// <returns></returns>
-        string GetUserDrawing(string pName, string pBarcode);
-        /// <summary>
-        /// 根据条码获取任务单信息
-        /// </summary>
-        /// <param name="pBarcode"></param>
-        /// <returns></returns>
-        MoInfo GetMoInfoByBarcode(string pBarcode);
-        /// <summary>
-        /// 根据生产车间ID获取当天该车间的生产订单物料编码
-        /// </summary>
-        /// <param name="pDeptId"></param>
-        /// <returns></returns>
-        List<string> GetFNumbersByDepartId(int pDeptId);
-        /// <summary>
-        /// 根据物料编码list获取物料信息list
-        /// </summary>
-        /// <param name="pFNumbers"></param>
-        /// <returns></returns>
-        IList GetMTLListByFNumbers(List<string> pFNumbers);
-        /// <summary>
-        /// 根据物料编码获取图纸信息
-        /// </summary>
-        /// <param name="pFNumber"></param>
-        /// <returns></returns>
-        DrawingInfo GetDrawingInfoByFNumber(string pFNumber);
-        /// <summary>
         /// 根据物料编码获取物料信息
         /// </summary>
         /// <param name="pFNumber"></param>
         /// <returns></returns>
         MaterialInfo GetMaterialInfoByFNumber(string pFNumber);
-        /// <summary>
-        /// 根据条码获取操作日志信息
-        /// </summary>
-        /// <param name="pBarcode"></param>
-        /// <returns></returns>
-        OperationInfo GetOperationInfoByBarcode(string pBarcode);
-        /// <summary>
-        /// 获取日志
-        /// </summary>
-        /// <param name="pBarcode"></param>
-        /// <param name="pFBillNo"></param>
-        /// <param name="pOperator"></param>
-        /// <param name="pFrom"></param>
-        /// <param name="pTo"></param>
-        /// <returns></returns>
-        DataTable GetOperations(string pBarcode, string pFBillNo, string pOperator, DateTime pFrom, DateTime pTo);
-        /// <summary>
-        /// 写入操作日志
-        /// </summary>
-        /// <param name="pOperation"></param>
-        void Log_Operation(OperationInfo pOperation);
-        /// <summary>
-        /// 加密
-        /// </summary>
-        /// <param name="pPassword"></param>
-        /// <returns></returns>
-        string EncryptData(string pPassword);
         /// <summary>
         /// 上传图纸
         /// </summary>
@@ -119,11 +50,6 @@ namespace CBSys.WMSDyn
         /// </summary>
         /// <param name="pDrawingInf"></param>
         void UpdateDrawing(DrawingInfo pDrawingInf);
-        /// <summary>
-        /// Merge Drawing
-        /// </summary>
-        /// <param name="pDrawingInf"></param>
-        void MergeDrawing(DrawingInfo pDrawingInf);
         /// <summary>
         /// Merge MTLDrawing
         /// </summary>
@@ -136,11 +62,42 @@ namespace CBSys.WMSDyn
         /// <returns></returns>
         bool Check_DrawingFileName(string pSourcePath);
         /// <summary>
-        /// 根据文件名获取Drawing Context
+        /// 根据源路径获取图纸信息
         /// </summary>
         /// <param name="pFileName"></param>
         /// <returns></returns>
-        DrawingInfo DownLoadDrawing(string pBarcode);
+        DrawingInfo GetDrawing(string pSourcePath);
+        /// <summary>
+        /// 根据源路径获取图纸信息
+        /// </summary>
+        /// <param name="pList">SourcePathList</param>
+        /// <returns></returns>
+        List<DrawingInfo> GetDrawing(List<string> pSourcePathList);
+        /// <summary>
+        /// 根据文件名获取图纸信息
+        /// </summary>
+        /// <param name="pFileName"></param>
+        /// <param name="pFlag"></param>
+        /// <returns></returns>
+        DataTable GetDrawing(string pFileName, bool? pFlag);
+        /// <summary>
+        /// 根据文件名获取图纸信息
+        /// </summary>
+        /// <param name="pFileName"></param>
+        /// <param name="pGeneral"></param>
+        /// <param name="pArt"></param>
+        /// <param name="pCust"></param>
+        /// <returns></returns>
+        DataTable GetDrawing(string pFileName, bool pGeneral, bool pArt, bool pCust);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Drawing_RInfo GetDrawing_RInfo();
+        /// <summary>
+        /// 
+        /// </summary>
+        void ModifyDrawing_RInfo();
         /// <summary>
         /// 删除图纸
         /// </summary>
@@ -164,7 +121,10 @@ namespace CBSys.WMSDyn
         /// <param name="pName"></param>
         /// <returns></returns>
         Template_DrawingInfo GetTemplateInfoByName(string pName);
-
-        DataTable GetDrawing();
+        /// <summary>
+        /// 关闭指定进程
+        /// </summary>
+        /// <param name="pProcessName"></param>
+        void KillPro(string pProcessName);
     }
 }

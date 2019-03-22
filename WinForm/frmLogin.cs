@@ -10,8 +10,6 @@ namespace CBSys.WinForm
     /// </summary>
     public partial class frmLogin : Form
     {
-        private Configuration _Config;
-        private Kingdee.BOS.WebApi.Client.K3CloudApiClient _Client;
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -27,8 +25,9 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string strUserName = txtUser.Text.Trim();//登陆用户名
-            string strPWD = txtPWD.Text.Trim();//登陆用户密码
+            bool bLog;
+            string strURL, strZTID, strSQL_IP, strUserName = txtUser.Text.Trim(), strPWD = txtPWD.Text.Trim();
+            WMSDyn.ICommon IComm = new WMSDyn.SQL.Common();
 
             if (string.IsNullOrEmpty(strUserName) || string.IsNullOrEmpty(strPWD))
             {
@@ -36,44 +35,50 @@ namespace CBSys.WinForm
                 return;
             }
 
-            bool bLog = false;
-            string strURL, strZTID, strConnectionString;
-
-
-            _Config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            strURL = _Config.AppSettings.Settings["C_URL"].Value;
-            strZTID = _Config.AppSettings.Settings["C_ZTID"].Value;
-            strConnectionString = _Config.AppSettings.Settings["ConnectionString"].Value;
-
-            _Client = new Kingdee.BOS.WebApi.Client.K3CloudApiClient(strURL);
-
             try
             {
-                bLog = _Client.Login(strZTID, strUserName, strPWD, 2052);
+                strURL = ConfigurationManager.AppSettings["URL"].ToString();
+                strZTID = ConfigurationManager.AppSettings["ZTID"].ToString();
+                strSQL_IP = ConfigurationManager.AppSettings["SQL_IP"].ToString();
+
+                Kingdee.BOS.WebApi.Client.K3CloudApiClient client = new Kingdee.BOS.WebApi.Client.K3CloudApiClient(strURL);
+                bLog = client.Login(strZTID, strUserName, strPWD, 2052);
+                if (!bLog)
+                {
+                    MessageBox.Show("用户名或密码错误", "登录失败");
+                    return;
+                }
+
+                //Set Static Fields
+                UserSetting.DB_ConnectionString = "Data Source=" + strSQL_IP + ";Initial Catalog=WMS;User ID=sa;Password=123456;Max Pool Size=1024;";
+                UserSetting.K3CloudInf = new K3CloudInfo(strURL, strZTID, strUserName, strPWD, "");
+
+                UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : IComm.GetUserInfoByName(strUserName);
+                if (UserSetting.UserInf == null)
+                {
+                    MessageBox.Show("未能获取用户信息", "登录失败");
+                    return;
+                }
+                UserSetting.DeptInf = strUserName == "Administrator" ? (new DepartmentInfo(0, "System", "系统管理员")) : IComm.GetDeptmentInfoById(UserSetting.UserInf.FDeptId);
+                if (UserSetting.DeptInf == null)
+                {
+                    MessageBox.Show("未能获取用户部门信息", "登录失败");
+                    return;
+                }
+                UserSetting.Drawing_RInf = IComm.GetDrawing_RInfo();
+                if (UserSetting.Drawing_RInf == null)
+                {
+                    MessageBox.Show("未能获取用户权限信息", "登录失败");
+                    return;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "网络链接错误");
-                return;
-            }
-            if (!bLog)
-            {
-                MessageBox.Show("用户名或密码错误", "登录失败");
-                return;
-            }
-            WMSDyn.ICommon IComm = new WMSDyn.SQL.Common();
-            //Set Static Fields
-            UserSetting.K3CloudInf = new K3CloudInfo(strURL, strZTID, strUserName, strPWD, "");
-            UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : IComm.GetUserInfoByName(strUserName);
-            UserSetting.DeptInf = strUserName == "Administrator" ? (new DepartmentInfo(0, "System", "系统管理员")) : IComm.GetDeptmentInfoById(UserSetting.UserInf.FDeptId);
-            UserSetting.DB_ConnectionString = strConnectionString;
-
-            if (UserSetting.UserInf == null || UserSetting.DeptInf == null)
-            {
-                MessageBox.Show("找不到用户部门信息。");
+                MessageBox.Show(ex.Message, "登录失败");
                 return;
             }
 
+            //
             frmMain frm = new frmMain();
             try
             {
@@ -98,73 +103,7 @@ namespace CBSys.WinForm
             }
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="pUserName"></param>
-        ///// <returns></returns>
-        //private UserInfo GetUserInfoByName(string pUserName)
-        //{
-        //    UserInfo entry = new UserInfo();
-        //    bool bLogin = _Client.Login(UserSetting.K3CloudInf.C_ZTID, pUserName, txtPWD.Text.Trim(), 2052);
-        //    string strJson = "{\"FormId\":\"BD_Empinfo\",\"FieldKeys\":\"FNAME,FNumber,FPERSONID,FSTAFFID,FPOSTDEPT\",\"FilterString\":\"FNAME = '" + pUserName + "'\",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
-        //    if (bLogin)
-        //    {
-        //        try
-        //        {
-        //            List<List<object>> list = _Client.ExecuteBillQuery(strJson);
-        //            if (list.Count > 0)
-        //            {
-        //                entry.UserName = pUserName;
-        //                entry.FNumber = list[0][1].ToString();
-        //                entry.PersonId = list[0][2] == null ? 0 : int.Parse(list[0][2].ToString());
-        //                entry.StaffId = list[0][3] == null ? 0 : int.Parse(list[0][3].ToString());
-        //                entry.FDeptId = list[0][4] == null ? 0 : int.Parse(list[0][4].ToString());
-        //            }
-        //            else
-        //                return null;
-        //        }
-        //        catch //(Exception ex)
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    return entry;
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="pDeptId"></param>
-        ///// <returns></returns>
-        //private DepartmentInfo GetDeptmentInfoById(int? pDeptId)
-        //{
-        //    if (pDeptId == null) return null;
-        //    DepartmentInfo entry = new DepartmentInfo();
-        //    bool bLogin = _Client.Login(UserSetting.K3CloudInf.C_ZTID, txtUser.Text.Trim(), txtPWD.Text.Trim(), 2052);
-        //    string strJson = "{\"FormId\":\"BD_Department\",\"FieldKeys\":\"FDeptId,FNAME,FNUMBER\",\"FilterString\":\"FDeptId = " + pDeptId.ToString() + "\",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
-        //    if (bLogin)
-        //    {
-        //        try
-        //        {
-        //            List<List<object>> list = _Client.ExecuteBillQuery(strJson);
-        //            if (list.Count > 0)
-        //            {
-        //                entry.FDeptId = pDeptId;
-        //                entry.FName = list[0][1].ToString();
-        //                entry.FNumber = list[0][2].ToString();
-        //            }
-        //            else
-        //                return null;
-        //        }
-        //        catch
-        //        {
-        //            return null;
-        //        }
-        //    }
-        //    return entry;
-        //}
-
+        #region Events
         /// <summary>
         /// 
         /// </summary>
@@ -212,5 +151,6 @@ namespace CBSys.WinForm
             frmK3Setting frm = new frmK3Setting();
             frm.ShowDialog();
         }
+        #endregion
     }
 }

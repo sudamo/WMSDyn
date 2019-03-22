@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Data;
-using System.Timers;
 using System.Diagnostics;
 using System.Windows.Forms;
-using CBSys.WMSDyn;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
+using CBSys.WMSDyn;
 using CBSys.WMSDyn.Model;
 
 namespace CBSys.WinForm
@@ -19,6 +18,11 @@ namespace CBSys.WinForm
         #region Const,Filed,Property&Constructor
         private const string strErr1 = "文件不存在。";
         private const string strErr2 = "物料不存在、未审核或者已被禁用。";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private DataTable dt;
 
         /// <summary>
         /// WMSDyn接口
@@ -45,29 +49,53 @@ namespace CBSys.WinForm
 
             Text = "设计图纸 - " + UserSetting.UserInf.UserName + "  班组：" + UserSetting.DeptInf.FName;
 
-            //只允许Administrator修改模板
-            if (UserSetting.UserInf.UserName != "Administrator")
-                tsmiTool_Upload.Enabled = false;
+            //权限控制
+            if (UserSetting.UserInf.UserName != "Administrator" && UserSetting.UserInf.UserName != "马强强")
+            {
+                //if(UserSetting.Drawing_RInf.M_Users.Contains(UserSetting.UserInf.UserName))//Admin
+                //    tsmiSetting_Rigths.Enabled = true;
 
-            DataTable dt = IComm.GetUserDrawing();
+                //
+                if (UserSetting.Drawing_RInf.U_Users.Contains(UserSetting.UserInf.UserName))
+                {
+                    tsmiTool_Import.Enabled = true;
+                    tsmiTool_batchImport.Enabled = true;
+                }
+                if (UserSetting.Drawing_RInf.D_Users.Contains(UserSetting.UserInf.UserName))
+                {
+                    //btnDownLoad.Enabled = true;//Enabled
+                    btnBatDownLoad.Enabled = true;
+                }
+                //
+                if (UserSetting.Drawing_RInf.U_Users2.Contains(UserSetting.UserInf.UserName))
+                    tsmiTool_RLImport.Enabled = true;
+                //if (UserSetting.Drawing_RInf.D_Users2.Contains(UserSetting.UserInf.UserName))//None
+                //
+                //if (UserSetting.Drawing_RInf.U_Users3.Contains(UserSetting.UserInf.UserName))//Admin
+                //    tsmiTool_Upload.Enabled = true;
+                //if (UserSetting.Drawing_RInf.D_Users3.Contains(UserSetting.UserInf.UserName))//Enabled
+                //    tsmiTool_DownLoad.Enabled = true;
+                //
+                if (UserSetting.Drawing_RInf.Managers.Contains(UserSetting.UserInf.UserName))
+                    tsmiTool_Manager.Enabled = true;
+            }
+            else
+            {
+                tsmiSetting_Rigths.Enabled = true;
 
-            if (dt == null || dt.Rows.Count == 0)
-                return;
+                tsmiTool_Import.Enabled = true;
+                tsmiTool_batchImport.Enabled = true;
+                tsmiTool_RLImport.Enabled = true;
+                //tsmiTool_DownLoad.Enabled = true;//Enabled
+                tsmiTool_Upload.Enabled = true;
 
-            dgv1.DataSource = dt;
+                tsmiTool_Manager.Enabled = true;
+
+                btnDownLoad.Enabled = true;
+                btnBatDownLoad.Enabled = true;
+            }
         }
         #endregion
-
-        /// <summary>
-        /// 扫描
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e != null && e.KeyChar == 13)
-                btnOpen_Click(sender, e);
-        }
 
         /// <summary>
         /// 查询
@@ -76,7 +104,12 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            dgv1.DataSource = IComm.GetDrawing();
+            dt = IComm.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
+
+            if (dt == null || dt.Rows.Count == 0) return;
+
+            dgv1.DataSource = dt;
+            dgv1.Columns[6].Visible = false;
         }
 
         /// <summary>
@@ -86,27 +119,18 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            //查询向数据库图纸
-            //下载到本地
-            //如果本地存在文件名就覆盖。
-
-
-            string strBarcode;
-
-            strBarcode = txtBarcode.Text.Trim();
-            if (strBarcode.Equals(string.Empty))
+            if (txtBarcode.Text.Trim().Equals(string.Empty))
                 return;
-
-            //strPath = IComm.GetUserDrawing(strBarcode);
-            //if (strPath.Contains("失败"))//用户所在班组没有此条码
-            //{
-            //    MessageBox.Show(strPath);
-            //    return;
-            //}
-
-            DrawingInfo entry = IComm.DownLoadDrawing(strBarcode);
+            
+            DrawingInfo entry = IComm.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
             if (entry == null)
                 return;
+
+            if(entry.Flag)
+            {
+                MessageBox.Show("图纸被锁定。");
+                return;
+            }
 
             //检查目录是否存在
             string strFilePath = @"C:\Drawing";
@@ -128,15 +152,11 @@ namespace CBSys.WinForm
                 bw.Write(entry.Context);
                 bw.Close();
             }
-            catch //(Exception ex)
-            {
+            catch { }
 
-            }
-            finally
-            {
-
-            }
-
+            ;
+            //关闭已打开的软件
+            IComm.KillPro("SmartCutAutoPlan");
             //打开文件
             Process proc = new Process();
             proc.StartInfo.FileName = entry.FileName;
@@ -145,71 +165,81 @@ namespace CBSys.WinForm
         }
 
         /// <summary>
-        /// 删除
+        /// 下载当前选定图纸
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDownLoad_Click(object sender, EventArgs e)
         {
-            if (UserSetting.UserInf.UserName != "Administrator")
-            {
-                MessageBox.Show("只有管理员可以删除图纸。");
-                return;
-            }
-
-            string strBarcode;
-
-            strBarcode = txtBarcode.Text.Trim();
-            if (strBarcode.Equals(string.Empty))
+            if (dt == null || dt.Rows.Count == 0)
                 return;
 
-            IComm.DeleteDrawing(strBarcode);
+            DrawingInfo entry = IComm.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+            if (entry == null)
+                return;
+
+            if (!Directory.Exists(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1)))
+                Directory.CreateDirectory(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1));
+
+            BinaryWriter bw = new BinaryWriter(File.Create(entry.SourcePath));
+            bw.Write(entry.Context);
+            bw.Close();
+
+            MessageBox.Show("下载完毕，文件路径：" + entry.SourcePath);
         }
 
         /// <summary>
-        /// 锁定图纸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnLock_Click(object sender, EventArgs e)
-        {
-            string strBarcode;
-
-            strBarcode = txtBarcode.Text.Trim();
-            if (strBarcode.Equals(string.Empty))
-                return;
-
-            IComm.LockDrawing(strBarcode, true);
-
-            MessageBox.Show("已锁定");
-        }
-
-        /// <summary>
-        /// 解锁图纸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnUnLock_Click(object sender, EventArgs e)
-        {
-            string strBarcode;
-
-            strBarcode = txtBarcode.Text.Trim();
-            if (strBarcode.Equals(string.Empty))
-                return;
-
-            IComm.LockDrawing(strBarcode, false);
-
-            MessageBox.Show("已解锁");
-        }
-
-        /// <summary>
-        /// 下载图纸
+        /// 批量下载图纸
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnBatDownLoad_Click(object sender, EventArgs e)
         {
+            if (dt == null || dt.Rows.Count == 0)
+                return;
 
+            List<string> lstSourcePath = new List<string>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                lstSourcePath.Add(dt.Rows[i]["源路径"].ToString());
+            }
+
+            if (!Directory.Exists("D:\\"))
+            {
+                MessageBox.Show("D盘不存在，选择默认下载路径失败。");
+                return;
+            }
+
+            List<DrawingInfo> list = IComm.GetDrawing(lstSourcePath);
+
+            if (list.Count == 0)
+            {
+                MessageBox.Show("没有查询到对应的图纸。");
+                return;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!Directory.Exists(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1)))
+                    Directory.CreateDirectory(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1));
+
+                BinaryWriter bw = new BinaryWriter(File.Create(list[i].SourcePath));
+                bw.Write(list[i].Context);
+                bw.Close();
+            }
+
+            MessageBox.Show("下载完毕");
+        }
+
+        /// <summary>
+        /// 扫描
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e != null && e.KeyChar == 13)
+                btnOpen_Click(sender, e);
         }
 
         /// <summary>
@@ -221,7 +251,7 @@ namespace CBSys.WinForm
         {
             if (dgv1.Rows.Count > 0)//根据用户权限填充ListBox
             {
-                txtBarcode.Text = dgv1.CurrentRow.Cells[1].Value.ToString();
+                txtBarcode.Text = dgv1.CurrentRow.Cells[0].Value.ToString();
             }
         }
 
@@ -237,10 +267,7 @@ namespace CBSys.WinForm
 
         #region 菜单
 
-        private void tsmiFile_New_Click(object sender, EventArgs e)
-        {
-
-        }
+        #region File
 
         /// <summary>
         /// 注销
@@ -249,7 +276,7 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void tsmiFile_LogOut_Click(object sender, EventArgs e)
         {
-            IComm.UserLogout();
+            //IComm.UserLogout();
             Dispose();
             DialogResult = DialogResult.None;
         }
@@ -261,25 +288,27 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void tsmiFile_Exit_Click(object sender, EventArgs e)
         {
-            IComm.UserLogout();
+            //IComm.UserLogout();
             Dispose();
             DialogResult = DialogResult.Abort;
         }
+        #endregion
 
-        private void tsmiSetting_SynUser_Click(object sender, EventArgs e)
+        #region Setting
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiSetting_Rigths_Click(object sender, EventArgs e)
         {
-
+            frmRight frm = new frmRight();
+            frm.Show();
         }
+        #endregion
 
-        private void tsmiSetting_User_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tsmiSetting_SynDep_Click(object sender, EventArgs e)
-        {
-
-        }
+        #region Tool
 
         /// <summary>
         /// 导入单个图纸
@@ -600,7 +629,7 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void tsmiTool_DownLoad_Click(object sender, EventArgs e)
         {
-            WMSDyn.Model.Template_DrawingInfo entry = IComm.GetTemplateInfoByName("TP_TL_MTLDrawing.xls");
+            Template_DrawingInfo entry = IComm.GetTemplateInfoByName("TP_TL_MTLDrawing.xls");
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "保存文件";
@@ -646,14 +675,17 @@ namespace CBSys.WinForm
         }
 
         /// <summary>
-        /// 帮助信息
+        /// 图纸管理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tsmiHelp_GetHelp_Click(object sender, EventArgs e)
+        private void tsmiTool_Manager_Click(object sender, EventArgs e)
         {
-
+            frmManage manage = new frmManage();
+            manage.ShowDialog();
         }
+        #endregion
+
         #endregion
     }
 }

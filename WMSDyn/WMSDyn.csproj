@@ -40,9 +40,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DMData.Code">
-      <HintPath>bin\DMData.Code.dll</HintPath>
-    </Reference>
     <Reference Include="Kingdee.BOS.WebApi.Client, Version=6.1.316.5, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Kingdee.BOS.WebApi.Client.dll</HintPath>
@@ -63,6 +60,7 @@
     <Compile Include="ICommon.cs" />
     <Compile Include="Model\DepartmentInfo.cs" />
     <Compile Include="Model\DrawingInfo.cs" />
+    <Compile Include="Model\Drawing_RInfo.cs" />
     <Compile Include="Model\K3CloudInfo.cs" />
     <Compile Include="Model\MaterialInfo.cs" />
     <Compile Include="Model\MoInfo.cs" />
