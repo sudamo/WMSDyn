@@ -3,10 +3,10 @@ using System.IO;
 using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
-using CBSys.WMSDyn;
-using CBSys.WMSDyn.Model;
+using Excel = Microsoft.Office.Interop.Excel;
+using CBSys.WinForm.Model;
+using CBSys.WinForm.Unity;
 
 namespace CBSys.WinForm
 {
@@ -16,18 +16,11 @@ namespace CBSys.WinForm
     public partial class frmMain : Form
     {
         #region Const,Filed,Property&Constructor
-        private const string strErr1 = "文件不存在。";
-        private const string strErr2 = "物料不存在、未审核或者已被禁用。";
 
         /// <summary>
         /// 
         /// </summary>
         private DataTable dt;
-
-        /// <summary>
-        /// WMSDyn接口
-        /// </summary>
-        private ICommon IComm;
 
         /// <summary>
         /// 构造函数
@@ -44,9 +37,6 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void frmMain_Load(object sender, EventArgs e)
         {
-            //接口
-            IComm = new WMSDyn.SQL.Common();
-
             Text = "设计图纸 - " + UserSetting.UserInf.UserName + "  班组：" + UserSetting.DeptInf.FName;
 
             //权限控制
@@ -104,12 +94,19 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            dt = IComm.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
+            try
+            {
+                dt = CommonFunc.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
 
-            if (dt == null || dt.Rows.Count == 0) return;
+                if (dt == null || dt.Rows.Count == 0) return;
 
-            dgv1.DataSource = dt;
-            dgv1.Columns[6].Visible = false;
+                dgv1.DataSource = dt;
+                dgv1.Columns[9].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>
@@ -122,7 +119,7 @@ namespace CBSys.WinForm
             if (txtBarcode.Text.Trim().Equals(string.Empty))
                 return;
             
-            DrawingInfo entry = IComm.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+            DrawingInfo entry = CommonFunc.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
             if (entry == null)
                 return;
 
@@ -156,7 +153,7 @@ namespace CBSys.WinForm
 
             ;
             //关闭已打开的软件
-            IComm.KillPro("SmartCutAutoPlan");
+            CommonFunc.KillPro("SmartCutAutoPlan");
             //打开文件
             Process proc = new Process();
             proc.StartInfo.FileName = entry.FileName;
@@ -174,7 +171,7 @@ namespace CBSys.WinForm
             if (dt == null || dt.Rows.Count == 0)
                 return;
 
-            DrawingInfo entry = IComm.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+            DrawingInfo entry = CommonFunc.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
             if (entry == null)
                 return;
 
@@ -210,7 +207,7 @@ namespace CBSys.WinForm
                 return;
             }
 
-            List<DrawingInfo> list = IComm.GetDrawing(lstSourcePath);
+            List<DrawingInfo> list = CommonFunc.GetDrawing(lstSourcePath);
 
             if (list.Count == 0)
             {
@@ -276,7 +273,6 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void tsmiFile_LogOut_Click(object sender, EventArgs e)
         {
-            //IComm.UserLogout();
             Dispose();
             DialogResult = DialogResult.None;
         }
@@ -335,20 +331,19 @@ namespace CBSys.WinForm
                 FileName = SourcePath.Substring(SourcePath.LastIndexOf("\\") + 1);
                 FileSuffix = FileName.Substring(FileName.IndexOf(".") + 1);
                 FileSize = fs.Length;
+                fs.Close();
 
                 DrawingInfo DrawingInf = new DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, UserSetting.UserInf.UserName, DateTime.Now, false, false, "用户上传", Context);
-                if (IComm.Check_DrawingFileName(SourcePath))
+                if (CommonFunc.Check_DrawingFileName(SourcePath))
                 {
-                    IComm.UpdateDrawing(DrawingInf);
+                    CommonFunc.UpdateDrawing(DrawingInf);
                     MessageBox.Show("更新成功。");
                 }
                 else
                 {
-                    IComm.UpLoadDrawing(DrawingInf);
+                    CommonFunc.UpLoadDrawing(DrawingInf);
                     MessageBox.Show("上传成功。");
                 }
-
-                fs.Close();
             }
         }
 
@@ -381,11 +376,13 @@ namespace CBSys.WinForm
                     FileName = SourcePath.Substring(SourcePath.LastIndexOf("\\") + 1);
                     FileSuffix = FileName.Substring(FileName.IndexOf(".") + 1);
                     FileSize = fs.Length;
+                    fs.Close();//?
+
                     entry = new DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, "System", DateTime.Now, false, false, "批量导入", Context);
 
                     try
                     {
-                        IComm.UpLoadDrawing(entry);
+                        CommonFunc.UpLoadDrawing(entry);
                     }
                     catch (Exception ex)
                     {
@@ -406,131 +403,6 @@ namespace CBSys.WinForm
                 MessageBox.Show("全部上传成功。");
                 return;
             }
-
-
-            //OpenFileDialog ofd = new OpenFileDialog();
-            //ofd.Title = "选择文件";
-            //ofd.Filter = "图纸(*.cut)|*.cut|所有文件(*.*)|*.*";
-            //if (ofd.ShowDialog() == DialogResult.OK)
-            //{
-            //    SourcePath = ofd.FileName;
-
-            //    FileInfo fi = new FileInfo(SourcePath);
-            //    FileStream fs = new FileStream(SourcePath, FileMode.Open);
-            //    BinaryReader br = new BinaryReader(fs);
-            //    Context = br.ReadBytes(Convert.ToInt32(fs.Length));
-
-            //    FileName = SourcePath.Substring(SourcePath.LastIndexOf("\\") + 1);
-            //    FileSuffix = FileName.Substring(FileName.IndexOf(".") + 1);
-            //    FileSize = fi.Length;
-
-            //    fs.Close();
-            //}
-
-            //string filePath = string.Empty;
-            //string strError = string.Empty;
-
-            //long FileSize;
-            ////string FNumber;
-            //string SourcePath;
-            //string FileName;
-            //string FileSuffix;
-            //string Description;
-            //byte[] Context;
-            ////WMSDyn.Model.MaterialInfo MTLInf;
-            //WMSDyn.Model.DrawingInfo DrawingInf;
-
-            //OpenFileDialog fileDialog = new OpenFileDialog();
-            //fileDialog.Multiselect = false;
-            //fileDialog.Title = "请选择Excel文件";
-            //fileDialog.Filter = "Excel报表(*.xls;*.xlsx)|*.xls;*.xlsx";
-
-            //if (fileDialog.ShowDialog() == DialogResult.OK)
-            //{
-            //    filePath = fileDialog.FileName;
-            //}
-            //if (filePath.Length <= 0) return;
-            ////导入
-            //object missing = Type.Missing;
-            //Excel.Application myApp = new Excel.Application();
-            //myApp.DisplayAlerts = false;
-            //Excel.Workbook workBook = myApp.Workbooks.Open(filePath, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing);
-            //Excel.Worksheet worksheet = workBook.Worksheets[1] as Excel.Worksheet;
-            //myApp.Visible = false;
-
-            //if (worksheet.Cells[1, 1].Text != "文件名" || worksheet.Cells[1, 2].Text != "上传路径" || worksheet.Cells[1, 3].Text != "物料编码")
-            //{
-            //    MessageBox.Show("导入模板格式不正确。");
-            //    workBook.Close();
-            //    return;
-            //}
-
-            //for (int i = 2; i <= worksheet.UsedRange.Rows.Count; i++)
-            //{
-            //    try
-            //    {
-            //        FileName = worksheet.Cells[i, 1].Text;
-            //        SourcePath = worksheet.Cells[i, 2].Text + "\\" + FileName;
-            //        //FNumber = worksheet.Cells[i, 3].Text;
-            //        Description = worksheet.Cells[i, 4].Text;
-
-            //        FileInfo fi = new FileInfo(SourcePath);
-            //        if (!fi.Exists)
-            //        {
-            //            worksheet.Cells[i, 6] = strErr1;
-            //            strError += strErr1;
-            //            continue;
-            //        }
-
-            //        FileStream fs = new FileStream(SourcePath, FileMode.Open);
-            //        BinaryReader br = new BinaryReader(fs);
-            //        Context = br.ReadBytes(Convert.ToInt32(fs.Length));
-            //        FileName = SourcePath.Substring(SourcePath.LastIndexOf("\\") + 1);
-            //        FileSuffix = FileName.Substring(FileName.IndexOf(".") + 1);
-            //        FileSize = fi.Length;
-            //        fs.Close();
-
-            //        //MTLInf = IComm.GetMaterialInfoByFNumber(FNumber);
-            //        //if (MTLInf == null)
-            //        //{
-            //        //    worksheet.Cells[i, 6] = strErr2;
-            //        //    strError += strErr2;
-            //        //    continue;
-            //        //}
-
-            //        DrawingInf = new WMSDyn.Model.DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, WMSDyn.Model.UserSetting.UserInf.UserName, DateTime.Now, false, false, string.Empty, Context);
-
-            //        ////文件已存在
-            //        //if (IComm.Check_DrawingFileName(DrawingInf.SourcePath))
-            //        //{
-            //        //    IComm.UpdateDrawing(DrawingInf);
-            //        //    worksheet.Cells[i, 6] = "更新成功";
-            //        //    continue;
-            //        //}
-
-            //        //IComm.UpLoadDrawing(DrawingInf);
-
-            //        IComm.MergeDrawing(DrawingInf);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        worksheet.Cells[i, 6] = ex.Message;
-            //        strError += ex.Message;
-            //        continue;
-            //    }
-
-            //    worksheet.Cells[i, 6] = "导入成功";
-            //}
-            //if (strError != "")
-            //{
-            //    MessageBox.Show("有些信息导入出错，请查看最后一列的错误提示！");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("全部数据已经成功导入！");
-            //}
-
-            //myApp.Visible = true;
         }
 
         /// <summary>
@@ -571,7 +443,6 @@ namespace CBSys.WinForm
             bool bFlag;
             int CatetoryId;
             string Barcode, MTLNumber, F_PAEZ_TRADE, F_PAEZ_CARSERIES, F_PAEZ_CARTYPE, SourcePath, Description;
-            //MTLDrawingInfo MTLDrawingInf;
 
             for (int i = 3; i <= worksheet.UsedRange.Rows.Count; i++)
             {
@@ -589,17 +460,15 @@ namespace CBSys.WinForm
 
                     Description = worksheet.Cells[i, 10] == null ? "" : worksheet.Cells[i, 10].Text;//描述
 
-                    //MTLDrawingInf = new MTLDrawingInfo(CatetoryId, SourcePath, Barcode, 0, MTLNumber, F_PAEZ_TRADE, F_PAEZ_CARSERIES, F_PAEZ_CARTYPE, bFlag);
-
-                    if (!IComm.Check_DrawingFileName(SourcePath))//文件检验
+                    if (!CommonFunc.Check_DrawingFileName(SourcePath))//文件检验
                     {
-                        worksheet.Cells[i, 12] = strErr1;
-                        strError += strErr1;
+                        worksheet.Cells[i, 12] = "文件不存在。";
+                        strError += "文件不存在。";
                         continue;
                     }
 
                     //更新图纸关联
-                    IComm.MergeMTLDrawing(new MTLDrawingInfo(CatetoryId, SourcePath, Barcode, 0, MTLNumber, F_PAEZ_TRADE, F_PAEZ_CARSERIES, F_PAEZ_CARTYPE, bFlag));
+                    CommonFunc.MergeMTLDrawing(new MTLDrawingInfo(CatetoryId, SourcePath, Barcode, 0, MTLNumber, F_PAEZ_TRADE, F_PAEZ_CARSERIES, F_PAEZ_CARTYPE, bFlag));
                 }
                 catch (Exception ex)
                 {
@@ -629,7 +498,7 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void tsmiTool_DownLoad_Click(object sender, EventArgs e)
         {
-            Template_DrawingInfo entry = IComm.GetTemplateInfoByName("TP_TL_MTLDrawing.xls");
+            Template_DrawingInfo entry = CommonFunc.GetTemplateInfoByName("TP_TL_MTLDrawing.xls");
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "保存文件";
@@ -641,9 +510,9 @@ namespace CBSys.WinForm
                 BinaryWriter bw = new BinaryWriter(File.Open(sfd.FileName, FileMode.OpenOrCreate));
                 bw.Write(entry.Context);
                 bw.Close();
-            }
 
-            MessageBox.Show("模板下载成功。");
+                MessageBox.Show("模板下载成功。");
+            }
         }
 
         /// <summary>
@@ -669,7 +538,7 @@ namespace CBSys.WinForm
 
                 fs.Close();
 
-                IComm.MergeTemplate(fileName, byteDate);
+                CommonFunc.MergeTemplate(fileName, byteDate);
                 MessageBox.Show("模板上传成功。");
             }
         }

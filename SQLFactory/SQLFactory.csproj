@@ -49,9 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonFunc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQLHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WMSDyn\WMSDyn.csproj">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Configuration;
-using CBSys.WMSDyn.Model;
+using CBSys.WinForm.Model;
 
 namespace CBSys.WinForm
 {
@@ -27,7 +27,6 @@ namespace CBSys.WinForm
         {
             bool bLog;
             string strURL, strZTID, strSQL_IP, strUserName = txtUser.Text.Trim(), strPWD = txtPWD.Text.Trim();
-            WMSDyn.ICommon IComm = new WMSDyn.SQL.Common();
 
             if (string.IsNullOrEmpty(strUserName) || string.IsNullOrEmpty(strPWD))
             {
@@ -53,19 +52,19 @@ namespace CBSys.WinForm
                 UserSetting.DB_ConnectionString = "Data Source=" + strSQL_IP + ";Initial Catalog=WMS;User ID=sa;Password=123456;Max Pool Size=1024;";
                 UserSetting.K3CloudInf = new K3CloudInfo(strURL, strZTID, strUserName, strPWD, "");
 
-                UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : IComm.GetUserInfoByName(strUserName);
+                UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : Unity.CommonFunc.GetUserInfoByName(strUserName);
                 if (UserSetting.UserInf == null)
                 {
                     MessageBox.Show("未能获取用户信息", "登录失败");
                     return;
                 }
-                UserSetting.DeptInf = strUserName == "Administrator" ? (new DepartmentInfo(0, "System", "系统管理员")) : IComm.GetDeptmentInfoById(UserSetting.UserInf.FDeptId);
+                UserSetting.DeptInf = strUserName == "Administrator" ? (new DepartmentInfo(0, "System", "系统管理员")) : Unity.CommonFunc.GetDeptmentInfoById(UserSetting.UserInf.FDeptId);
                 if (UserSetting.DeptInf == null)
                 {
                     MessageBox.Show("未能获取用户部门信息", "登录失败");
                     return;
                 }
-                UserSetting.Drawing_RInf = IComm.GetDrawing_RInfo();
+                UserSetting.Drawing_RInf = Unity.CommonFunc.GetDrawing_RInfo("BD_Drawing");
                 if (UserSetting.Drawing_RInf == null)
                 {
                     MessageBox.Show("未能获取用户权限信息", "登录失败");

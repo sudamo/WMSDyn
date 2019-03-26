@@ -2,44 +2,70 @@
 using System.Data;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using CBSys.WinForm.Unity;
 
 namespace CBSys.WinForm
 {
     public partial class frmManage : Form
     {
         #region Fields,Properties,Constructs
-        private int _Start;//从数据源的第iStart行开始取数据
-        private int _End;//
-        private int _PageSize;//每页显示行数        
-        private int _PageCount;//页数＝总记录数/每页显示行数
-        private int _RecordCount;//总记录数
-        private int _CurrentPage;//当前页号
-        private Regex reg;
-        private DataTable dt;
-        private DataTable dtTemp;
-        private WMSDyn.ICommon IComm;
         /// <summary>
-        /// 
+        /// 从数据源的第iStart行开始取数据
+        /// </summary>
+        private int _Start;
+        /// <summary>
+        /// 取数据截至行
+        /// </summary>
+        private int _End;
+        /// <summary>
+        /// 当前页号（页码）
+        /// </summary>
+        private int _CurrentPage;
+        /// <summary>
+        /// 每页显示行数（页长）
+        /// </summary>
+        private int _PageSize;
+        /// <summary>
+        /// 页数＝总记录数/每页显示行数（向上取整）
+        /// </summary>
+        private int _PageCount;
+        /// <summary>
+        /// 总记录数
+        /// </summary>
+        private int _RecordCount;
+        /// <summary>
+        /// Regex
+        /// </summary>
+        private Regex reg;
+        /// <summary>
+        /// 数据源
+        /// </summary>
+        private DataTable dt;
+        /// <summary>
+        /// 用于显示的数据
+        /// </summary>
+        private DataTable dtTemp;
+        /// <summary>
+        /// 构造函数
         /// </summary>
         public frmManage()
         {
             InitializeComponent();
         }
         /// <summary>
-        /// 
+        /// FromLoad
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void frmManage_Load(object sender, EventArgs e)
         {
-            IComm = new WMSDyn.SQL.Common();
             FillCombobox();
             _PageSize = int.Parse(bn_cbxPageSize.ComboBox.SelectedValue.ToString());
         }
         #endregion
 
         /// <summary>
-        /// 
+        /// PageSize下拉框数据
         /// </summary>
         private void FillCombobox()
         {
@@ -79,12 +105,12 @@ namespace CBSys.WinForm
         /// <summary>
         /// 获取数据
         /// </summary>
-        /// <param name="pType">Search OR Navi</param>
+        /// <param name="pType">Search,ChangePageSize OR Navi</param>
         private void GetDataSource(string pType)
         {
             if (pType == "Search")//重新加载数据源
             {
-                dt = IComm.GetDrawing(txtFileName.Text, null);
+                dt = CommonFunc.GetDrawing(txtFileName.Text, null);
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
@@ -102,19 +128,20 @@ namespace CBSys.WinForm
                 _CurrentPage = _Start / _PageSize + 1;
             }
 
-            //总记录数
             _RecordCount = dt.Rows.Count;
-            //总页数
             _PageCount = (_RecordCount / _PageSize);
-            if ((_RecordCount % _PageSize) > 0) _PageCount++;
+            if ((_RecordCount % _PageSize) > 0)
+                _PageCount++;
 
-            //设置分页
             _Start = _PageSize * (_CurrentPage - 1);
-            if (_CurrentPage == _PageCount) _End = _RecordCount;
-            else _End = _PageSize * _CurrentPage;
+            if (_CurrentPage == _PageCount)
+                _End = _RecordCount;
+            else
+                _End = _PageSize * _CurrentPage;
 
             dtTemp = dt.Clone();
-            for (int i = _Start; i < _End; i++) dtTemp.ImportRow(dt.Rows[i]);
+            for (int i = _Start; i < _End; i++)
+                dtTemp.ImportRow(dt.Rows[i]);
 
             bn_txtCurrentPage.Text = _CurrentPage.ToString();
             bn_lblPageCount.Text = _PageCount.ToString() + " 页";
@@ -147,7 +174,12 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnLock_Click(object sender, EventArgs e)
         {
-            IComm.LockDrawing(dgv1.CurrentRow.Cells[6].Value.ToString(), true);
+            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
+                return;
+
+            CommonFunc.LockDrawing(dgv1.CurrentRow.Cells[7].Value.ToString(), true);
+
+            dgv1.CurrentRow.Cells[5].Value = "是";
         }
         /// <summary>
         /// 解锁
@@ -156,7 +188,12 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnUnLock_Click(object sender, EventArgs e)
         {
-            IComm.LockDrawing(dgv1.CurrentRow.Cells[6].Value.ToString(), false);
+            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
+                return;
+
+            CommonFunc.LockDrawing(dgv1.CurrentRow.Cells[7].Value.ToString(), false);
+
+            dgv1.CurrentRow.Cells[5].Value = "否";
         }
         /// <summary>
         /// 删除
@@ -165,22 +202,28 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
+                return;
+
             if (MessageBox.Show("您确定要删除此图纸吗？", "删除图纸", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 if (txtFileName.Text.Trim().Equals(string.Empty))
                     return;
 
-                IComm.DeleteDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+                CommonFunc.DeleteDrawing(dgv1.CurrentRow.Cells[7].Value.ToString());
             }
         }
 
         /// <summary>
-        /// 
+        /// BindingNavigator_ItemClicked
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void bn1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            if (dt == null || dt.Rows.Count == 0)
+                return;
+
             if (e.ClickedItem.Text == "上一页(&P)")
             {
                 if (_CurrentPage - 1 <= 0)
@@ -193,7 +236,7 @@ namespace CBSys.WinForm
                     _CurrentPage--;
                 }
             }
-            if (e.ClickedItem.Text == "下一页(&N)")
+            else if (e.ClickedItem.Text == "下一页(&N)")
             {
                 if (_CurrentPage + 1 > _PageCount)
                 {
@@ -205,7 +248,7 @@ namespace CBSys.WinForm
                     _CurrentPage++;
                 }
             }
-            if (e.ClickedItem.Text == "跳转到(&G)")
+            else if (e.ClickedItem.Text == "跳转到(&G)")
             {
                 reg = new Regex(@"^[0-9]*[1-9][0-9]*$");
 
@@ -224,6 +267,9 @@ namespace CBSys.WinForm
                 }
                 _CurrentPage = int.Parse(bn_txtCurrentPage.Text);
             }
+            else
+                return;
+
             GetDataSource("Navi");
         }
 

@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="ICommon.cs" />
     <Compile Include="Model\DepartmentInfo.cs" />
     <Compile Include="Model\DrawingInfo.cs" />
@@ -70,9 +71,8 @@
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Model\UserSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SQL\Common.cs" />
     <Compile Include="SQL\SQLHelper.cs" />
-    <Compile Include="Unity\CommonFunction.cs" />
+    <Compile Include="Unity\CommonFunc.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

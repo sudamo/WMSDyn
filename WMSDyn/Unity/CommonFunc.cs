@@ -16,7 +16,7 @@ namespace CBSys.WMSDyn.Unity
     /// <summary>
     /// 通用方法
     /// </summary>
-    internal static class CommonFunction
+    internal static class CommonFunc
     {
         #region Fileds & Constructor
         private static string strSQL;
@@ -25,7 +25,7 @@ namespace CBSys.WMSDyn.Unity
         /// <summary>
         /// 构造函数
         /// </summary>
-        static CommonFunction()
+        static CommonFunc()
         {
             strSQL = string.Empty;
             obj = new object();
@@ -407,12 +407,13 @@ namespace CBSys.WMSDyn.Unity
         /// <returns></returns>
         internal static DataTable GetDrawing(string pFileName, bool? pFlag)
         {
-            if (pFileName.Trim().Equals(string.Empty))
-                return null;
-            //strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0";
-            else
-                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
-            return SQLHelper.ExecuteTable(strSQL);
+            if (!pFileName.Trim().Equals(string.Empty))
+            {
+                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,CASE ISNULL(DR.Flag,0) WHEN 0 THEN '否' ELSE '是' END 锁定,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
+                return SQLHelper.ExecuteTable(strSQL);
+            }
+
+            return null;             
         }
 
         /// <summary>
@@ -424,6 +425,7 @@ namespace CBSys.WMSDyn.Unity
         internal static DataTable GetDrawing(string pFileName, bool pGeneral, bool pArt, bool pCust)
         {
             string strJson;
+            DataTable dtReturn;
             DataTable dtMTL = new DataTable();
             DataRow dr;
             dtMTL.Columns.Add("F_PAEZ_Trade");
@@ -440,7 +442,11 @@ namespace CBSys.WMSDyn.Unity
             dtMTL.Columns.Add("F_PAEZ_CUSTOMIZESERIES");
             dtMTL.Columns.Add("F_PAEZ_CUSTOMIZETYPE");
 
-            //UserSetting.UserInf.FDeptId = 100688;//test
+            dtMTL.Columns.Add("FPRODUCTIONSEQ");
+            dtMTL.Columns.Add("FCUSTID");
+            dtMTL.Columns.Add("FBILLNO");
+
+            //UserSetting.UserInf.FDeptId = 100699;//test
 
             if (UserSetting.UserInf == null || UserSetting.UserInf.FDeptId == 0) return null;
             K3CloudApiClient client = new K3CloudApiClient(UserSetting.K3CloudInf.C_URL);
@@ -448,9 +454,9 @@ namespace CBSys.WMSDyn.Unity
             bool bLogin = client.Login(UserSetting.K3CloudInf.C_ZTID, UserSetting.K3CloudInf.C_USERNAME, UserSetting.K3CloudInf.C_PWD, 2052);
 
             if (UserSetting.UserInf.UserName != "Administrator")
-                strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES,F_PAEZ_UNICARTYPE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE\",\"FilterString\":\"FStatus IN(3,4) AND FWorkShopID=" + UserSetting.UserInf.FDeptId + " \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
+                strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES,F_PAEZ_UNICARTYPE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE,FPRODUCTIONSEQ,FCUSTID.FName,FBillNo\",\"FilterString\":\"FStatus IN(3,4) AND FWorkShopID=" + UserSetting.UserInf.FDeptId + " \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
             else
-                strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES,F_PAEZ_UNICARTYPE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE\",\"FilterString\":\"FStatus IN(3,4) \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
+                strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES,F_PAEZ_UNICARTYPE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE,FPRODUCTIONSEQ,FCUSTID.FName,FBillNo\",\"FilterString\":\"FStatus IN(3,4) \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
 
             if (bLogin)
             {
@@ -471,6 +477,9 @@ namespace CBSys.WMSDyn.Unity
                             dr["F_PAEZ_ARTSCARTYPE"] = list[i][6] == null ? "" : list[i][6].ToString();
                             dr["F_PAEZ_CUSTOMIZESERIES"] = list[i][7] == null ? "" : list[i][7].ToString();
                             dr["F_PAEZ_CUSTOMIZETYPE"] = list[i][8] == null ? "" : list[i][8].ToString();
+                            dr["FPRODUCTIONSEQ"] = list[i][9] == null ? "" : list[i][9].ToString();
+                            dr["FCUSTID"] = list[i][10] == null ? "" : list[i][10].ToString();
+                            dr["FBILLNO"] = list[i][11] == null ? "" : list[i][11].ToString();
 
                             dtMTL.Rows.Add(dr);
                         }
@@ -485,12 +494,12 @@ namespace CBSys.WMSDyn.Unity
             }
 
             DataView dv = dtMTL.DefaultView;
-            dtMTL = dv.ToTable(true, new string[] { "F_PAEZ_Trade", "F_PAEZ_Carseries", "F_PAEZ_Cartype", "F_PAEZ_UNICARSERIES", "F_PAEZ_UNICARTYPE", "F_PAEZ_ARTSCARSERIES", "F_PAEZ_ARTSCARTYPE", "F_PAEZ_CUSTOMIZESERIES", "F_PAEZ_CUSTOMIZETYPE" });
+            dtMTL = dv.ToTable(true, new string[] { "F_PAEZ_Trade", "F_PAEZ_Carseries", "F_PAEZ_Cartype", "F_PAEZ_UNICARSERIES", "F_PAEZ_UNICARTYPE", "F_PAEZ_ARTSCARSERIES", "F_PAEZ_ARTSCARTYPE", "F_PAEZ_CUSTOMIZESERIES", "F_PAEZ_CUSTOMIZETYPE", "FPRODUCTIONSEQ", "FCUSTID", "FBILLNO" });
 
             if (pFileName.Equals(string.Empty))
-                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND (";
+                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,'' 生产订单号,'' 生产顺序号,'' 客户,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND (";
             else
-                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%' AND (";
+                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,'' 生产订单号,'' 生产顺序号,'' 客户,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%' AND (";
 
             for (int i = 0; i < dtMTL.Rows.Count; i++)
             {
@@ -499,29 +508,78 @@ namespace CBSys.WMSDyn.Unity
 
                 if (!dtMTL.Rows[i]["F_PAEZ_CarSeries"].ToString().Trim().Equals(string.Empty))
                 {
-                    strSQL += " (RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CarSeries"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CarType"].ToString() + "')OR";
+                    strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CarSeries"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CarType"].ToString() + "')OR";
                 }
-                else
+                else if (pGeneral && !dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString().Trim().Equals(string.Empty))
                 {
-                    if (pGeneral && !dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString().Trim().Equals(string.Empty))
-                    {
-                        strSQL += " (RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_UNICARTYPE"].ToString() + "')OR";
-                    }
-                    else if (pArt && !dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString().Trim().Equals(string.Empty))
-                    {
-                        strSQL += " (RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARTYPE"].ToString() + "')OR";
-                    }
-                    else if (pCust && !dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString().Trim().Equals(string.Empty))
-                    {
-                        strSQL += " (RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZETYPE"].ToString() + "')OR";
-                    }
+                    strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_UNICARTYPE"].ToString() + "')OR";
+                }
+                else if (pArt && !dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString().Trim().Equals(string.Empty))
+                {
+                    strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARTYPE"].ToString() + "')OR";
+                }
+                else if (pCust && !dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString().Trim().Equals(string.Empty))
+                {
+                    strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZETYPE"].ToString() + "')OR";
                 }
             }
 
             strSQL = strSQL.Substring(0, strSQL.Length - 2);
             strSQL += ")";
 
-            return SQLHelper.ExecuteTable(strSQL);
+            dtReturn = SQLHelper.ExecuteTable(strSQL);
+
+            if (dtReturn == null || dtReturn.Rows.Count == 0)
+                return null;
+
+            for (int i = 0; i < dtReturn.Rows.Count; i++)
+            {
+                for (int j = 0; j < dtMTL.Rows.Count; j++)
+                {
+                    if (!dtMTL.Rows[j]["F_PAEZ_CarSeries"].ToString().Trim().Equals(string.Empty))
+                    {
+                        if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_CarSeries"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_CarType"].ToString())
+                        {
+                            dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
+                            dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
+                            dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
+                            break;
+                        }
+                    }
+                    else if (pGeneral && !dtMTL.Rows[j]["F_PAEZ_UNICARSERIES"].ToString().Trim().Equals(string.Empty))
+                    {
+                        if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_UNICARSERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_UNICARTYPE"].ToString())
+                        {
+                            dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
+                            dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
+                            dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
+                            break;
+                        }
+                    }
+                    else if (pArt && !dtMTL.Rows[j]["F_PAEZ_ARTSCARSERIES"].ToString().Trim().Equals(string.Empty))
+                    {
+                        if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_ARTSCARSERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_ARTSCARTYPE"].ToString())
+                        {
+                            dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
+                            dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
+                            dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
+                            break;
+                        }
+                    }
+                    else if (pCust && !dtMTL.Rows[j]["F_PAEZ_CUSTOMIZESERIES"].ToString().Trim().Equals(string.Empty))
+                    {
+                        if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_CUSTOMIZESERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_CUSTOMIZETYPE"].ToString())
+                        {
+                            dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
+                            dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
+                            dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return dtReturn;
         }
 
         /// <summary>

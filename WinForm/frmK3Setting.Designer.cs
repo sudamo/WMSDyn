@@ -35,6 +35,8 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblZTID = new System.Windows.Forms.Label();
             this.txtZTID = new System.Windows.Forms.TextBox();
+            this.lblDB = new System.Windows.Forms.Label();
+            this.txtDB = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblUrl
@@ -50,12 +52,12 @@
             // 
             this.txtUrl.Location = new System.Drawing.Point(84, 9);
             this.txtUrl.Name = "txtUrl";
-            this.txtUrl.Size = new System.Drawing.Size(200, 21);
+            this.txtUrl.Size = new System.Drawing.Size(218, 21);
             this.txtUrl.TabIndex = 1;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(128, 63);
+            this.btnOK.Location = new System.Drawing.Point(146, 90);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -65,7 +67,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(209, 63);
+            this.btnCancel.Location = new System.Drawing.Point(227, 90);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -86,25 +88,44 @@
             // 
             this.txtZTID.Location = new System.Drawing.Point(84, 36);
             this.txtZTID.Name = "txtZTID";
-            this.txtZTID.Size = new System.Drawing.Size(200, 21);
+            this.txtZTID.Size = new System.Drawing.Size(218, 21);
             this.txtZTID.TabIndex = 2;
+            // 
+            // lblDB
+            // 
+            this.lblDB.AutoSize = true;
+            this.lblDB.Location = new System.Drawing.Point(12, 66);
+            this.lblDB.Name = "lblDB";
+            this.lblDB.Size = new System.Drawing.Size(65, 12);
+            this.lblDB.TabIndex = 0;
+            this.lblDB.Text = "数据库地址";
+            // 
+            // txtDB
+            // 
+            this.txtDB.Location = new System.Drawing.Point(83, 63);
+            this.txtDB.Name = "txtDB";
+            this.txtDB.ReadOnly = true;
+            this.txtDB.Size = new System.Drawing.Size(219, 21);
+            this.txtDB.TabIndex = 2;
             // 
             // frmK3Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 87);
+            this.ClientSize = new System.Drawing.Size(304, 122);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.txtDB);
             this.Controls.Add(this.txtZTID);
             this.Controls.Add(this.txtUrl);
+            this.Controls.Add(this.lblDB);
             this.Controls.Add(this.lblZTID);
             this.Controls.Add(this.lblUrl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmK3Setting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "K3Cloud服务器设置";
+            this.Text = "服务器设置";
             this.Load += new System.EventHandler(this.frmK3Setting_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -119,5 +140,7 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblZTID;
         private System.Windows.Forms.TextBox txtZTID;
+        private System.Windows.Forms.Label lblDB;
+        private System.Windows.Forms.TextBox txtDB;
     }
 }

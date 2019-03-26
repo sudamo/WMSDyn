@@ -40,14 +40,16 @@ namespace CBSys.WinForm
             //System.Configuration.ConfigurationManager.RefreshSection("appSettings");
 
             _Config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            txtUrl.Text= _Config.AppSettings.Settings["C_URL"].Value;
-            txtZTID.Text = _Config.AppSettings.Settings["C_ZTID"].Value;
+            txtUrl.Text= _Config.AppSettings.Settings["URL"].Value;
+            txtZTID.Text = _Config.AppSettings.Settings["ZTID"].Value;
+            txtDB.Text = _Config.AppSettings.Settings["SQL_IP"].Value;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            _Config.AppSettings.Settings["C_URL"].Value = txtUrl.Text;
-            _Config.AppSettings.Settings["C_ZTID"].Value = txtZTID.Text;
+            _Config.AppSettings.Settings["URL"].Value = txtUrl.Text;
+            _Config.AppSettings.Settings["ZTID"].Value = txtZTID.Text;
+            _Config.AppSettings.Settings["SQL_IP"].Value = txtDB.Text;
             _Config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
 

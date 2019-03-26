@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using CBSys.WMSDyn.Model;
 using CBSys.WMSDyn.Unity;
 
-namespace CBSys.WMSDyn.SQL
+namespace CBSys.WMSDyn
 {
     /// <summary>
     /// 接口实现
     /// </summary>
     public class Common : ICommon
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public Common() { }
         /// <summary>
         /// 注销-当前用户
         /// </summary>
         public void UserLogout()
         {
-            CommonFunction.UpdateLoginStatus(UserSetting.UserInf, false);
+            CommonFunc.UpdateLoginStatus(UserSetting.UserInf, false);
             UserSetting.UserInf = new UserInfo();
         }
 
@@ -28,7 +31,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public UserInfo GetUserInfoByName(string pName)
         {
-            return CommonFunction.GetUserInfoByName(pName);
+            return CommonFunc.GetUserInfoByName(pName);
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public DepartmentInfo GetDeptmentInfoById(int? pDeptId)
         {
-            return CommonFunction.GetDeptmentInfoById(pDeptId);
+            return CommonFunc.GetDeptmentInfoById(pDeptId);
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public MaterialInfo GetMaterialInfoByFNumber(string pFNumber)
         {
-            return CommonFunction.GetMaterialInfoByFNumber(pFNumber);
+            return CommonFunc.GetMaterialInfoByFNumber(pFNumber);
         }
 
         /// <summary>
@@ -57,7 +60,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pDrawingInf"></param>
         public void UpLoadDrawing(DrawingInfo pDrawingInf)
         {
-            CommonFunction.UpLoadDrawing(pDrawingInf);
+            CommonFunc.UpLoadDrawing(pDrawingInf);
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pDrawingInf"></param>
         public void UpdateDrawing(DrawingInfo pDrawingInf)
         {
-            CommonFunction.UpdateDrawing(pDrawingInf);
+            CommonFunc.UpdateDrawing(pDrawingInf);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pMTLDrawingInf"></param>
         public void MergeMTLDrawing(MTLDrawingInfo pMTLDrawingInf)
         {
-            CommonFunction.MergeMTLDrawing(pMTLDrawingInf);
+            CommonFunc.MergeMTLDrawing(pMTLDrawingInf);
         }
 
         /// <summary>
@@ -84,7 +87,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pSourcePath"></param>
         public void DeleteDrawing(string pSourcePath)
         {
-            CommonFunction.DeleteDrawing(pSourcePath);
+            CommonFunc.DeleteDrawing(pSourcePath);
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pStatus"></param>
         public void LockDrawing(string pSourcePath, bool pStatus)
         {
-            CommonFunction.LockDrawing(pSourcePath, pStatus);
+            CommonFunc.LockDrawing(pSourcePath, pStatus);
         }
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public bool Check_DrawingFileName(string pSourcePath)
         {
-            return CommonFunction.Check_DrawingFileName(pSourcePath);
+            return CommonFunc.Check_DrawingFileName(pSourcePath);
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public DrawingInfo GetDrawing(string pSourcePath)
         {
-            return CommonFunction.GetDrawing(pSourcePath);
+            return CommonFunc.GetDrawing(pSourcePath);
         }
 
 
@@ -125,7 +128,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public List<DrawingInfo> GetDrawing(List<string> pSourcePathList)
         {
-            return CommonFunction.GetDrawing(pSourcePathList);
+            return CommonFunc.GetDrawing(pSourcePathList);
         }
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public DataTable GetDrawing(string pFileName, bool? pFlag)
         {
-            return CommonFunction.GetDrawing(pFileName, pFlag);
+            return CommonFunc.GetDrawing(pFileName, pFlag);
         }
 
         /// <summary>
@@ -149,16 +152,16 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public DataTable GetDrawing(string pFileName, bool pGeneral, bool pArt, bool pCust)
         {
-            return CommonFunction.GetDrawing(pFileName, pGeneral, pArt, pCust);
+            return CommonFunc.GetDrawing(pFileName, pGeneral, pArt, pCust);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public Drawing_RInfo GetDrawing_RInfo()
+        public Drawing_RInfo GetDrawing_RInfo(string pR_Type)
         {
-            return CommonFunction.GetDrawing_RInfo("BD_Drawing");
+            return CommonFunc.GetDrawing_RInfo("BD_Drawing");
         }
 
         /// <summary>
@@ -166,7 +169,7 @@ namespace CBSys.WMSDyn.SQL
         /// </summary>
         public void ModifyDrawing_RInfo()
         {
-            CommonFunction.ModifyDrawing_RInfo();
+            CommonFunc.ModifyDrawing_RInfo();
         }
 
         /// <summary>
@@ -176,7 +179,7 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pContext"></param>
         public void MergeTemplate(string pFileName, byte[] pContext)
         {
-            CommonFunction.MergeTemplate(pFileName, pContext);
+            CommonFunc.MergeTemplate(pFileName, pContext);
         }
 
         /// <summary>
@@ -186,7 +189,7 @@ namespace CBSys.WMSDyn.SQL
         /// <returns></returns>
         public Template_DrawingInfo GetTemplateInfoByName(string pName)
         {
-            return CommonFunction.GetTemplateInfoByName(pName);
+            return CommonFunc.GetTemplateInfoByName(pName);
         }
 
         /// <summary>
@@ -195,7 +198,8 @@ namespace CBSys.WMSDyn.SQL
         /// <param name="pProcessName"></param>
         public void KillPro(string pProcessName)
         {
-            CommonFunction.KillPro(pProcessName);
+            CommonFunc.KillPro(pProcessName);
         }
     }
 }
+

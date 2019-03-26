@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using CBSys.WMSDyn.Model;
+using CBSys.WinForm.Model;
 
 namespace CBSys.WinForm
 {
     public partial class frmRight : Form
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        WMSDyn.ICommon IComm;
 
         public frmRight()
         {
@@ -18,8 +14,6 @@ namespace CBSys.WinForm
 
         private void frmRight_Load(object sender, EventArgs e)
         {
-            IComm = new WMSDyn.SQL.Common();
-
             rtbM.Text = UserSetting.Drawing_RInf.Managers;
             rtbU.Text = UserSetting.Drawing_RInf.U_Users;
             rtbD.Text = UserSetting.Drawing_RInf.D_Users;
@@ -33,7 +27,7 @@ namespace CBSys.WinForm
             UserSetting.Drawing_RInf.D_Users = rtbD.Text;
             UserSetting.Drawing_RInf.U_Users2 = rtbU_RL.Text;
 
-            IComm.ModifyDrawing_RInfo();
+            Unity.CommonFunc.ModifyDrawing_RInfo();
         }
 
         private void WriteBox(object sender, EventArgs e)

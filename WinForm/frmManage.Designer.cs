@@ -40,23 +40,23 @@
             this.btnLock = new System.Windows.Forms.Button();
             this.dgv1 = new System.Windows.Forms.DataGridView();
             this.bn1 = new System.Windows.Forms.BindingNavigator(this.components);
-            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
             this.bt_tss1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnNext = new System.Windows.Forms.ToolStripButton();
+            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
             this.bn_tss2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnNext = new System.Windows.Forms.ToolStripButton();
             this.bn_tss3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
             this.bn_tss4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
+            this.bn_tss5 = new System.Windows.Forms.ToolStripSeparator();
             this.bn_txtCurrentPage = new System.Windows.Forms.ToolStripTextBox();
             this.bn_lblSeparate = new System.Windows.Forms.ToolStripLabel();
             this.bn_lblPageCount = new System.Windows.Forms.ToolStripLabel();
-            this.bn_tss5 = new System.Windows.Forms.ToolStripSeparator();
+            this.bn_tss6 = new System.Windows.Forms.ToolStripSeparator();
+            this.bn_cbxPageSize = new System.Windows.Forms.ToolStripComboBox();
+            this.bn_lblPageSize = new System.Windows.Forms.ToolStripLabel();
+            this.bn_lblRecordCount = new System.Windows.Forms.ToolStripLabel();
             this.bs1 = new System.Windows.Forms.BindingSource(this.components);
             this.tt1 = new System.Windows.Forms.ToolTip(this.components);
-            this.bn_tss6 = new System.Windows.Forms.ToolStripSeparator();
-            this.bn_lblPageSize = new System.Windows.Forms.ToolStripLabel();
-            this.bn_cbxPageSize = new System.Windows.Forms.ToolStripComboBox();
-            this.bn_lblRecordCount = new System.Windows.Forms.ToolStripLabel();
             this.pl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bn1)).BeginInit();
@@ -211,6 +211,11 @@
             this.tt1.SetToolTip(this.bn1, "分页导航");
             this.bn1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bn1_ItemClicked);
             // 
+            // bt_tss1
+            // 
+            this.bt_tss1.Name = "bt_tss1";
+            this.bt_tss1.Size = new System.Drawing.Size(6, 25);
+            // 
             // btnPrevious
             // 
             this.btnPrevious.AutoToolTip = false;
@@ -222,10 +227,10 @@
             this.btnPrevious.Size = new System.Drawing.Size(63, 22);
             this.btnPrevious.Text = "上一页(&P)";
             // 
-            // bt_tss1
+            // bn_tss2
             // 
-            this.bt_tss1.Name = "bt_tss1";
-            this.bt_tss1.Size = new System.Drawing.Size(6, 25);
+            this.bn_tss2.Name = "bn_tss2";
+            this.bn_tss2.Size = new System.Drawing.Size(6, 25);
             // 
             // btnNext
             // 
@@ -238,15 +243,15 @@
             this.btnNext.Size = new System.Drawing.Size(66, 22);
             this.btnNext.Text = "下一页(&N)";
             // 
-            // bn_tss2
-            // 
-            this.bn_tss2.Name = "bn_tss2";
-            this.bn_tss2.Size = new System.Drawing.Size(6, 25);
-            // 
             // bn_tss3
             // 
             this.bn_tss3.Name = "bn_tss3";
             this.bn_tss3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bn_tss4
+            // 
+            this.bn_tss4.Name = "bn_tss4";
+            this.bn_tss4.Size = new System.Drawing.Size(6, 25);
             // 
             // btnGotoPage
             // 
@@ -259,10 +264,10 @@
             this.btnGotoPage.Size = new System.Drawing.Size(65, 22);
             this.btnGotoPage.Text = "跳转到(&G)";
             // 
-            // bn_tss4
+            // bn_tss5
             // 
-            this.bn_tss4.Name = "bn_tss4";
-            this.bn_tss4.Size = new System.Drawing.Size(6, 25);
+            this.bn_tss5.Name = "bn_tss5";
+            this.bn_tss5.Size = new System.Drawing.Size(6, 25);
             // 
             // bn_txtCurrentPage
             // 
@@ -282,22 +287,10 @@
             this.bn_lblPageCount.Size = new System.Drawing.Size(56, 22);
             this.bn_lblPageCount.Text = "@总页数";
             // 
-            // bn_tss5
-            // 
-            this.bn_tss5.Name = "bn_tss5";
-            this.bn_tss5.Size = new System.Drawing.Size(6, 25);
-            // 
             // bn_tss6
             // 
             this.bn_tss6.Name = "bn_tss6";
             this.bn_tss6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // bn_lblPageSize
-            // 
-            this.bn_lblPageSize.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.bn_lblPageSize.Name = "bn_lblPageSize";
-            this.bn_lblPageSize.Size = new System.Drawing.Size(56, 22);
-            this.bn_lblPageSize.Text = "每页显示";
             // 
             // bn_cbxPageSize
             // 
@@ -306,6 +299,13 @@
             this.bn_cbxPageSize.Name = "bn_cbxPageSize";
             this.bn_cbxPageSize.Size = new System.Drawing.Size(75, 25);
             this.bn_cbxPageSize.SelectedIndexChanged += new System.EventHandler(this.bn_cbxPageSize_SelectedIndexChanged);
+            // 
+            // bn_lblPageSize
+            // 
+            this.bn_lblPageSize.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.bn_lblPageSize.Name = "bn_lblPageSize";
+            this.bn_lblPageSize.Size = new System.Drawing.Size(56, 22);
+            this.bn_lblPageSize.Text = "每页显示";
             // 
             // bn_lblRecordCount
             // 

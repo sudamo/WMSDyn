@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using CBSys.WMSDyn.Model;
 
-namespace CBSys.SQLFactory
+namespace CBSys.WinForm.Unity
 {
     /// <summary>
-    /// 自定义SQLHelper
+    /// 
     /// </summary>
-    public static class SQLHelper
+    internal static class SQLHelper
     {
         /// <summary>
         /// 构造函数
@@ -18,7 +17,7 @@ namespace CBSys.SQLFactory
         //NonQuery
         public static void ExecuteNonQuery(string pSQL)
         {
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();
@@ -32,10 +31,9 @@ namespace CBSys.SQLFactory
                 conn.Close();
             }
         }
-
         public static void ExecuteNonQuery(string pSQL, SqlParameter[] pParms)
         {
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();
@@ -47,7 +45,10 @@ namespace CBSys.SQLFactory
                 }
                 cmd.ExecuteNonQuery();
             }
-            catch { return; }
+            catch (Exception ex)
+            {
+                return;
+            }
             finally
             {
                 conn.Close();
@@ -58,7 +59,7 @@ namespace CBSys.SQLFactory
         public static object ExecuteScalar(string pSQL)
         {
             object o = new object();
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();
@@ -73,11 +74,10 @@ namespace CBSys.SQLFactory
             }
             return o;
         }
-
         public static object ExecuteScalar(string pSQL, SqlParameter[] pParms)
         {
             object o = new object();
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();
@@ -122,7 +122,7 @@ namespace CBSys.SQLFactory
         public static DataTable ExecuteTable(string pSQL)
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();
@@ -136,11 +136,10 @@ namespace CBSys.SQLFactory
             }
             return dt;
         }
-
         public static DataTable ExecuteTable(string pSQL, SqlParameter[] pParms)
         {
             DataTable dt = new DataTable();
-            SqlConnection conn = new SqlConnection(UserSetting.DB_ConnectionString);
+            SqlConnection conn = new SqlConnection(Model.UserSetting.DB_ConnectionString);
             try
             {
                 conn.Open();

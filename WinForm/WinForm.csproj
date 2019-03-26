@@ -73,7 +73,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Kingdee.BOS.WebApi.Client, Version=6.1.316.5, Culture=neutral, processorArchitecture=MSIL">
@@ -127,14 +127,21 @@
     <Compile Include="frmRight.Designer.cs">
       <DependentUpon>frmRight.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmUpLoadDrawing.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmUpLoadDrawing.Designer.cs">
-      <DependentUpon>frmUpLoadDrawing.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Model\DepartmentInfo.cs" />
+    <Compile Include="Model\DrawingInfo.cs" />
+    <Compile Include="Model\Drawing_RInfo.cs" />
+    <Compile Include="Model\K3CloudInfo.cs" />
+    <Compile Include="Model\MaterialInfo.cs" />
+    <Compile Include="Model\MoInfo.cs" />
+    <Compile Include="Model\MTLDrawingInfo.cs" />
+    <Compile Include="Model\OperationInfo.cs" />
+    <Compile Include="Model\Template_DrawingInfo.cs" />
+    <Compile Include="Model\UserInfo.cs" />
+    <Compile Include="Model\UserSetting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unity\CommonFunc.cs" />
+    <Compile Include="Unity\SQLHelper.cs" />
     <EmbeddedResource Include="frmK3Setting.resx">
       <DependentUpon>frmK3Setting.cs</DependentUpon>
     </EmbeddedResource>
@@ -149,9 +156,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRight.resx">
       <DependentUpon>frmRight.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmUpLoadDrawing.resx">
-      <DependentUpon>frmUpLoadDrawing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -172,18 +176,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="WinForm_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WMSDyn\WMSDyn.csproj">
-      <Project>{02b8cef2-87f2-489b-8848-63fd973c8bec}</Project>
-      <Name>WMSDyn</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="kk.ico" />

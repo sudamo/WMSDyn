@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMSDyn", "WMSDyn\WMSDyn.csproj", "{02B8CEF2-87F2-489B-8848-63FD973C8BEC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm", "WinForm\WinForm.csproj", "{41D8B651-79C3-40AE-8941-6F67282F493F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLFactory", "SQLFactory\SQLFactory.csproj", "{8416A520-B568-4E9D-A535-9F2F0E011337}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{02B8CEF2-87F2-489B-8848-63FD973C8BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02B8CEF2-87F2-489B-8848-63FD973C8BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02B8CEF2-87F2-489B-8848-63FD973C8BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02B8CEF2-87F2-489B-8848-63FD973C8BEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41D8B651-79C3-40AE-8941-6F67282F493F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41D8B651-79C3-40AE-8941-6F67282F493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41D8B651-79C3-40AE-8941-6F67282F493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41D8B651-79C3-40AE-8941-6F67282F493F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8416A520-B568-4E9D-A535-9F2F0E011337}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8416A520-B568-4E9D-A535-9F2F0E011337}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8416A520-B568-4E9D-A535-9F2F0E011337}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8416A520-B568-4E9D-A535-9F2F0E011337}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

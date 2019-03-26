@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Collections;
 using System.Collections.Generic;
 using CBSys.WMSDyn.Model;
 
@@ -93,7 +92,7 @@ namespace CBSys.WMSDyn
         /// 
         /// </summary>
         /// <returns></returns>
-        Drawing_RInfo GetDrawing_RInfo();
+        Drawing_RInfo GetDrawing_RInfo(string pR_Type);
         /// <summary>
         /// 
         /// </summary>
