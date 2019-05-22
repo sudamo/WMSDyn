@@ -20,7 +20,7 @@ namespace CBSys.WinForm
         /// <summary>
         /// 
         /// </summary>
-        private DataTable dt;
+        private DataTable _DataSource;
 
         /// <summary>
         /// 构造函数
@@ -96,12 +96,12 @@ namespace CBSys.WinForm
         {
             try
             {
-                dt = CommonFunc.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
+                _DataSource = CommonFunc.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
 
-                if (dt == null || dt.Rows.Count == 0) return;
+                if (_DataSource == null || _DataSource.Rows.Count == 0) return;
 
-                dgv1.DataSource = dt;
-                dgv1.Columns[9].Visible = false;
+                dgv1.DataSource = _DataSource;
+                //dgv1.Columns[11].Visible = false;
             }
             catch (Exception ex)
             {
@@ -116,10 +116,16 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnOpen_Click(object sender, EventArgs e)
         {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
             if (txtBarcode.Text.Trim().Equals(string.Empty))
                 return;
-            
-            DrawingInfo entry = CommonFunc.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+
+            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
+            if (strSourcePath.Equals(string.Empty))
+                return;
+
+            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
             if (entry == null)
                 return;
 
@@ -168,10 +174,14 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnDownLoad_Click(object sender, EventArgs e)
         {
-            if (dt == null || dt.Rows.Count == 0)
+            if (dgv1 == null || dgv1.Rows.Count == 0)
                 return;
 
-            DrawingInfo entry = CommonFunc.GetDrawing(dgv1.CurrentRow.Cells[6].Value.ToString());
+            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
+            if (strSourcePath.Equals(string.Empty))
+                return;
+
+            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
             if (entry == null)
                 return;
 
@@ -192,13 +202,13 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnBatDownLoad_Click(object sender, EventArgs e)
         {
-            if (dt == null || dt.Rows.Count == 0)
+            if (_DataSource == null || _DataSource.Rows.Count == 0)
                 return;
 
             List<string> lstSourcePath = new List<string>();
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (int i = 0; i < _DataSource.Rows.Count; i++)
             {
-                lstSourcePath.Add(dt.Rows[i]["源路径"].ToString());
+                lstSourcePath.Add(_DataSource.Rows[i]["源路径"].ToString());
             }
 
             if (!Directory.Exists("D:\\"))
@@ -235,8 +245,8 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e != null && e.KeyChar == 13)
-                btnOpen_Click(sender, e);
+            //if (e != null && e.KeyChar == 13)
+            //    btnOpen_Click(sender, e);
         }
 
         /// <summary>
@@ -246,9 +256,9 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void dgv1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dgv1.Rows.Count > 0)//根据用户权限填充ListBox
+            if (dgv1 != null && dgv1.Rows.Count > 0)//根据用户权限填充ListBox
             {
-                txtBarcode.Text = dgv1.CurrentRow.Cells[0].Value.ToString();
+                txtBarcode.Text = dgv1.CurrentRow.Cells[5].Value.ToString();
             }
         }
 

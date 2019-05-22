@@ -78,6 +78,7 @@
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(110, 26);
             this.txtUser.TabIndex = 14;
+            this.txtUser.Text = "开料员2";
             this.txtUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUser_KeyPress);
             // 
             // txtPWD
@@ -89,6 +90,7 @@
             this.txtPWD.PasswordChar = '*';
             this.txtPWD.Size = new System.Drawing.Size(110, 26);
             this.txtPWD.TabIndex = 15;
+            this.txtPWD.Text = "123456";
             this.txtPWD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPWD_KeyPress);
             // 
             // lblPWD
