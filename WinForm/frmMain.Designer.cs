@@ -30,16 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.txtBarcode = new System.Windows.Forms.TextBox();
-            this.pl1 = new System.Windows.Forms.Panel();
-            this.chbCust = new System.Windows.Forms.CheckBox();
-            this.chbArt = new System.Windows.Forms.CheckBox();
-            this.chbGeneral = new System.Windows.Forms.CheckBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnDownLoad = new System.Windows.Forms.Button();
-            this.btnBatDownLoad = new System.Windows.Forms.Button();
-            this.btnOpen = new System.Windows.Forms.Button();
-            this.lblBarcode = new System.Windows.Forms.Label();
             this.msMail = new System.Windows.Forms.MenuStrip();
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFile_New = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,8 +37,8 @@
             this.tsmiFile_LogOut = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSetting_tss1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiSetting_Rigths = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSetting_tss1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTool = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_batchImport = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,137 +53,19 @@
             this.tsmiHelp_GetHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tt1 = new System.Windows.Forms.ToolTip(this.components);
             this.dgv1 = new System.Windows.Forms.DataGridView();
-            this.pl1.SuspendLayout();
+            this.bnTop = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bnTop_lblBarcode = new System.Windows.Forms.ToolStripLabel();
+            this.bnTop_txtBarcode = new System.Windows.Forms.ToolStripTextBox();
+            this.bnTop_tss = new System.Windows.Forms.ToolStripSeparator();
+            this.bnTop_btnSearch = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_btnOpen = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_btnDownLoad = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_btnBatDownLoad = new System.Windows.Forms.ToolStripButton();
             this.msMail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bnTop)).BeginInit();
+            this.bnTop.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // txtBarcode
-            // 
-            this.txtBarcode.Font = new System.Drawing.Font("宋体", 9F);
-            this.txtBarcode.Location = new System.Drawing.Point(49, 3);
-            this.txtBarcode.Name = "txtBarcode";
-            this.txtBarcode.Size = new System.Drawing.Size(420, 21);
-            this.txtBarcode.TabIndex = 1;
-            this.tt1.SetToolTip(this.txtBarcode, "扫描条码到此输入框");
-            this.txtBarcode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBarcode_KeyPress);
-            // 
-            // pl1
-            // 
-            this.pl1.Controls.Add(this.chbCust);
-            this.pl1.Controls.Add(this.chbArt);
-            this.pl1.Controls.Add(this.chbGeneral);
-            this.pl1.Controls.Add(this.btnSearch);
-            this.pl1.Controls.Add(this.btnDownLoad);
-            this.pl1.Controls.Add(this.btnBatDownLoad);
-            this.pl1.Controls.Add(this.btnOpen);
-            this.pl1.Controls.Add(this.lblBarcode);
-            this.pl1.Controls.Add(this.txtBarcode);
-            this.pl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pl1.Location = new System.Drawing.Point(0, 25);
-            this.pl1.Name = "pl1";
-            this.pl1.Size = new System.Drawing.Size(814, 48);
-            this.pl1.TabIndex = 2;
-            // 
-            // chbCust
-            // 
-            this.chbCust.AutoSize = true;
-            this.chbCust.Checked = true;
-            this.chbCust.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbCust.Location = new System.Drawing.Point(153, 29);
-            this.chbCust.Margin = new System.Windows.Forms.Padding(2);
-            this.chbCust.Name = "chbCust";
-            this.chbCust.Size = new System.Drawing.Size(48, 16);
-            this.chbCust.TabIndex = 3;
-            this.chbCust.Text = "定制";
-            this.chbCust.UseVisualStyleBackColor = true;
-            // 
-            // chbArt
-            // 
-            this.chbArt.AutoSize = true;
-            this.chbArt.Checked = true;
-            this.chbArt.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbArt.Location = new System.Drawing.Point(101, 29);
-            this.chbArt.Margin = new System.Windows.Forms.Padding(2);
-            this.chbArt.Name = "chbArt";
-            this.chbArt.Size = new System.Drawing.Size(48, 16);
-            this.chbArt.TabIndex = 3;
-            this.chbArt.Text = "艺术";
-            this.chbArt.UseVisualStyleBackColor = true;
-            // 
-            // chbGeneral
-            // 
-            this.chbGeneral.AutoSize = true;
-            this.chbGeneral.Checked = true;
-            this.chbGeneral.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbGeneral.Location = new System.Drawing.Point(49, 29);
-            this.chbGeneral.Margin = new System.Windows.Forms.Padding(2);
-            this.chbGeneral.Name = "chbGeneral";
-            this.chbGeneral.Size = new System.Drawing.Size(48, 16);
-            this.chbGeneral.TabIndex = 3;
-            this.chbGeneral.Text = "通用";
-            this.tt1.SetToolTip(this.chbGeneral, "包含当天订单的通用图纸");
-            this.chbGeneral.UseVisualStyleBackColor = true;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("宋体", 11F);
-            this.btnSearch.Location = new System.Drawing.Point(475, 3);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(60, 23);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "查询";
-            this.tt1.SetToolTip(this.btnSearch, "查询当前用户所在班组有下达或开工状态的生产订单对应的图纸");
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // btnDownLoad
-            // 
-            this.btnDownLoad.Font = new System.Drawing.Font("宋体", 11F);
-            this.btnDownLoad.Location = new System.Drawing.Point(607, 3);
-            this.btnDownLoad.Name = "btnDownLoad";
-            this.btnDownLoad.Size = new System.Drawing.Size(60, 23);
-            this.btnDownLoad.TabIndex = 2;
-            this.btnDownLoad.Text = "下载";
-            this.tt1.SetToolTip(this.btnDownLoad, "下载选定图纸");
-            this.btnDownLoad.UseVisualStyleBackColor = true;
-            this.btnDownLoad.Click += new System.EventHandler(this.btnDownLoad_Click);
-            // 
-            // btnBatDownLoad
-            // 
-            this.btnBatDownLoad.Enabled = false;
-            this.btnBatDownLoad.Font = new System.Drawing.Font("宋体", 11F);
-            this.btnBatDownLoad.Location = new System.Drawing.Point(673, 3);
-            this.btnBatDownLoad.Name = "btnBatDownLoad";
-            this.btnBatDownLoad.Size = new System.Drawing.Size(80, 23);
-            this.btnBatDownLoad.TabIndex = 2;
-            this.btnBatDownLoad.Text = "批量下载";
-            this.tt1.SetToolTip(this.btnBatDownLoad, "下载当前用户所有对应图纸");
-            this.btnBatDownLoad.UseVisualStyleBackColor = true;
-            this.btnBatDownLoad.Click += new System.EventHandler(this.btnBatDownLoad_Click);
-            // 
-            // btnOpen
-            // 
-            this.btnOpen.Font = new System.Drawing.Font("宋体", 11F);
-            this.btnOpen.Location = new System.Drawing.Point(541, 3);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(60, 23);
-            this.btnOpen.TabIndex = 2;
-            this.btnOpen.Text = "打开";
-            this.tt1.SetToolTip(this.btnOpen, "打开选定图纸");
-            this.btnOpen.UseVisualStyleBackColor = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
-            // 
-            // lblBarcode
-            // 
-            this.lblBarcode.AutoSize = true;
-            this.lblBarcode.Font = new System.Drawing.Font("宋体", 12F);
-            this.lblBarcode.Location = new System.Drawing.Point(3, 6);
-            this.lblBarcode.Name = "lblBarcode";
-            this.lblBarcode.Size = new System.Drawing.Size(40, 16);
-            this.lblBarcode.TabIndex = 0;
-            this.lblBarcode.Text = "图纸";
-            this.lblBarcode.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // msMail
             // 
@@ -257,19 +129,19 @@
             this.tsmiSetting.Size = new System.Drawing.Size(59, 21);
             this.tsmiSetting.Text = "配置(&S)";
             // 
-            // tsmiSetting_tss1
-            // 
-            this.tsmiSetting_tss1.Name = "tsmiSetting_tss1";
-            this.tsmiSetting_tss1.Size = new System.Drawing.Size(149, 6);
-            // 
             // tsmiSetting_Rigths
             // 
             this.tsmiSetting_Rigths.Enabled = false;
             this.tsmiSetting_Rigths.Name = "tsmiSetting_Rigths";
-            this.tsmiSetting_Rigths.Size = new System.Drawing.Size(152, 22);
+            this.tsmiSetting_Rigths.Size = new System.Drawing.Size(140, 22);
             this.tsmiSetting_Rigths.Text = "权限分配(&R)";
             this.tsmiSetting_Rigths.ToolTipText = "分配图纸管理权限(Admin)";
             this.tsmiSetting_Rigths.Click += new System.EventHandler(this.tsmiSetting_Rigths_Click);
+            // 
+            // tsmiSetting_tss1
+            // 
+            this.tsmiSetting_tss1.Name = "tsmiSetting_tss1";
+            this.tsmiSetting_tss1.Size = new System.Drawing.Size(137, 6);
             // 
             // tsmiTool
             // 
@@ -367,7 +239,7 @@
             // 
             this.tsmiHelp_GetHelp.Enabled = false;
             this.tsmiHelp_GetHelp.Name = "tsmiHelp_GetHelp";
-            this.tsmiHelp_GetHelp.Size = new System.Drawing.Size(152, 22);
+            this.tsmiHelp_GetHelp.Size = new System.Drawing.Size(124, 22);
             this.tsmiHelp_GetHelp.Text = "获取帮助";
             // 
             // tt1
@@ -383,7 +255,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgv1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv1.Location = new System.Drawing.Point(6, 78);
+            this.dgv1.Location = new System.Drawing.Point(6, 52);
             this.dgv1.Margin = new System.Windows.Forms.Padding(2);
             this.dgv1.MultiSelect = false;
             this.dgv1.Name = "dgv1";
@@ -391,18 +263,95 @@
             this.dgv1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToFirstHeader;
             this.dgv1.RowTemplate.Height = 27;
             this.dgv1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv1.Size = new System.Drawing.Size(801, 573);
+            this.dgv1.Size = new System.Drawing.Size(801, 599);
             this.dgv1.TabIndex = 5;
             this.dgv1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv1_CellClick);
             this.dgv1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgv1_RowStateChanged);
+            // 
+            // bnTop
+            // 
+            this.bnTop.AddNewItem = null;
+            this.bnTop.CountItem = null;
+            this.bnTop.DeleteItem = null;
+            this.bnTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bnTop_lblBarcode,
+            this.bnTop_txtBarcode,
+            this.bnTop_tss,
+            this.bnTop_btnSearch,
+            this.bnTop_btnOpen,
+            this.bnTop_btnDownLoad,
+            this.bnTop_btnBatDownLoad});
+            this.bnTop.Location = new System.Drawing.Point(0, 25);
+            this.bnTop.MoveFirstItem = null;
+            this.bnTop.MoveLastItem = null;
+            this.bnTop.MoveNextItem = null;
+            this.bnTop.MovePreviousItem = null;
+            this.bnTop.Name = "bnTop";
+            this.bnTop.PositionItem = null;
+            this.bnTop.Size = new System.Drawing.Size(814, 25);
+            this.bnTop.TabIndex = 6;
+            this.bnTop.Text = "bnTop";
+            this.bnTop.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnTop_ItemClicked);
+            // 
+            // bnTop_lblBarcode
+            // 
+            this.bnTop_lblBarcode.Name = "bnTop_lblBarcode";
+            this.bnTop_lblBarcode.Size = new System.Drawing.Size(44, 22);
+            this.bnTop_lblBarcode.Text = "图纸：";
+            // 
+            // bnTop_txtBarcode
+            // 
+            this.bnTop_txtBarcode.Name = "bnTop_txtBarcode";
+            this.bnTop_txtBarcode.Size = new System.Drawing.Size(300, 25);
+            // 
+            // bnTop_tss
+            // 
+            this.bnTop_tss.Name = "bnTop_tss";
+            this.bnTop_tss.Size = new System.Drawing.Size(6, 25);
+            // 
+            // bnTop_btnSearch
+            // 
+            this.bnTop_btnSearch.Image = global::CBSys.WinForm.Properties.Resources.zoom;
+            this.bnTop_btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnSearch.Name = "bnTop_btnSearch";
+            this.bnTop_btnSearch.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnSearch.Tag = "1";
+            this.bnTop_btnSearch.Text = "查询";
+            // 
+            // bnTop_btnOpen
+            // 
+            this.bnTop_btnOpen.Image = global::CBSys.WinForm.Properties.Resources.accept;
+            this.bnTop_btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnOpen.Name = "bnTop_btnOpen";
+            this.bnTop_btnOpen.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnOpen.Tag = "2";
+            this.bnTop_btnOpen.Text = "打开";
+            // 
+            // bnTop_btnDownLoad
+            // 
+            this.bnTop_btnDownLoad.Image = global::CBSys.WinForm.Properties.Resources.table;
+            this.bnTop_btnDownLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnDownLoad.Name = "bnTop_btnDownLoad";
+            this.bnTop_btnDownLoad.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnDownLoad.Tag = "3";
+            this.bnTop_btnDownLoad.Text = "下载";
+            // 
+            // bnTop_btnBatDownLoad
+            // 
+            this.bnTop_btnBatDownLoad.Image = global::CBSys.WinForm.Properties.Resources.table_multiple;
+            this.bnTop_btnBatDownLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnBatDownLoad.Name = "bnTop_btnBatDownLoad";
+            this.bnTop_btnBatDownLoad.Size = new System.Drawing.Size(76, 22);
+            this.bnTop_btnBatDownLoad.Tag = "4";
+            this.bnTop_btnBatDownLoad.Text = "批量下载";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(814, 662);
+            this.Controls.Add(this.bnTop);
             this.Controls.Add(this.dgv1);
-            this.Controls.Add(this.pl1);
             this.Controls.Add(this.msMail);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msMail;
@@ -411,22 +360,18 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "主窗体";
             this.Load += new System.EventHandler(this.frmMain_Load);
-            this.pl1.ResumeLayout(false);
-            this.pl1.PerformLayout();
             this.msMail.ResumeLayout(false);
             this.msMail.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bnTop)).EndInit();
+            this.bnTop.ResumeLayout(false);
+            this.bnTop.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtBarcode;
-        private System.Windows.Forms.Panel pl1;
-        private System.Windows.Forms.Button btnOpen;
-        private System.Windows.Forms.Label lblBarcode;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.MenuStrip msMail;
         private System.Windows.Forms.ToolStripMenuItem tsmiFile;
         private System.Windows.Forms.ToolStripMenuItem tsmiFile_New;
@@ -444,16 +389,19 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiSetting;
         private System.Windows.Forms.ToolStripSeparator tsmiSetting_tss1;
         private System.Windows.Forms.ToolTip tt1;
-        private System.Windows.Forms.Button btnBatDownLoad;
         private System.Windows.Forms.DataGridView dgv1;
         private System.Windows.Forms.ToolStripMenuItem tsmiTool_RLImport;
-        private System.Windows.Forms.CheckBox chbGeneral;
-        private System.Windows.Forms.CheckBox chbCust;
-        private System.Windows.Forms.CheckBox chbArt;
-        private System.Windows.Forms.Button btnDownLoad;
         private System.Windows.Forms.ToolStripMenuItem tsmiTool_Manager;
         private System.Windows.Forms.ToolStripSeparator tsmiTool_tss2;
         private System.Windows.Forms.ToolStripSeparator tsmiTool_tss3;
         private System.Windows.Forms.ToolStripMenuItem tsmiSetting_Rigths;
+        private System.Windows.Forms.BindingNavigator bnTop;
+        private System.Windows.Forms.ToolStripLabel bnTop_lblBarcode;
+        private System.Windows.Forms.ToolStripTextBox bnTop_txtBarcode;
+        private System.Windows.Forms.ToolStripSeparator bnTop_tss;
+        private System.Windows.Forms.ToolStripButton bnTop_btnSearch;
+        private System.Windows.Forms.ToolStripButton bnTop_btnOpen;
+        private System.Windows.Forms.ToolStripButton bnTop_btnDownLoad;
+        private System.Windows.Forms.ToolStripButton bnTop_btnBatDownLoad;
     }
 }

@@ -39,7 +39,7 @@
     <MinimumRequiredVersion>1.0.0.3</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -189,6 +189,39 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="kk.ico" />
+    <Content Include="Pic\32x32\accept.png" />
+    <Content Include="Pic\32x32\add.png" />
+    <Content Include="Pic\32x32\administrator.png" />
+    <Content Include="Pic\32x32\angel.png" />
+    <Content Include="Pic\32x32\arrow_redo.png" />
+    <Content Include="Pic\32x32\arrow_refresh.png" />
+    <Content Include="Pic\32x32\book_add.png" />
+    <Content Include="Pic\32x32\book_delete.png" />
+    <Content Include="Pic\32x32\book_edit.png" />
+    <Content Include="Pic\32x32\book_key.png" />
+    <Content Include="Pic\32x32\breeze.png" />
+    <Content Include="Pic\32x32\data_chooser.png" />
+    <Content Include="Pic\32x32\delete.png" />
+    <Content Include="Pic\32x32\disk.png" />
+    <Content Include="Pic\32x32\key.png" />
+    <Content Include="Pic\32x32\key_delete.png" />
+    <Content Include="Pic\32x32\lock.png" />
+    <Content Include="Pic\32x32\lock_open.png" />
+    <Content Include="Pic\32x32\resultset_next.png" />
+    <Content Include="Pic\32x32\resultset_previous.png" />
+    <Content Include="Pic\32x32\table.png" />
+    <Content Include="Pic\32x32\table_excel.png" />
+    <Content Include="Pic\32x32\table_multiple.png" />
+    <Content Include="Pic\32x32\time.png" />
+    <Content Include="Pic\32x32\time_add.png" />
+    <Content Include="Pic\32x32\time_delete.png" />
+    <Content Include="Pic\32x32\time_go.png" />
+    <Content Include="Pic\32x32\user.png" />
+    <Content Include="Pic\32x32\user_add.png" />
+    <Content Include="Pic\32x32\user_comment.png" />
+    <Content Include="Pic\32x32\user_delete.png" />
+    <Content Include="Pic\32x32\zoom.png" />
+    <Content Include="Pic\32x32\zootool.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -236,6 +269,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

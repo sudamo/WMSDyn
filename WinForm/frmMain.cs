@@ -54,7 +54,7 @@ namespace CBSys.WinForm
                 if (UserSetting.Drawing_RInf.D_Users.Contains(UserSetting.UserInf.UserName))
                 {
                     //btnDownLoad.Enabled = true;//Enabled
-                    btnBatDownLoad.Enabled = true;
+                    bnTop_btnBatDownLoad.Enabled = true;
                 }
                 //
                 if (UserSetting.Drawing_RInf.U_Users2.Contains(UserSetting.UserInf.UserName))
@@ -81,173 +81,45 @@ namespace CBSys.WinForm
 
                 tsmiTool_Manager.Enabled = true;
 
-                btnDownLoad.Enabled = true;
-                btnBatDownLoad.Enabled = true;
+                bnTop_btnDownLoad.Enabled = true;
+                bnTop_btnBatDownLoad.Enabled = true;
+            }
+
+            ToolStripCheckBox chb = new ToolStripCheckBox();
+            ((CheckBox)(chb.Control)).Checked = true;
+            ((CheckBox)(chb.Control)).Text = "通用";
+            bnTop.Items.Add(chb);
+
+            ToolStripCheckBox chb1 = new ToolStripCheckBox();
+            ((CheckBox)(chb1.Control)).Checked = true;
+            ((CheckBox)(chb1.Control)).Text = "艺术";
+            bnTop.Items.Add(chb1);
+
+            ToolStripCheckBox chb2 = new ToolStripCheckBox();
+            ((CheckBox)(chb2.Control)).Checked = true;
+            ((CheckBox)(chb2.Control)).Text = "定制";
+            bnTop.Items.Add(chb2);
+
+            //重新排列Items
+            List<ToolStripItem> list = new List<ToolStripItem>();
+            list.Add(bnTop.Items[0]);
+            list.Add(bnTop.Items[1]);
+            list.Add(bnTop.Items[7]);
+            list.Add(bnTop.Items[8]);
+            list.Add(bnTop.Items[9]);
+            list.Add(bnTop.Items[2]);
+            list.Add(bnTop.Items[3]);
+            list.Add(bnTop.Items[4]);
+            list.Add(bnTop.Items[5]);
+            list.Add(bnTop.Items[6]);
+
+            bnTop.Items.Clear();
+            foreach (ToolStripItem item in list)
+            {
+                bnTop.Items.Add(item);
             }
         }
         #endregion
-
-        /// <summary>
-        /// 查询
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _DataSource = CommonFunc.GetDrawing(txtBarcode.Text.Trim(), chbGeneral.Checked, chbArt.Checked, chbCust.Checked);
-
-                if (_DataSource == null || _DataSource.Rows.Count == 0) return;
-
-                dgv1.DataSource = _DataSource;
-                //dgv1.Columns[11].Visible = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// 打开
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnOpen_Click(object sender, EventArgs e)
-        {
-            if (dgv1 == null || dgv1.Rows.Count == 0)
-                return;
-            if (txtBarcode.Text.Trim().Equals(string.Empty))
-                return;
-
-            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
-            if (strSourcePath.Equals(string.Empty))
-                return;
-
-            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
-            if (entry == null)
-                return;
-
-            if(entry.Flag)
-            {
-                MessageBox.Show("图纸被锁定。");
-                return;
-            }
-
-            //检查目录是否存在
-            string strFilePath = @"C:\Drawing";
-            if (!Directory.Exists(strFilePath))
-            {
-                Directory.CreateDirectory(strFilePath);
-            }
-            strFilePath += "\\" + DateTime.Now.ToString("yyyyMMdd");
-            if (!Directory.Exists(strFilePath))
-            {
-                Directory.CreateDirectory(strFilePath);
-            }
-
-            entry.FileName = strFilePath + "\\" + entry.FileName;
-
-            try
-            {
-                BinaryWriter bw = new BinaryWriter(File.Open(entry.FileName, FileMode.OpenOrCreate));
-                bw.Write(entry.Context);
-                bw.Close();
-            }
-            catch { }
-
-            ;
-            //关闭已打开的软件
-            CommonFunc.KillPro("SmartCutAutoPlan");
-            //打开文件
-            Process proc = new Process();
-            proc.StartInfo.FileName = entry.FileName;
-            proc.StartInfo.UseShellExecute = true;
-            proc.Start();
-        }
-
-        /// <summary>
-        /// 下载当前选定图纸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnDownLoad_Click(object sender, EventArgs e)
-        {
-            if (dgv1 == null || dgv1.Rows.Count == 0)
-                return;
-
-            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
-            if (strSourcePath.Equals(string.Empty))
-                return;
-
-            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
-            if (entry == null)
-                return;
-
-            if (!Directory.Exists(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1)))
-                Directory.CreateDirectory(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1));
-
-            BinaryWriter bw = new BinaryWriter(File.Create(entry.SourcePath));
-            bw.Write(entry.Context);
-            bw.Close();
-
-            MessageBox.Show("下载完毕，文件路径：" + entry.SourcePath);
-        }
-
-        /// <summary>
-        /// 批量下载图纸
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnBatDownLoad_Click(object sender, EventArgs e)
-        {
-            if (_DataSource == null || _DataSource.Rows.Count == 0)
-                return;
-
-            List<string> lstSourcePath = new List<string>();
-            for (int i = 0; i < _DataSource.Rows.Count; i++)
-            {
-                lstSourcePath.Add(_DataSource.Rows[i]["源路径"].ToString());
-            }
-
-            if (!Directory.Exists("D:\\"))
-            {
-                MessageBox.Show("D盘不存在，选择默认下载路径失败。");
-                return;
-            }
-
-            List<DrawingInfo> list = CommonFunc.GetDrawing(lstSourcePath);
-
-            if (list.Count == 0)
-            {
-                MessageBox.Show("没有查询到对应的图纸。");
-                return;
-            }
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (!Directory.Exists(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1)))
-                    Directory.CreateDirectory(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1));
-
-                BinaryWriter bw = new BinaryWriter(File.Create(list[i].SourcePath));
-                bw.Write(list[i].Context);
-                bw.Close();
-            }
-
-            MessageBox.Show("下载完毕");
-        }
-
-        /// <summary>
-        /// 扫描
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            //if (e != null && e.KeyChar == 13)
-            //    btnOpen_Click(sender, e);
-        }
 
         /// <summary>
         /// 单击行
@@ -258,7 +130,7 @@ namespace CBSys.WinForm
         {
             if (dgv1 != null && dgv1.Rows.Count > 0)//根据用户权限填充ListBox
             {
-                txtBarcode.Text = dgv1.CurrentRow.Cells[5].Value.ToString();
+                bnTop_txtBarcode.Text = dgv1.CurrentRow.Cells[5].Value.ToString();
             }
         }
 
@@ -566,5 +438,167 @@ namespace CBSys.WinForm
         #endregion
 
         #endregion
+
+        private void bnTop_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Tag == null)
+                return;
+
+            switch (e.ClickedItem.Tag.ToString())
+            {
+                case "1":
+                    Search();
+                    break;
+                case "2":
+                    Open();
+                    break;
+                case "3":
+                    DownLoad();
+                    break;
+                case "4":
+                    BatchDownLoad();
+                    break;
+            }
+        }
+
+        private void Search()
+        {
+            try
+            {
+                 _DataSource = CommonFunc.GetDrawing(bnTop_txtBarcode.Text.Trim(), ((CheckBox)((ControlAccessibleObject)(bnTop.Items[2]).AccessibilityObject).Owner).Checked, ((CheckBox)((ControlAccessibleObject)(bnTop.Items[3]).AccessibilityObject).Owner).Checked, ((CheckBox)((ControlAccessibleObject)(bnTop.Items[4]).AccessibilityObject).Owner).Checked);
+
+                if (_DataSource == null || _DataSource.Rows.Count == 0) return;
+
+                dgv1.DataSource = _DataSource;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void Open()
+        {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
+            if (bnTop_txtBarcode.Text.Trim().Equals(string.Empty))
+                return;
+
+            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
+            if (strSourcePath.Equals(string.Empty))
+                return;
+
+            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
+            if (entry == null)
+                return;
+
+            if (entry.Flag)
+            {
+                MessageBox.Show("图纸被锁定。");
+                return;
+            }
+
+            //检查目录是否存在
+            string strFilePath = @"C:\Drawing";
+            if (!Directory.Exists(strFilePath))
+            {
+                Directory.CreateDirectory(strFilePath);
+            }
+            strFilePath += "\\" + DateTime.Now.ToString("yyyyMMdd");
+            if (!Directory.Exists(strFilePath))
+            {
+                Directory.CreateDirectory(strFilePath);
+            }
+
+            entry.FileName = strFilePath + "\\" + entry.FileName;
+
+            try
+            {
+                BinaryWriter bw = new BinaryWriter(File.Open(entry.FileName, FileMode.OpenOrCreate));
+                bw.Write(entry.Context);
+                bw.Close();
+            }
+            catch { }
+
+            ;
+            //关闭已打开的软件
+            CommonFunc.KillPro("SmartCutAutoPlan");
+            //打开文件
+            Process proc = new Process();
+            proc.StartInfo.FileName = entry.FileName;
+            proc.StartInfo.UseShellExecute = true;
+            proc.Start();
+        }
+        private void DownLoad()
+        {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
+
+            string strSourcePath = dgv1.CurrentRow.Cells[11].Value.ToString();
+            if (strSourcePath.Equals(string.Empty))
+                return;
+
+            DrawingInfo entry = CommonFunc.GetDrawing(strSourcePath);
+            if (entry == null)
+                return;
+
+            if (!Directory.Exists(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1)))
+                Directory.CreateDirectory(entry.SourcePath.Substring(0, entry.SourcePath.LastIndexOf('\\') + 1));
+
+            BinaryWriter bw = new BinaryWriter(File.Create(entry.SourcePath));
+            bw.Write(entry.Context);
+            bw.Close();
+
+            MessageBox.Show("下载完毕，文件路径：" + entry.SourcePath);
+        }
+        private void BatchDownLoad()
+        {
+            if (_DataSource == null || _DataSource.Rows.Count == 0)
+                return;
+
+            List<string> lstSourcePath = new List<string>();
+            for (int i = 0; i < _DataSource.Rows.Count; i++)
+            {
+                if (_DataSource.Rows[i]["源路径"].ToString() != "")
+                    lstSourcePath.Add(_DataSource.Rows[i]["源路径"].ToString());
+            }
+
+            if (!Directory.Exists("D:\\"))
+            {
+                MessageBox.Show("D盘不存在，选择默认下载路径失败。");
+                return;
+            }
+
+            List<DrawingInfo> list = CommonFunc.GetDrawing(lstSourcePath);
+
+            if (list.Count == 0)
+            {
+                MessageBox.Show("没有查询到对应的图纸。");
+                return;
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (!Directory.Exists(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1)))
+                    Directory.CreateDirectory(list[i].SourcePath.Substring(0, list[i].SourcePath.LastIndexOf('\\') + 1));
+
+                BinaryWriter bw = new BinaryWriter(File.Create(list[i].SourcePath));
+                bw.Write(list[i].Context);
+                bw.Close();
+            }
+
+            MessageBox.Show("下载完毕");
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ToolStripCheckBox : ToolStripControlHost
+    {
+        public ToolStripCheckBox() : base(new CheckBox())
+        {
+
+        }
     }
 }

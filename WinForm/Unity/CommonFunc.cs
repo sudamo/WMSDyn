@@ -201,11 +201,21 @@ namespace CBSys.WinForm.Unity
         /// <param name="pFileName"></param>
         /// <param name="pGeneral"></param>
         /// <returns></returns>
-        internal static DataTable GetDrawing(string pFileName, bool? pFlag)
+        internal static DataTable GetDrawing(string pFileName, bool? pFlag, int pIsNull)
         {
             if (!pFileName.Trim().Equals(string.Empty))
             {
-                strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,CASE ISNULL(DR.Flag,0) WHEN 0 THEN '否' ELSE '是' END 锁定,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
+                strSQL = @"SELECT DR.[FileName] 图纸,ISNULL(RL.F_PAEZ_TRADE,'') 商品名,ISNULL(RL.F_PAEZ_CARSERIES,'') 车系,ISNULL(RL.F_PAEZ_CARTYPE,'') 车型,ISNULL(RL.CategoryId,'') 类型
+	                ,CASE ISNULL(DR.Flag,0) WHEN 0 THEN '否' ELSE '是' END 锁定,DR.[Description] 描述,DR.SourcePath 源路
+                FROM BD_Drawing DR
+                LEFT JOIN BD_Drawing_RL RL ON RL.SourcePath = DR.SourcePath
+                WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
+
+                if (pIsNull == 1)
+                    strSQL += " AND RL.F_PAEZ_TRADE IS NULL";
+                else if (pIsNull == 2)
+                    strSQL += " AND RL.F_PAEZ_TRADE IS NOT NULL";
+
                 return SQLHelper.ExecuteTable(strSQL);
             }
 
