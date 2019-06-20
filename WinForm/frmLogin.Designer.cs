@@ -41,9 +41,10 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(150, 128);
+            this.btnExit.Location = new System.Drawing.Point(200, 160);
+            this.btnExit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(65, 27);
+            this.btnExit.Size = new System.Drawing.Size(87, 34);
             this.btnExit.TabIndex = 17;
             this.btnExit.Text = "退出(&X)";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -51,10 +52,10 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(38, 128);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLogin.Location = new System.Drawing.Point(51, 160);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(65, 27);
+            this.btnLogin.Size = new System.Drawing.Size(87, 34);
             this.btnLogin.TabIndex = 16;
             this.btnLogin.Text = "登陆(&L)";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -63,9 +64,10 @@
             // lblUser
             // 
             this.lblUser.Font = new System.Drawing.Font("宋体", 12F);
-            this.lblUser.Location = new System.Drawing.Point(21, 42);
+            this.lblUser.Location = new System.Drawing.Point(28, 52);
+            this.lblUser.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(80, 26);
+            this.lblUser.Size = new System.Drawing.Size(107, 32);
             this.lblUser.TabIndex = 12;
             this.lblUser.Text = "用户名：";
             this.lblUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -73,32 +75,31 @@
             // txtUser
             // 
             this.txtUser.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtUser.Location = new System.Drawing.Point(106, 44);
-            this.txtUser.Margin = new System.Windows.Forms.Padding(2);
+            this.txtUser.Location = new System.Drawing.Point(141, 55);
+            this.txtUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUser.Name = "txtUser";
-            this.txtUser.Size = new System.Drawing.Size(110, 26);
+            this.txtUser.Size = new System.Drawing.Size(145, 30);
             this.txtUser.TabIndex = 14;
-            this.txtUser.Text = "开料员2";
             this.txtUser.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUser_KeyPress);
             // 
             // txtPWD
             // 
             this.txtPWD.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPWD.Location = new System.Drawing.Point(106, 82);
-            this.txtPWD.Margin = new System.Windows.Forms.Padding(2);
+            this.txtPWD.Location = new System.Drawing.Point(141, 102);
+            this.txtPWD.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPWD.Name = "txtPWD";
             this.txtPWD.PasswordChar = '*';
-            this.txtPWD.Size = new System.Drawing.Size(110, 26);
+            this.txtPWD.Size = new System.Drawing.Size(145, 30);
             this.txtPWD.TabIndex = 15;
-            this.txtPWD.Text = "123456";
             this.txtPWD.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPWD_KeyPress);
             // 
             // lblPWD
             // 
             this.lblPWD.Font = new System.Drawing.Font("宋体", 12F);
-            this.lblPWD.Location = new System.Drawing.Point(21, 80);
+            this.lblPWD.Location = new System.Drawing.Point(28, 100);
+            this.lblPWD.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPWD.Name = "lblPWD";
-            this.lblPWD.Size = new System.Drawing.Size(80, 26);
+            this.lblPWD.Size = new System.Drawing.Size(107, 32);
             this.lblPWD.TabIndex = 13;
             this.lblPWD.Text = "密码：";
             this.lblPWD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -108,8 +109,9 @@
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitle.Font = new System.Drawing.Font("华文楷体", 24F, System.Drawing.FontStyle.Bold);
             this.lblTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(256, 42);
+            this.lblTitle.Size = new System.Drawing.Size(341, 52);
             this.lblTitle.TabIndex = 18;
             this.lblTitle.Text = "登录系统";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -117,9 +119,10 @@
             // lklK3Cloud
             // 
             this.lklK3Cloud.AutoSize = true;
-            this.lklK3Cloud.Location = new System.Drawing.Point(10, 167);
+            this.lklK3Cloud.Location = new System.Drawing.Point(13, 209);
+            this.lklK3Cloud.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lklK3Cloud.Name = "lklK3Cloud";
-            this.lklK3Cloud.Size = new System.Drawing.Size(65, 12);
+            this.lklK3Cloud.Size = new System.Drawing.Size(82, 15);
             this.lklK3Cloud.TabIndex = 19;
             this.lklK3Cloud.TabStop = true;
             this.lklK3Cloud.Text = "服务器设置";
@@ -127,9 +130,9 @@
             // 
             // frmLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 186);
+            this.ClientSize = new System.Drawing.Size(341, 232);
             this.ControlBox = false;
             this.Controls.Add(this.lklK3Cloud);
             this.Controls.Add(this.lblTitle);
@@ -140,6 +143,7 @@
             this.Controls.Add(this.txtPWD);
             this.Controls.Add(this.lblPWD);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录";
