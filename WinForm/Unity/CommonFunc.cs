@@ -18,16 +18,16 @@ namespace CBSys.WinForm.Unity
     internal static class CommonFunc
     {
         #region Fileds & Constructor
-        private static string strSQL;
-        private static object obj;
+        private static string _sql;
+        private static object _obj;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         static CommonFunc()
         {
-            strSQL = string.Empty;
-            obj = new object();
+            _sql = string.Empty;
+            _obj = new object();
         }
         #endregion
 
@@ -109,11 +109,11 @@ namespace CBSys.WinForm.Unity
             DataTable dt;
             DrawingInfo entry;
 
-            strSQL = "SELECT PID,FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,CreationDate,Flag,IsDelete,Description,Context FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'";
+            _sql = "SELECT PID,FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,CreationDate,Flag,IsDelete,Description,Context FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'";
 
             try
             {
-                dt = SQLHelper.ExecuteTable(strSQL);
+                dt = SQLHelper.ExecuteTable(_sql);
 
                 entry = new DrawingInfo();
                 entry.PID = int.Parse(dt.Rows[0]["PID"].ToString());
@@ -154,19 +154,19 @@ namespace CBSys.WinForm.Unity
             if (pSourcePathList == null || pSourcePathList.Count == 0)
                 return null;
 
-            strSQL = "SELECT PID,FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,CreationDate,Flag,IsDelete,Description,Context FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath IN(";
+            _sql = "SELECT PID,FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,CreationDate,Flag,IsDelete,Description,Context FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath IN(";
             for (int i = 0; i < pSourcePathList.Count; i++)
             {
                 if (!pSourcePathList[i].Equals(string.Empty))
-                    strSQL += "'" + pSourcePathList[i] + "',";
+                    _sql += "'" + pSourcePathList[i] + "',";
             }
-            strSQL = strSQL.Substring(0, strSQL.Length - 1);
-            strSQL += ")";
+            _sql = _sql.Substring(0, _sql.Length - 1);
+            _sql += ")";
 
             try
             {
                 list = new List<DrawingInfo>();
-                dt = SQLHelper.ExecuteTable(strSQL);
+                dt = SQLHelper.ExecuteTable(_sql);
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
@@ -205,18 +205,18 @@ namespace CBSys.WinForm.Unity
         {
             if (!pFileName.Trim().Equals(string.Empty))
             {
-                strSQL = @"SELECT DR.[FileName] 图纸,ISNULL(RL.F_PAEZ_TRADE,'') 商品名,ISNULL(RL.F_PAEZ_CARSERIES,'') 车系,ISNULL(RL.F_PAEZ_CARTYPE,'') 车型,ISNULL(RL.CategoryId,'') 类型
+                _sql = @"SELECT DR.[FileName] 图纸,ISNULL(RL.F_PAEZ_TRADE,'') 商品名,ISNULL(RL.F_PAEZ_CARSERIES,'') 车系,ISNULL(RL.F_PAEZ_CARTYPE,'') 车型,ISNULL(RL.CategoryId,'') 类型
 	                ,CASE ISNULL(DR.Flag,0) WHEN 0 THEN '否' ELSE '是' END 锁定,DR.[Description] 描述,DR.SourcePath 源路
                 FROM BD_Drawing DR
                 LEFT JOIN BD_Drawing_RL RL ON RL.SourcePath = DR.SourcePath
                 WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
 
                 if (pIsNull == 1)
-                    strSQL += " AND RL.F_PAEZ_TRADE IS NULL";
+                    _sql += " AND RL.F_PAEZ_TRADE IS NULL";
                 else if (pIsNull == 2)
-                    strSQL += " AND RL.F_PAEZ_TRADE IS NOT NULL";
+                    _sql += " AND RL.F_PAEZ_TRADE IS NOT NULL";
 
-                return SQLHelper.ExecuteTable(strSQL);
+                return SQLHelper.ExecuteTable(_sql);
             }
 
             return null;
@@ -452,8 +452,8 @@ namespace CBSys.WinForm.Unity
         /// </summary>
         internal static void ModifyDrawing_RInfo()
         {
-            strSQL = "UPDATE BD_Drawing_R SET Managers = '" + UserSetting.Drawing_RInf.Managers + "',U_Users = '" + UserSetting.Drawing_RInf.U_Users + "',D_Users = '" + UserSetting.Drawing_RInf.D_Users + "',U_Users2 = '" + UserSetting.Drawing_RInf.U_Users2 + "' WHERE PID = " + UserSetting.Drawing_RInf.PID;
-            SQLHelper.ExecuteNonQuery(strSQL);
+            _sql = "UPDATE BD_Drawing_R SET Managers = '" + UserSetting.Drawing_RInf.Managers + "',U_Users = '" + UserSetting.Drawing_RInf.U_Users + "',D_Users = '" + UserSetting.Drawing_RInf.D_Users + "',U_Users2 = '" + UserSetting.Drawing_RInf.U_Users2 + "' WHERE PID = " + UserSetting.Drawing_RInf.PID;
+            SQLHelper.ExecuteNonQuery(_sql);
         }
 
         /// <summary>
@@ -486,10 +486,10 @@ namespace CBSys.WinForm.Unity
             parms[7].Value = pDrawingInf.Description;
             parms[8].Value = pDrawingInf.Context;
 
-            strSQL = @"INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
+            _sql = @"INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
             VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context)";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
         }
 
         /// <summary>
@@ -522,11 +522,20 @@ namespace CBSys.WinForm.Unity
             parms[7].Value = pDrawingInf.Description;
             parms[8].Value = pDrawingInf.Context;
 
-            strSQL = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
+            _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
             INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
             VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
+        }
+
+        /// <summary>
+        /// 图纸关联关系总数
+        /// </summary>
+        /// <returns></returns>
+        internal static int GetDrawing_RL_Count()
+        {
+            return int.Parse(SQLHelper.ExecuteScalar("SELECT COUNT(*) FROM BD_Drawing_RL WHERE IsDelete = 0").ToString());
         }
 
         /// <summary>
@@ -542,19 +551,18 @@ namespace CBSys.WinForm.Unity
             pMTLDrawingInf.F_PAEZ_CARTYPE = pMTLDrawingInf.F_PAEZ_CARTYPE == null ? "" : pMTLDrawingInf.F_PAEZ_CARTYPE;
             pMTLDrawingInf.Description = pMTLDrawingInf.Description == null ? "" : pMTLDrawingInf.Description;
 
-            strSQL = @"MERGE INTO BD_Drawing_RL AS T
+            _sql = @"MERGE INTO BD_Drawing_RL AS T
             USING
             (
              SELECT " + pMTLDrawingInf.CategoryId + " CategoryId,'" + pMTLDrawingInf.SourcePath + "' SourcePath,'" + pMTLDrawingInf.Barcode + "' Barcode," + pMTLDrawingInf.FMaterialId + " FMaterialId,'" + pMTLDrawingInf.FNumber + "' FNumber,'" + pMTLDrawingInf.F_PAEZ_TRADE + "' F_PAEZ_TRADE,'" + pMTLDrawingInf.F_PAEZ_CARSERIES + "' F_PAEZ_CARSERIES,'" + pMTLDrawingInf.F_PAEZ_CARTYPE + "' F_PAEZ_CARTYPE,1 Flag,'" + pMTLDrawingInf.Description + @"' Description
-            ) AS O ON T.SourcePath = O.SourcePath
-            WHEN MATCHED
+            ) AS O ON T.SourcePath = O.SourcePath AND T.F_PAEZ_TRADE = O.F_PAEZ_TRADE AND T.F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES AND T.F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE
                 THEN UPDATE SET
-                CategoryId = O.CategoryId,Barcode = O.Barcode, FMaterialId = O.FMaterialId,FNumber = O.FNumber,F_PAEZ_TRADE = O.F_PAEZ_TRADE,F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES, F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE,Flag = O.Flag,Description = O.Description
+                CategoryId = O.CategoryId,Barcode = O.Barcode, FMaterialId = O.FMaterialId,FNumber = O.FNumber,Flag = O.Flag,Description = O.Description
             WHEN NOT MATCHED
                 THEN INSERT(CategoryId,SourcePath,Barcode,FMaterialId,FNumber,F_PAEZ_TRADE,F_PAEZ_CARSERIES,F_PAEZ_CARTYPE,Flag,Description)
                 VALUES(O.CategoryId, O.SourcePath, O.Barcode, O.FMaterialId, O.FNumber,O.F_PAEZ_TRADE, O.F_PAEZ_CARSERIES, O.F_PAEZ_CARTYPE, O.Flag,O.Description);";
 
-            SQLHelper.ExecuteNonQuery(strSQL);
+            SQLHelper.ExecuteNonQuery(_sql);
         }
 
         /// <summary>
@@ -564,9 +572,9 @@ namespace CBSys.WinForm.Unity
         /// <returns></returns>
         internal static bool Check_DrawingFileName(string pSourcePath)
         {
-            obj = SQLHelper.ExecuteScalar("SELECT COUNT(*) FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
+            _obj = SQLHelper.ExecuteScalar("SELECT COUNT(*) FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
 
-            if ((int)obj > 0) return true;
+            if ((int)_obj > 0) return true;
 
             return false;
         }
@@ -607,7 +615,7 @@ namespace CBSys.WinForm.Unity
             parms[0].Value = pFileName;
             parms[1].Value = pContext;
 
-            strSQL = @"MERGE INTO DM_Template AS T
+            _sql = @"MERGE INTO DM_Template AS T
             USING
             (
                 SELECT @FileName FileName,@Context Context
@@ -617,7 +625,7 @@ namespace CBSys.WinForm.Unity
             WHEN NOT MATCHED
                 THEN INSERT(FileName,Context) VALUES(O.FileName,O.Context);";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
         }
         /// <summary>
         /// 获取模板信息
@@ -771,9 +779,9 @@ namespace CBSys.WinForm.Unity
             parms[0].Value = pUser == null ? "" : pUser.UserName;
             parms[1].Value = pLogin ? 1 : 0;
 
-            strSQL = "UPDATE BD_Users SET LogStatus = @LogStatus,LastLoginDate = GETDATE() WHERE UserName = @UserName";
+            _sql = "UPDATE BD_Users SET LogStatus = @LogStatus,LastLoginDate = GETDATE() WHERE UserName = @UserName";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
         }
 
         /// <summary>
@@ -790,9 +798,9 @@ namespace CBSys.WinForm.Unity
             };
             parms[0].Value = pBarcode;
 
-            strSQL = "SELECT PID,Barcode,FID,FBillNo,FDate,FEntryId,FNumber,FQTY,FSEQ,GroupId,Times,Creator,CreationDate,Modifier,ModificationDate,Flag,Description  FROM PRD_Mo WHERE Barcode = @Barcode";
+            _sql = "SELECT PID,Barcode,FID,FBillNo,FDate,FEntryId,FNumber,FQTY,FSEQ,GroupId,Times,Creator,CreationDate,Modifier,ModificationDate,Flag,Description  FROM PRD_Mo WHERE Barcode = @Barcode";
 
-            DataTable dt = SQLHelper.ExecuteTable(strSQL, parms);
+            DataTable dt = SQLHelper.ExecuteTable(_sql, parms);
 
             if (dt == null || dt.Rows.Count == 0)
                 return null;
@@ -984,9 +992,9 @@ namespace CBSys.WinForm.Unity
             };
             parms[0].Value = pFNumber;
 
-            strSQL = "SELECT PID,FMaterialId,FNumber,SourcePath,FileName,FileSuffix,FileSize,Creator,CreationDate,Flag,IsDelete,Description  FROM BD_Drawing WHERE FNumber = @FNumber";
+            _sql = "SELECT PID,FMaterialId,FNumber,SourcePath,FileName,FileSuffix,FileSize,Creator,CreationDate,Flag,IsDelete,Description  FROM BD_Drawing WHERE FNumber = @FNumber";
 
-            DataTable dt = SQLHelper.ExecuteTable(strSQL, parms);
+            DataTable dt = SQLHelper.ExecuteTable(_sql, parms);
 
             if (dt == null || dt.Rows.Count == 0)
                 return null;
@@ -1042,7 +1050,7 @@ namespace CBSys.WinForm.Unity
             parms[7].Value = pDrawingInf.Description;
             parms[8].Value = pDrawingInf.Context;
 
-            strSQL = @"MERGE INTO BD_Drawing AS T
+            _sql = @"MERGE INTO BD_Drawing AS T
             USING 
             (
 	            SELECT @FMaterialId FMaterialId,@FNumber FNumber,@FileName FileName,@FileSuffix FileSuffix,@FileSize FileSize,@SourcePath SourcePath,@Creator Creator,@Description Description,@Context Context
@@ -1054,7 +1062,7 @@ namespace CBSys.WinForm.Unity
                 THEN INSERT(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
 	            VALUES(O.FMaterialId, O.FNumber, O.FileName, O.FileSuffix, O.FileSize,O.SourcePath, O.Creator, O.Description, O.Context);";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
         }
 
         /// <summary>
@@ -1071,9 +1079,9 @@ namespace CBSys.WinForm.Unity
             };
             parms[0].Value = pBarcode;
 
-            strSQL = "SELECT PID,Barcode,FID,FBillNo,OperatorId,Operator,Client,IP,MAC,Creator,CreationDate,Flag,Description  FROM Log_Operation WHERE Barcode = @Barcode";
+            _sql = "SELECT PID,Barcode,FID,FBillNo,OperatorId,Operator,Client,IP,MAC,Creator,CreationDate,Flag,Description  FROM Log_Operation WHERE Barcode = @Barcode";
 
-            DataTable dt = SQLHelper.ExecuteTable(strSQL, parms);
+            DataTable dt = SQLHelper.ExecuteTable(_sql, parms);
 
             if (dt == null || dt.Rows.Count == 0)
                 return null;
@@ -1125,16 +1133,16 @@ namespace CBSys.WinForm.Unity
             parms[3].Value = pFrom == null ? DateTime.Now.Date : pFrom;
             parms[4].Value = pTo == null ? DateTime.Now : pTo;
 
-            strSQL = "SELECT PID, Barcode, FID, FBillNo, OperatorId, Operator, Client, IP, MAC, Creator, CreationDate, Flag, Description  FROM Log_Operation WHERE CreationDate BETWEEN @From AND @To";
+            _sql = "SELECT PID, Barcode, FID, FBillNo, OperatorId, Operator, Client, IP, MAC, Creator, CreationDate, Flag, Description  FROM Log_Operation WHERE CreationDate BETWEEN @From AND @To";
             if (pBarcode != null && !pBarcode.Trim().Equals(string.Empty))
-                strSQL += " AND Barcode = @Barcode";
+                _sql += " AND Barcode = @Barcode";
             if (pFBillNo != null && !pFBillNo.Trim().Equals(string.Empty))
-                strSQL += " AND FBillNo = @FBillNo";
+                _sql += " AND FBillNo = @FBillNo";
             if (pOperator != null && !pOperator.Trim().Equals(string.Empty))
-                strSQL += " AND Operator = @Operator";
-            strSQL += " ORDER BY CreationDate DESC";
+                _sql += " AND Operator = @Operator";
+            _sql += " ORDER BY CreationDate DESC";
 
-            return SQLHelper.ExecuteTable(strSQL, parms);
+            return SQLHelper.ExecuteTable(_sql, parms);
         }
 
         /// <summary>
@@ -1171,10 +1179,10 @@ namespace CBSys.WinForm.Unity
             parms[8].Value = pOperation.Flag;
             parms[9].Value = pOperation.Description;
 
-            strSQL = @"INSERT INTO Log_Operation(Barcode,FID,FBillNo,OperatorId,Operator,Client,IP,MAC,Creator,CreationDate,Flag,Description)
+            _sql = @"INSERT INTO Log_Operation(Barcode,FID,FBillNo,OperatorId,Operator,Client,IP,MAC,Creator,CreationDate,Flag,Description)
             VALUES(@Barcode,@FID,@FBillNo,@OperatorId,@Operator,@Client,@IP,@MAC,@Operator,GETDATE(),@Flag,@Description)";
 
-            SQLHelper.ExecuteNonQuery(strSQL, parms);
+            SQLHelper.ExecuteNonQuery(_sql, parms);
         }
         #endregion
     }

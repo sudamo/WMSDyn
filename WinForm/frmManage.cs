@@ -344,6 +344,8 @@ namespace CBSys.WinForm
             }
 
             GetDataSource("Search");
+
+            bn_lblRLCount.Text = "图纸关联总数量：" + CommonFunc.GetDrawing_RL_Count();
         }
         private void Edit()
         {
@@ -402,7 +404,7 @@ namespace CBSys.WinForm
         }
         private void Export()
         {
-
+            
         }
     }
 }

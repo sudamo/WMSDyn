@@ -333,7 +333,7 @@ namespace CBSys.WinForm
                     Barcode = worksheet.Cells[i, 1] == null ? "" : worksheet.Cells[i, 1].Text;//条码
                     MTLNumber = worksheet.Cells[i, 2] == null ? "" : worksheet.Cells[i, 2].Text;//物料编码
 
-                    CatetoryId = worksheet.Cells[i, 2] == null ? 0 : int.Parse(worksheet.Cells[i, 3].Text);//版型类别
+                    CatetoryId = worksheet.Cells[i, 3] == null ? 0 : int.Parse(worksheet.Cells[i, 3].Text);//版型类别
                     bFlag = worksheet.Cells[i, 4].Text == "" ? false : bool.Parse(worksheet.Cells[i, 4].Text);//通用
                     F_PAEZ_TRADE = worksheet.Cells[i, 5].Text;//商品名
                     F_PAEZ_CARSERIES = worksheet.Cells[i, 6].Text;//车系
