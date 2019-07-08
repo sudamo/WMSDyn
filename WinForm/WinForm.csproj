@@ -39,7 +39,7 @@
     <MinimumRequiredVersion>1.0.0.3</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -126,6 +126,18 @@
     <Compile Include="frmManage.Designer.cs">
       <DependentUpon>frmManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmManage_RL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManage_RL.Designer.cs">
+      <DependentUpon>frmManage_RL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmManage_RL_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManage_RL_Edit.Designer.cs">
+      <DependentUpon>frmManage_RL_Edit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmRight.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +170,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmManage.resx">
       <DependentUpon>frmManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManage_RL.resx">
+      <DependentUpon>frmManage_RL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManage_RL_Edit.resx">
+      <DependentUpon>frmManage_RL_Edit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRight.resx">
       <DependentUpon>frmRight.cs</DependentUpon>

@@ -201,7 +201,7 @@ namespace CBSys.WinForm.Unity
         /// <param name="pFileName"></param>
         /// <param name="pGeneral"></param>
         /// <returns></returns>
-        internal static DataTable GetDrawing(string pFileName, bool? pFlag, int pIsNull)
+        internal static DataTable GetDrawing(string pFileName, bool? pFlag, int pIsNull, string pTrade)
         {
             if (!pFileName.Trim().Equals(string.Empty))
             {
@@ -210,6 +210,9 @@ namespace CBSys.WinForm.Unity
                 FROM BD_Drawing DR
                 LEFT JOIN BD_Drawing_RL RL ON RL.SourcePath = DR.SourcePath
                 WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%'";
+
+                if (!pTrade.Equals(string.Empty))
+                    _sql += " AND RL.F_PAEZ_TRADE LIKE '%" + pTrade + "%'";
 
                 if (pIsNull == 1)
                     _sql += " AND RL.F_PAEZ_TRADE IS NULL";
@@ -539,6 +542,57 @@ namespace CBSys.WinForm.Unity
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pTrade"></param>
+        /// <param name="pCarSeries"></param>
+        /// <param name="pCarType"></param>
+        /// <returns></returns>
+        internal static DataTable GetDrawing_RL(string pTrade, string pCarSeries, string pCarType)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@F_PAEZ_TRADE", SqlDbType.VarChar),
+                new SqlParameter("@F_PAEZ_CARSERIES", SqlDbType.VarChar),
+                new SqlParameter("@F_PAEZ_CARTYPE", SqlDbType.VarChar)
+            };
+            parms[0].Value = pTrade;
+            parms[1].Value = pCarSeries;
+            parms[2].Value = pCarType;
+
+            return SQLHelper.ExecuteTable("DM_GetDrawing_RL", CommandType.StoredProcedure, parms);
+        }
+
+        /// <summary>
+        /// 删除图纸关联关系
+        /// </summary>
+        /// <param name="pSourcePath"></param>
+        internal static void DeleteDrawing_RL(int pPID)
+        {
+            SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing_RL SET IsDelete = 1 WHERE PID = " + pPID);
+        }
+
+        /// <summary>
+        /// 清除无效图纸关联关系
+        /// </summary>
+        internal static void ClearDrawing_RL()
+        {
+            _sql = @"UPDATE rl SET rl.IsDelete = 1
+            FROM BD_Drawing_RL rl
+            LEFT JOIN BD_Drawing dr ON rl.SourcePath = dr.SourcePath
+            WHERE dr.PID is null AND rl.IsDelete = 0";
+
+            SQLHelper.ExecuteNonQuery(_sql);
+        }
+
+        internal static void EditDrawing_RL(int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
+        {
+            _sql = "UPDATE BD_Drawing_RL SET F_PAEZ_TRADE = '" + pTrade + "',F_PAEZ_CARSERIES = '" + pCarSeries + "',F_PAEZ_CARTYPE = '" + pCarType + "',SourcePath = '" + pSourcePath + "',CategoryId = " + pCategoryID + " WHERE PID = " + pPID;
+
+            SQLHelper.ExecuteNonQuery(_sql);
+        }
+
+        /// <summary>
         /// Merge MTLDrawing
         /// </summary>
         /// <param name="pMTLDrawingInf"></param>
@@ -555,12 +609,14 @@ namespace CBSys.WinForm.Unity
             USING
             (
              SELECT " + pMTLDrawingInf.CategoryId + " CategoryId,'" + pMTLDrawingInf.SourcePath + "' SourcePath,'" + pMTLDrawingInf.Barcode + "' Barcode," + pMTLDrawingInf.FMaterialId + " FMaterialId,'" + pMTLDrawingInf.FNumber + "' FNumber,'" + pMTLDrawingInf.F_PAEZ_TRADE + "' F_PAEZ_TRADE,'" + pMTLDrawingInf.F_PAEZ_CARSERIES + "' F_PAEZ_CARSERIES,'" + pMTLDrawingInf.F_PAEZ_CARTYPE + "' F_PAEZ_CARTYPE,1 Flag,'" + pMTLDrawingInf.Description + @"' Description
-            ) AS O ON T.SourcePath = O.SourcePath AND T.F_PAEZ_TRADE = O.F_PAEZ_TRADE AND T.F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES AND T.F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE
+            ) AS O 
+            ON T.SourcePath = O.SourcePath AND T.F_PAEZ_TRADE = O.F_PAEZ_TRADE AND T.F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES AND T.F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE
+            WHEN MATCHED AND T.IsDelete = 0
                 THEN UPDATE SET
-                CategoryId = O.CategoryId,Barcode = O.Barcode, FMaterialId = O.FMaterialId,FNumber = O.FNumber,Flag = O.Flag,Description = O.Description
+                CategoryId = O.CategoryId,Barcode = O.Barcode,FMaterialId = O.FMaterialId,FNumber = O.FNumber,Flag = O.Flag,Description = O.Description
             WHEN NOT MATCHED
                 THEN INSERT(CategoryId,SourcePath,Barcode,FMaterialId,FNumber,F_PAEZ_TRADE,F_PAEZ_CARSERIES,F_PAEZ_CARTYPE,Flag,Description)
-                VALUES(O.CategoryId, O.SourcePath, O.Barcode, O.FMaterialId, O.FNumber,O.F_PAEZ_TRADE, O.F_PAEZ_CARSERIES, O.F_PAEZ_CARTYPE, O.Flag,O.Description);";
+                VALUES(O.CategoryId,O.SourcePath,O.Barcode,O.FMaterialId,O.FNumber,O.F_PAEZ_TRADE,O.F_PAEZ_CARSERIES,O.F_PAEZ_CARTYPE,O.Flag,O.Description);";
 
             SQLHelper.ExecuteNonQuery(_sql);
         }

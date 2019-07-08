@@ -67,7 +67,10 @@ namespace CBSys.WinForm
                 //    tsmiTool_DownLoad.Enabled = true;
                 //
                 if (UserSetting.Drawing_RInf.Managers.Contains(UserSetting.UserInf.UserName))
+                {
                     tsmiTool_Manager.Enabled = true;
+                    tsmiTool_ManagerRL.Enabled = true;
+                }
             }
             else
             {
@@ -80,6 +83,7 @@ namespace CBSys.WinForm
                 tsmiTool_Upload.Enabled = true;
 
                 tsmiTool_Manager.Enabled = true;
+                tsmiTool_ManagerRL.Enabled = true;
 
                 bnTop_btnDownLoad.Enabled = true;
                 bnTop_btnBatDownLoad.Enabled = true;
@@ -434,6 +438,17 @@ namespace CBSys.WinForm
         {
             frmManage manage = new frmManage();
             manage.ShowDialog();
+        }
+
+        /// <summary>
+        /// 关联关系管理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiTool_ManagerRL_Click(object sender, EventArgs e)
+        {
+            frmManage_RL manage_rl = new frmManage_RL();
+            manage_rl.ShowDialog();
         }
         #endregion
 

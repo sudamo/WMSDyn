@@ -50,6 +50,7 @@ namespace CBSys.WinForm
 
                 //Set Static Fields
                 UserSetting.DB_ConnectionString = "Data Source=" + strSQL_IP + ";Initial Catalog=WMS;User ID=sa;Password=hncb2018,;Max Pool Size=1024;";
+                //UserSetting.DB_ConnectionString = "Data Source=.;Initial Catalog=WMS;User ID=sa;Password=123456;Max Pool Size=1024;";
                 UserSetting.K3CloudInf = new K3CloudInfo(strURL, strZTID, strUserName, strPWD, "");
 
                 UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : Unity.CommonFunc.GetUserInfoByName(strUserName);

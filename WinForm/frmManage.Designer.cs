@@ -31,13 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManage));
             this.dgv1 = new System.Windows.Forms.DataGridView();
-            this.bn1 = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bnBottom = new System.Windows.Forms.BindingNavigator(this.components);
             this.bt_tss1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
             this.bn_tss2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnNext = new System.Windows.Forms.ToolStripButton();
             this.bn_tss3 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
             this.bn_txtCurrentPage = new System.Windows.Forms.ToolStripTextBox();
             this.bn_lblSeparate = new System.Windows.Forms.ToolStripLabel();
             this.bn_lblPageCount = new System.Windows.Forms.ToolStripLabel();
@@ -45,6 +42,7 @@
             this.bn_lblPageSize = new System.Windows.Forms.ToolStripLabel();
             this.bn_tss4 = new System.Windows.Forms.ToolStripSeparator();
             this.bn_lblRecordCount = new System.Windows.Forms.ToolStripLabel();
+            this.bn_tss5 = new System.Windows.Forms.ToolStripSeparator();
             this.tt1 = new System.Windows.Forms.ToolTip(this.components);
             this.bnTop = new System.Windows.Forms.BindingNavigator(this.components);
             this.bnTop_lblName = new System.Windows.Forms.ToolStripLabel();
@@ -52,18 +50,21 @@
             this.bnTop_tss = new System.Windows.Forms.ToolStripSeparator();
             this.bnTop_cbxIsNull = new System.Windows.Forms.ToolStripComboBox();
             this.bnTop_tss2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bnTop_lblTrade = new System.Windows.Forms.ToolStripLabel();
+            this.bnTop_txtTrade = new System.Windows.Forms.ToolStripTextBox();
             this.bnTop_btnSearch = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnEdit = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnDelete = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnLock = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnUnLock = new System.Windows.Forms.ToolStripButton();
             this.bnTop_Export = new System.Windows.Forms.ToolStripButton();
+            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
+            this.btnNext = new System.Windows.Forms.ToolStripButton();
+            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
             this.bs1 = new System.Windows.Forms.BindingSource(this.components);
-            this.bn_tss5 = new System.Windows.Forms.ToolStripSeparator();
-            this.bn_lblRLCount = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bn1)).BeginInit();
-            this.bn1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bnBottom)).BeginInit();
+            this.bnBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bnTop)).BeginInit();
             this.bnTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bs1)).BeginInit();
@@ -78,24 +79,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv1.EnableHeadersVisualStyles = false;
             this.dgv1.Location = new System.Drawing.Point(0, 35);
-            this.dgv1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgv1.Margin = new System.Windows.Forms.Padding(4);
             this.dgv1.Name = "dgv1";
             this.dgv1.ReadOnly = true;
             this.dgv1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgv1.RowTemplate.Height = 23;
             this.dgv1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv1.Size = new System.Drawing.Size(1045, 632);
+            this.dgv1.Size = new System.Drawing.Size(1043, 651);
             this.dgv1.TabIndex = 1;
             this.dgv1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgv1_RowStateChanged);
             // 
-            // bn1
+            // bnBottom
             // 
-            this.bn1.AddNewItem = null;
-            this.bn1.CountItem = null;
-            this.bn1.DeleteItem = null;
-            this.bn1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bn1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.bn1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bnBottom.AddNewItem = null;
+            this.bnBottom.CountItem = null;
+            this.bnBottom.DeleteItem = null;
+            this.bnBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bnBottom.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.bnBottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bt_tss1,
             this.btnPrevious,
             this.bn_tss2,
@@ -109,68 +110,34 @@
             this.bn_lblPageSize,
             this.bn_tss4,
             this.bn_lblRecordCount,
-            this.bn_tss5,
-            this.bn_lblRLCount});
-            this.bn1.Location = new System.Drawing.Point(0, 674);
-            this.bn1.MoveFirstItem = null;
-            this.bn1.MoveLastItem = null;
-            this.bn1.MoveNextItem = null;
-            this.bn1.MovePreviousItem = null;
-            this.bn1.Name = "bn1";
-            this.bn1.PositionItem = null;
-            this.bn1.Size = new System.Drawing.Size(1045, 28);
-            this.bn1.TabIndex = 21;
-            this.bn1.Text = "bindingNavigator1";
-            this.tt1.SetToolTip(this.bn1, "分页导航");
-            this.bn1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bn1_ItemClicked);
+            this.bn_tss5});
+            this.bnBottom.Location = new System.Drawing.Point(0, 693);
+            this.bnBottom.MoveFirstItem = null;
+            this.bnBottom.MoveLastItem = null;
+            this.bnBottom.MoveNextItem = null;
+            this.bnBottom.MovePreviousItem = null;
+            this.bnBottom.Name = "bnBottom";
+            this.bnBottom.PositionItem = null;
+            this.bnBottom.Size = new System.Drawing.Size(1043, 28);
+            this.bnBottom.TabIndex = 21;
+            this.bnBottom.Text = "bindingNavigator1";
+            this.tt1.SetToolTip(this.bnBottom, "分页导航");
+            this.bnBottom.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnBottom_ItemClicked);
             // 
             // bt_tss1
             // 
             this.bt_tss1.Name = "bt_tss1";
             this.bt_tss1.Size = new System.Drawing.Size(6, 28);
             // 
-            // btnPrevious
-            // 
-            this.btnPrevious.AutoToolTip = false;
-            this.btnPrevious.BackColor = System.Drawing.SystemColors.Control;
-            this.btnPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPrevious.Image = global::CBSys.WinForm.Properties.Resources.resultset_previous;
-            this.btnPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(24, 25);
-            this.btnPrevious.Tag = "1";
-            // 
             // bn_tss2
             // 
             this.bn_tss2.Name = "bn_tss2";
             this.bn_tss2.Size = new System.Drawing.Size(6, 28);
             // 
-            // btnNext
-            // 
-            this.btnNext.AutoToolTip = false;
-            this.btnNext.BackColor = System.Drawing.SystemColors.Control;
-            this.btnNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNext.Image = global::CBSys.WinForm.Properties.Resources.resultset_next;
-            this.btnNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(24, 25);
-            this.btnNext.Tag = "2";
-            // 
             // bn_tss3
             // 
             this.bn_tss3.Name = "bn_tss3";
             this.bn_tss3.Size = new System.Drawing.Size(6, 28);
-            // 
-            // btnGotoPage
-            // 
-            this.btnGotoPage.AutoToolTip = false;
-            this.btnGotoPage.BackColor = System.Drawing.SystemColors.Control;
-            this.btnGotoPage.Image = global::CBSys.WinForm.Properties.Resources.arrow_redo;
-            this.btnGotoPage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnGotoPage.Name = "btnGotoPage";
-            this.btnGotoPage.Size = new System.Drawing.Size(78, 25);
-            this.btnGotoPage.Tag = "3";
-            this.btnGotoPage.Text = "跳转到";
             // 
             // bn_txtCurrentPage
             // 
@@ -217,6 +184,11 @@
             this.bn_lblRecordCount.Size = new System.Drawing.Size(84, 25);
             this.bn_lblRecordCount.Text = "@总记录数";
             // 
+            // bn_tss5
+            // 
+            this.bn_tss5.Name = "bn_tss5";
+            this.bn_tss5.Size = new System.Drawing.Size(6, 28);
+            // 
             // bnTop
             // 
             this.bnTop.AddNewItem = null;
@@ -226,6 +198,8 @@
             this.bnTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bnTop_lblName,
             this.bnTop_txtName,
+            this.bnTop_lblTrade,
+            this.bnTop_txtTrade,
             this.bnTop_tss,
             this.bnTop_cbxIsNull,
             this.bnTop_tss2,
@@ -242,7 +216,7 @@
             this.bnTop.MovePreviousItem = null;
             this.bnTop.Name = "bnTop";
             this.bnTop.PositionItem = null;
-            this.bnTop.Size = new System.Drawing.Size(1045, 28);
+            this.bnTop.Size = new System.Drawing.Size(1043, 28);
             this.bnTop.TabIndex = 22;
             this.bnTop.Text = "bindingNavigator1";
             this.bnTop.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnTop_ItemClicked);
@@ -257,7 +231,7 @@
             // bnTop_txtName
             // 
             this.bnTop_txtName.Name = "bnTop_txtName";
-            this.bnTop_txtName.Size = new System.Drawing.Size(199, 28);
+            this.bnTop_txtName.Size = new System.Drawing.Size(150, 28);
             // 
             // bnTop_tss
             // 
@@ -275,6 +249,17 @@
             // 
             this.bnTop_tss2.Name = "bnTop_tss2";
             this.bnTop_tss2.Size = new System.Drawing.Size(6, 28);
+            // 
+            // bnTop_lblTrade
+            // 
+            this.bnTop_lblTrade.Name = "bnTop_lblTrade";
+            this.bnTop_lblTrade.Size = new System.Drawing.Size(54, 25);
+            this.bnTop_lblTrade.Text = "商品名";
+            // 
+            // bnTop_txtTrade
+            // 
+            this.bnTop_txtTrade.Name = "bnTop_txtTrade";
+            this.bnTop_txtTrade.Size = new System.Drawing.Size(100, 28);
             // 
             // bnTop_btnSearch
             // 
@@ -332,27 +317,49 @@
             this.bnTop_Export.Tag = "6";
             this.bnTop_Export.Text = "导出报表";
             // 
-            // bn_tss5
+            // btnPrevious
             // 
-            this.bn_tss5.Name = "bn_tss5";
-            this.bn_tss5.Size = new System.Drawing.Size(6, 28);
+            this.btnPrevious.AutoToolTip = false;
+            this.btnPrevious.BackColor = System.Drawing.SystemColors.Control;
+            this.btnPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPrevious.Image = global::CBSys.WinForm.Properties.Resources.resultset_previous;
+            this.btnPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(24, 25);
+            this.btnPrevious.Tag = "1";
             // 
-            // bn_lblRLCount
+            // btnNext
             // 
-            this.bn_lblRLCount.Name = "bn_lblRLCount";
-            this.bn_lblRLCount.Size = new System.Drawing.Size(129, 25);
-            this.bn_lblRLCount.Text = "图纸关联总数量：";
+            this.btnNext.AutoToolTip = false;
+            this.btnNext.BackColor = System.Drawing.SystemColors.Control;
+            this.btnNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNext.Image = global::CBSys.WinForm.Properties.Resources.resultset_next;
+            this.btnNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(24, 25);
+            this.btnNext.Tag = "2";
+            // 
+            // btnGotoPage
+            // 
+            this.btnGotoPage.AutoToolTip = false;
+            this.btnGotoPage.BackColor = System.Drawing.SystemColors.Control;
+            this.btnGotoPage.Image = global::CBSys.WinForm.Properties.Resources.arrow_redo;
+            this.btnGotoPage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGotoPage.Name = "btnGotoPage";
+            this.btnGotoPage.Size = new System.Drawing.Size(78, 25);
+            this.btnGotoPage.Tag = "3";
+            this.btnGotoPage.Text = "跳转到";
             // 
             // frmManage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 702);
+            this.ClientSize = new System.Drawing.Size(1043, 721);
             this.Controls.Add(this.bnTop);
-            this.Controls.Add(this.bn1);
+            this.Controls.Add(this.bnBottom);
             this.Controls.Add(this.dgv1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1061, 738);
             this.Name = "frmManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -360,9 +367,9 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmManage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bn1)).EndInit();
-            this.bn1.ResumeLayout(false);
-            this.bn1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bnBottom)).EndInit();
+            this.bnBottom.ResumeLayout(false);
+            this.bnBottom.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bnTop)).EndInit();
             this.bnTop.ResumeLayout(false);
             this.bnTop.PerformLayout();
@@ -374,7 +381,7 @@
 
         #endregion
         private System.Windows.Forms.DataGridView dgv1;
-        private System.Windows.Forms.BindingNavigator bn1;
+        private System.Windows.Forms.BindingNavigator bnBottom;
         private System.Windows.Forms.ToolStripButton btnPrevious;
         private System.Windows.Forms.ToolStripSeparator bt_tss1;
         private System.Windows.Forms.ToolStripButton btnNext;
@@ -403,6 +410,7 @@
         private System.Windows.Forms.ToolStripComboBox bnTop_cbxIsNull;
         private System.Windows.Forms.ToolStripSeparator bnTop_tss2;
         private System.Windows.Forms.ToolStripSeparator bn_tss5;
-        private System.Windows.Forms.ToolStripLabel bn_lblRLCount;
+        private System.Windows.Forms.ToolStripLabel bnTop_lblTrade;
+        private System.Windows.Forms.ToolStripTextBox bnTop_txtTrade;
     }
 }

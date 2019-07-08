@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Data;
-using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using CBSys.WinForm.Unity;
 
 namespace CBSys.WinForm
 {
-    public partial class frmManage : Form
+    public partial class frmManage_RL : Form
     {
-        #region Fields,Properties,Constructs
         /// <summary>
         /// 从数据源的第iStart行开始取数据
         /// </summary>
@@ -45,40 +44,30 @@ namespace CBSys.WinForm
         /// 用于显示的数据
         /// </summary>
         private DataTable _DataTemp;
+
         /// <summary>
-        /// 构造函数
+        /// 
         /// </summary>
-        public frmManage()
+        public frmManage_RL()
         {
             InitializeComponent();
         }
-        /// <summary>
-        /// FromLoad
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmManage_Load(object sender, EventArgs e)
+
+        private void frmManage_RL_Load(object sender, EventArgs e)
         {
             FillCombobox();
         }
-        #endregion
-
         /// <summary>
         /// PageSize下拉框数据
         /// </summary>
         private void FillCombobox()
         {
-            DataTable dtBox, dtNull;
+            DataTable dtBox;
             DataRow dr;
 
             dtBox = new DataTable();
             dtBox.Columns.Add("FName");
             dtBox.Columns.Add("FValue");
-
-            dr = dtBox.NewRow();
-            dr["FName"] = "25";
-            dr["FValue"] = "25";
-            dtBox.Rows.Add(dr);
 
             dr = dtBox.NewRow();
             dr["FName"] = "50";
@@ -105,31 +94,6 @@ namespace CBSys.WinForm
             bn_cbxPageSize.ComboBox.ValueMember = "FValue";
             bn_cbxPageSize.ComboBox.SelectedIndex = 0;
 
-            //
-            dtNull = new DataTable();
-            dtNull.Columns.Add("FName");
-            dtNull.Columns.Add("FValue");
-
-            dr = dtNull.NewRow();
-            dr["FName"] = "全部";
-            dr["FValue"] = "-1";
-            dtNull.Rows.Add(dr);
-
-            dr = dtNull.NewRow();
-            dr["FName"] = "未关联";
-            dr["FValue"] = "0";
-            dtNull.Rows.Add(dr);
-
-            dr = dtNull.NewRow();
-            dr["FName"] = "已关联";
-            dr["FValue"] = "1";
-            dtNull.Rows.Add(dr);
-
-            bnTop_cbxIsNull.ComboBox.DataSource = dtNull;
-            bnTop_cbxIsNull.ComboBox.DisplayMember = "FName";
-            bnTop_cbxIsNull.ComboBox.ValueMember = "FValue";
-            bnTop_cbxIsNull.ComboBox.SelectedIndex = 0;
-
             _PageSize = int.Parse(bn_cbxPageSize.ComboBox.SelectedValue.ToString());
         }
 
@@ -141,7 +105,7 @@ namespace CBSys.WinForm
         {
             if (pType == "Search")//重新加载数据源
             {
-                _DataSource = CommonFunc.GetDrawing(bnTop_txtName.Text, null, bnTop_cbxIsNull.ComboBox.SelectedIndex, bnTop_txtTrade.Text.Trim());
+                _DataSource = CommonFunc.GetDrawing_RL(bnTop_txtTrade.Text.Trim(), bnTop_txtCarSeries.Text.Trim(), bnTop_txtCarType.Text.Trim());
 
                 if (_DataSource == null || _DataSource.Rows.Count == 0)
                 {
@@ -181,6 +145,72 @@ namespace CBSys.WinForm
             bs1.DataSource = _DataTemp;
             bnBottom.BindingSource = bs1;
             dgv1.DataSource = bs1;
+
+            dgv1.Columns[0].Visible = false;
+        }
+
+        private void bnTop_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem.Tag == null)
+                return;
+
+            switch (e.ClickedItem.Tag.ToString())
+            {
+                case "1":
+                    Search();
+                    break;
+                case "2":
+                    Edit(null, null);
+                    break;
+                case "3":
+                    Clear();
+                    break;
+                case "4":
+                    Delete();
+                    break;
+            }
+        }
+
+        private void Search()
+        {
+            GetDataSource("Search");
+            bn_lblRLCount.Text = "图纸关联总数量：" + CommonFunc.GetDrawing_RL_Count();
+        }
+        private void Edit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
+
+            int iPid = int.Parse(dgv1.CurrentRow.Cells[0].Value.ToString());
+            string strTrade = dgv1.CurrentRow.Cells[1].Value.ToString();
+            string strCarSeries = dgv1.CurrentRow.Cells[2].Value.ToString();
+            string strCarType = dgv1.CurrentRow.Cells[3].Value.ToString();
+            string strSourcePath = dgv1.CurrentRow.Cells[5].Value.ToString();
+            int iCategoryID = int.Parse(dgv1.CurrentRow.Cells[4].Value.ToString());
+
+            frmManage_RL_Edit frm = new frmManage_RL_Edit(iPid, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
+            frm.ShowDialog();
+        }
+        private void Clear()
+        {
+            if (MessageBox.Show("您确定要清除无效的图纸关联关系吗？", "清除无效关联关系", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                CommonFunc.ClearDrawing_RL();
+            }
+        }
+        private void Delete()
+        {
+            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
+                return;
+
+            if (MessageBox.Show("您确定要删除选中的关联关系吗？", "删除关联关系", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                for (int i = 0; i < dgv1.Rows.Count; i++)
+                {
+                    if (dgv1.Rows[i].Selected)
+                        CommonFunc.DeleteDrawing_RL(int.Parse(dgv1.Rows[i].Cells[0].Value.ToString()));
+                }
+            }
         }
 
         /// <summary>
@@ -239,52 +269,6 @@ namespace CBSys.WinForm
                     return;
             }
 
-            //if (e.ClickedItem.Text == "上一页(&P)")
-            //{
-            //    if (_CurrentPage - 1 <= 0)
-            //    {
-            //        MessageBox.Show("已经是第一页，请点击“下一页”查看！");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        _CurrentPage--;
-            //    }
-            //}
-            //else if (e.ClickedItem.Text == "下一页(&N)")
-            //{
-            //    if (_CurrentPage + 1 > _PageCount)
-            //    {
-            //        MessageBox.Show("已经是最后一页，请点击“上一页”查看！");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        _CurrentPage++;
-            //    }
-            //}
-            //else if (e.ClickedItem.Text == "跳转到(&G)")
-            //{
-            //    _reg = new Regex(@"^[0-9]*[1-9][0-9]*$");
-
-            //    if (!_reg.IsMatch(bn_txtCurrentPage.Text))
-            //    {
-            //        MessageBox.Show("输入的页码格式不正确！");
-            //        bn_txtCurrentPage.Focus();
-            //        bn_txtCurrentPage.Text = _PageCount.ToString();
-            //        bn_txtCurrentPage.Select(0, bn_txtCurrentPage.Text.Length);
-            //        return;
-            //    }
-            //    if (int.Parse(bn_txtCurrentPage.Text) > _PageCount)
-            //    {
-            //        MessageBox.Show("跳转页超过了总页数！");
-            //        return;
-            //    }
-            //    _CurrentPage = int.Parse(bn_txtCurrentPage.Text);
-            //}
-            //else
-            //    return;
-
             GetDataSource("Navi");
         }
 
@@ -298,6 +282,7 @@ namespace CBSys.WinForm
             e.Row.HeaderCell.Value = string.Format("{0}", e.Row.Index + 1);
         }
 
+
         private void bn_cbxPageSize_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -306,106 +291,6 @@ namespace CBSys.WinForm
                 GetDataSource("ChangePageSize");
             }
             catch { }
-        }
-
-        private void bnTop_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            if (e.ClickedItem.Tag == null)
-                return;
-
-            switch (e.ClickedItem.Tag.ToString())
-            {
-                case "1":
-                    Search();
-                    break;
-                case "2":
-                    Edit();
-                    break;
-                case "3":
-                    Delete();
-                    break;
-                case "4":
-                    Lock();
-                    break;
-                case "5":
-                    UnLock();
-                    break;
-                case "6":
-                    Export();
-                    break;
-            }
-        }
-
-        private void Search()
-        {
-            if (bnTop_txtName.Text.Trim().Equals(string.Empty))
-            {
-                MessageBox.Show("图纸名称不能为空。");
-                return;
-            }
-
-            GetDataSource("Search");
-
-            //bn_lblRLCount.Text = "图纸关联总数量：" + CommonFunc.GetDrawing_RL_Count();
-        }
-        private void Edit()
-        {
-
-        }
-        private void Delete()
-        {
-            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
-                return;
-
-            if (MessageBox.Show("您确定要删除选中的图纸吗？", "删除图纸", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                for (int i = 0; i < dgv1.Rows.Count; i++)
-                {
-                    if (dgv1.Rows[i].Selected)
-                        CommonFunc.DeleteDrawing(dgv1.Rows[i].Cells[7].Value.ToString());
-                }
-            }
-        }
-        private void Lock()
-        {
-            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
-                return;
-
-            if (MessageBox.Show("您确定要锁定选中的图纸吗？", "锁定图纸", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                for (int i = 0; i < dgv1.Rows.Count; i++)
-                {
-                    if (dgv1.Rows[i].Selected)
-                    {
-                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[7].Value.ToString(), true);
-                        dgv1.Rows[i].Cells[5].Value = "是";
-                    }
-                }
-            }
-            //CommonFunc.LockDrawing(dgv1.CurrentRow.Cells[7].Value.ToString(), true);
-
-            //dgv1.CurrentRow.Cells[5].Value = "是";
-        }
-        private void UnLock()
-        {
-            if (dgv1.DataSource == null || dgv1.Rows.Count == 0)
-                return;
-
-            if (MessageBox.Show("您确定要解锁选中的图纸吗？", "解锁图纸", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                for (int i = 0; i < dgv1.Rows.Count; i++)
-                {
-                    if (dgv1.Rows[i].Selected)
-                    {
-                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[7].Value.ToString(), false);
-                        dgv1.Rows[i].Cells[5].Value = "否";
-                    }
-                }
-            }
-        }
-        private void Export()
-        {
-            
         }
     }
 }

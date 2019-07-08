@@ -42,13 +42,14 @@
             this.tsmiTool = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_batchImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTool_Manager = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_tss1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTool_RLImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTool_ManagerRL = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_tss2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiTool_DownLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_Upload = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTool_tss3 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsmiTool_Manager = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiHelp_GetHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.tt1 = new System.Windows.Forms.ToolTip(this.components);
@@ -77,7 +78,8 @@
             this.tsmiHelp});
             this.msMail.Location = new System.Drawing.Point(0, 0);
             this.msMail.Name = "msMail";
-            this.msMail.Size = new System.Drawing.Size(814, 25);
+            this.msMail.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.msMail.Size = new System.Drawing.Size(1085, 28);
             this.msMail.TabIndex = 4;
             this.msMail.Text = "menuStrip1";
             // 
@@ -89,25 +91,25 @@
             this.tsmiFile_LogOut,
             this.tsmiFile_Exit});
             this.tsmiFile.Name = "tsmiFile";
-            this.tsmiFile.Size = new System.Drawing.Size(58, 21);
+            this.tsmiFile.Size = new System.Drawing.Size(69, 24);
             this.tsmiFile.Text = "文件(&F)";
             // 
             // tsmiFile_New
             // 
             this.tsmiFile_New.Enabled = false;
             this.tsmiFile_New.Name = "tsmiFile_New";
-            this.tsmiFile_New.Size = new System.Drawing.Size(155, 22);
+            this.tsmiFile_New.Size = new System.Drawing.Size(184, 26);
             this.tsmiFile_New.Text = "新建图纸(&N)";
             // 
             // tssFile1
             // 
             this.tssFile1.Name = "tssFile1";
-            this.tssFile1.Size = new System.Drawing.Size(152, 6);
+            this.tssFile1.Size = new System.Drawing.Size(181, 6);
             // 
             // tsmiFile_LogOut
             // 
             this.tsmiFile_LogOut.Name = "tsmiFile_LogOut";
-            this.tsmiFile_LogOut.Size = new System.Drawing.Size(155, 22);
+            this.tsmiFile_LogOut.Size = new System.Drawing.Size(184, 26);
             this.tsmiFile_LogOut.Text = "注销(Log&Out))";
             this.tsmiFile_LogOut.ToolTipText = "注销当前登陆用户并返回登陆窗口";
             this.tsmiFile_LogOut.Click += new System.EventHandler(this.tsmiFile_LogOut_Click);
@@ -115,7 +117,7 @@
             // tsmiFile_Exit
             // 
             this.tsmiFile_Exit.Name = "tsmiFile_Exit";
-            this.tsmiFile_Exit.Size = new System.Drawing.Size(155, 22);
+            this.tsmiFile_Exit.Size = new System.Drawing.Size(184, 26);
             this.tsmiFile_Exit.Text = "退出(&Exit)";
             this.tsmiFile_Exit.ToolTipText = "关闭所有窗口并退出程序";
             this.tsmiFile_Exit.Click += new System.EventHandler(this.tsmiFile_Exit_Click);
@@ -126,14 +128,14 @@
             this.tsmiSetting_Rigths,
             this.tsmiSetting_tss1});
             this.tsmiSetting.Name = "tsmiSetting";
-            this.tsmiSetting.Size = new System.Drawing.Size(59, 21);
+            this.tsmiSetting.Size = new System.Drawing.Size(70, 24);
             this.tsmiSetting.Text = "配置(&S)";
             // 
             // tsmiSetting_Rigths
             // 
             this.tsmiSetting_Rigths.Enabled = false;
             this.tsmiSetting_Rigths.Name = "tsmiSetting_Rigths";
-            this.tsmiSetting_Rigths.Size = new System.Drawing.Size(140, 22);
+            this.tsmiSetting_Rigths.Size = new System.Drawing.Size(164, 26);
             this.tsmiSetting_Rigths.Text = "权限分配(&R)";
             this.tsmiSetting_Rigths.ToolTipText = "分配图纸管理权限(Admin)";
             this.tsmiSetting_Rigths.Click += new System.EventHandler(this.tsmiSetting_Rigths_Click);
@@ -141,29 +143,30 @@
             // tsmiSetting_tss1
             // 
             this.tsmiSetting_tss1.Name = "tsmiSetting_tss1";
-            this.tsmiSetting_tss1.Size = new System.Drawing.Size(137, 6);
+            this.tsmiSetting_tss1.Size = new System.Drawing.Size(161, 6);
             // 
             // tsmiTool
             // 
             this.tsmiTool.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiTool_Import,
             this.tsmiTool_batchImport,
+            this.tsmiTool_Manager,
             this.tsmiTool_tss1,
             this.tsmiTool_RLImport,
+            this.tsmiTool_ManagerRL,
             this.tsmiTool_tss2,
             this.tsmiTool_DownLoad,
             this.tsmiTool_Upload,
-            this.tsmiTool_tss3,
-            this.tsmiTool_Manager});
+            this.tsmiTool_tss3});
             this.tsmiTool.Name = "tsmiTool";
-            this.tsmiTool.Size = new System.Drawing.Size(59, 21);
+            this.tsmiTool.Size = new System.Drawing.Size(70, 24);
             this.tsmiTool.Text = "工具(&T)";
             // 
             // tsmiTool_Import
             // 
             this.tsmiTool_Import.Enabled = false;
             this.tsmiTool_Import.Name = "tsmiTool_Import";
-            this.tsmiTool_Import.Size = new System.Drawing.Size(165, 22);
+            this.tsmiTool_Import.Size = new System.Drawing.Size(195, 26);
             this.tsmiTool_Import.Text = "上传图纸(&I)";
             this.tsmiTool_Import.ToolTipText = "上传单个图纸到数据库中";
             this.tsmiTool_Import.Click += new System.EventHandler(this.tsmiTool_Import_Click);
@@ -172,34 +175,52 @@
             // 
             this.tsmiTool_batchImport.Enabled = false;
             this.tsmiTool_batchImport.Name = "tsmiTool_batchImport";
-            this.tsmiTool_batchImport.Size = new System.Drawing.Size(165, 22);
+            this.tsmiTool_batchImport.Size = new System.Drawing.Size(195, 26);
             this.tsmiTool_batchImport.Text = "批量上传图纸(&B)";
             this.tsmiTool_batchImport.ToolTipText = "批量上传图纸到数据库中";
             this.tsmiTool_batchImport.Click += new System.EventHandler(this.tsmiTool_batchImport_Click);
             // 
+            // tsmiTool_Manager
+            // 
+            this.tsmiTool_Manager.Enabled = false;
+            this.tsmiTool_Manager.Name = "tsmiTool_Manager";
+            this.tsmiTool_Manager.Size = new System.Drawing.Size(195, 26);
+            this.tsmiTool_Manager.Text = "图纸管理(&M)";
+            this.tsmiTool_Manager.ToolTipText = "需要图纸管理权限";
+            this.tsmiTool_Manager.Click += new System.EventHandler(this.tsmiTool_Manager_Click);
+            // 
             // tsmiTool_tss1
             // 
             this.tsmiTool_tss1.Name = "tsmiTool_tss1";
-            this.tsmiTool_tss1.Size = new System.Drawing.Size(162, 6);
+            this.tsmiTool_tss1.Size = new System.Drawing.Size(192, 6);
             // 
             // tsmiTool_RLImport
             // 
             this.tsmiTool_RLImport.Enabled = false;
             this.tsmiTool_RLImport.Name = "tsmiTool_RLImport";
-            this.tsmiTool_RLImport.Size = new System.Drawing.Size(165, 22);
+            this.tsmiTool_RLImport.Size = new System.Drawing.Size(195, 26);
             this.tsmiTool_RLImport.Text = "上传图纸关联(&R)";
             this.tsmiTool_RLImport.ToolTipText = "根据模板上传图纸对应关系";
             this.tsmiTool_RLImport.Click += new System.EventHandler(this.smiTool_RLImport_Click);
             // 
+            // tsmiTool_ManagerRL
+            // 
+            this.tsmiTool_ManagerRL.Enabled = false;
+            this.tsmiTool_ManagerRL.Name = "tsmiTool_ManagerRL";
+            this.tsmiTool_ManagerRL.Size = new System.Drawing.Size(195, 26);
+            this.tsmiTool_ManagerRL.Text = "关联关系管理(&E)";
+            this.tsmiTool_ManagerRL.ToolTipText = "图纸关联关系管理";
+            this.tsmiTool_ManagerRL.Click += new System.EventHandler(this.tsmiTool_ManagerRL_Click);
+            // 
             // tsmiTool_tss2
             // 
             this.tsmiTool_tss2.Name = "tsmiTool_tss2";
-            this.tsmiTool_tss2.Size = new System.Drawing.Size(162, 6);
+            this.tsmiTool_tss2.Size = new System.Drawing.Size(192, 6);
             // 
             // tsmiTool_DownLoad
             // 
             this.tsmiTool_DownLoad.Name = "tsmiTool_DownLoad";
-            this.tsmiTool_DownLoad.Size = new System.Drawing.Size(165, 22);
+            this.tsmiTool_DownLoad.Size = new System.Drawing.Size(195, 26);
             this.tsmiTool_DownLoad.Text = "下载导入模板(&D)";
             this.tsmiTool_DownLoad.ToolTipText = "下载图纸关联模板到本地";
             this.tsmiTool_DownLoad.Click += new System.EventHandler(this.tsmiTool_DownLoad_Click);
@@ -208,7 +229,7 @@
             // 
             this.tsmiTool_Upload.Enabled = false;
             this.tsmiTool_Upload.Name = "tsmiTool_Upload";
-            this.tsmiTool_Upload.Size = new System.Drawing.Size(165, 22);
+            this.tsmiTool_Upload.Size = new System.Drawing.Size(195, 26);
             this.tsmiTool_Upload.Text = "上传导入模板(&U)";
             this.tsmiTool_Upload.ToolTipText = "更新关联关系导入模板(Admin)";
             this.tsmiTool_Upload.Click += new System.EventHandler(this.tsmiTool_Upload_Click);
@@ -216,30 +237,21 @@
             // tsmiTool_tss3
             // 
             this.tsmiTool_tss3.Name = "tsmiTool_tss3";
-            this.tsmiTool_tss3.Size = new System.Drawing.Size(162, 6);
-            // 
-            // tsmiTool_Manager
-            // 
-            this.tsmiTool_Manager.Enabled = false;
-            this.tsmiTool_Manager.Name = "tsmiTool_Manager";
-            this.tsmiTool_Manager.Size = new System.Drawing.Size(165, 22);
-            this.tsmiTool_Manager.Text = "图纸管理(&M)";
-            this.tsmiTool_Manager.ToolTipText = "需要图纸管理权限";
-            this.tsmiTool_Manager.Click += new System.EventHandler(this.tsmiTool_Manager_Click);
+            this.tsmiTool_tss3.Size = new System.Drawing.Size(192, 6);
             // 
             // tsmiHelp
             // 
             this.tsmiHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiHelp_GetHelp});
             this.tsmiHelp.Name = "tsmiHelp";
-            this.tsmiHelp.Size = new System.Drawing.Size(61, 21);
+            this.tsmiHelp.Size = new System.Drawing.Size(73, 24);
             this.tsmiHelp.Text = "帮助(&H)";
             // 
             // tsmiHelp_GetHelp
             // 
             this.tsmiHelp_GetHelp.Enabled = false;
             this.tsmiHelp_GetHelp.Name = "tsmiHelp_GetHelp";
-            this.tsmiHelp_GetHelp.Size = new System.Drawing.Size(124, 22);
+            this.tsmiHelp_GetHelp.Size = new System.Drawing.Size(144, 26);
             this.tsmiHelp_GetHelp.Text = "获取帮助";
             // 
             // tt1
@@ -255,15 +267,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgv1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv1.Location = new System.Drawing.Point(6, 52);
-            this.dgv1.Margin = new System.Windows.Forms.Padding(2);
+            this.dgv1.Location = new System.Drawing.Point(8, 65);
+            this.dgv1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgv1.MultiSelect = false;
             this.dgv1.Name = "dgv1";
             this.dgv1.ReadOnly = true;
             this.dgv1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToFirstHeader;
             this.dgv1.RowTemplate.Height = 27;
             this.dgv1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv1.Size = new System.Drawing.Size(801, 599);
+            this.dgv1.Size = new System.Drawing.Size(1068, 749);
             this.dgv1.TabIndex = 5;
             this.dgv1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv1_CellClick);
             this.dgv1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgv1_RowStateChanged);
@@ -273,6 +285,7 @@
             this.bnTop.AddNewItem = null;
             this.bnTop.CountItem = null;
             this.bnTop.DeleteItem = null;
+            this.bnTop.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.bnTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bnTop_lblBarcode,
             this.bnTop_txtBarcode,
@@ -281,14 +294,14 @@
             this.bnTop_btnOpen,
             this.bnTop_btnDownLoad,
             this.bnTop_btnBatDownLoad});
-            this.bnTop.Location = new System.Drawing.Point(0, 25);
+            this.bnTop.Location = new System.Drawing.Point(0, 28);
             this.bnTop.MoveFirstItem = null;
             this.bnTop.MoveLastItem = null;
             this.bnTop.MoveNextItem = null;
             this.bnTop.MovePreviousItem = null;
             this.bnTop.Name = "bnTop";
             this.bnTop.PositionItem = null;
-            this.bnTop.Size = new System.Drawing.Size(814, 25);
+            this.bnTop.Size = new System.Drawing.Size(1085, 27);
             this.bnTop.TabIndex = 6;
             this.bnTop.Text = "bnTop";
             this.bnTop.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnTop_ItemClicked);
@@ -296,25 +309,25 @@
             // bnTop_lblBarcode
             // 
             this.bnTop_lblBarcode.Name = "bnTop_lblBarcode";
-            this.bnTop_lblBarcode.Size = new System.Drawing.Size(44, 22);
+            this.bnTop_lblBarcode.Size = new System.Drawing.Size(54, 24);
             this.bnTop_lblBarcode.Text = "图纸：";
             // 
             // bnTop_txtBarcode
             // 
             this.bnTop_txtBarcode.Name = "bnTop_txtBarcode";
-            this.bnTop_txtBarcode.Size = new System.Drawing.Size(300, 25);
+            this.bnTop_txtBarcode.Size = new System.Drawing.Size(399, 27);
             // 
             // bnTop_tss
             // 
             this.bnTop_tss.Name = "bnTop_tss";
-            this.bnTop_tss.Size = new System.Drawing.Size(6, 25);
+            this.bnTop_tss.Size = new System.Drawing.Size(6, 27);
             // 
             // bnTop_btnSearch
             // 
             this.bnTop_btnSearch.Image = global::CBSys.WinForm.Properties.Resources.zoom;
             this.bnTop_btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnSearch.Name = "bnTop_btnSearch";
-            this.bnTop_btnSearch.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnSearch.Size = new System.Drawing.Size(63, 24);
             this.bnTop_btnSearch.Tag = "1";
             this.bnTop_btnSearch.Text = "查询";
             // 
@@ -323,7 +336,7 @@
             this.bnTop_btnOpen.Image = global::CBSys.WinForm.Properties.Resources.accept;
             this.bnTop_btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnOpen.Name = "bnTop_btnOpen";
-            this.bnTop_btnOpen.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnOpen.Size = new System.Drawing.Size(63, 24);
             this.bnTop_btnOpen.Tag = "2";
             this.bnTop_btnOpen.Text = "打开";
             // 
@@ -332,7 +345,7 @@
             this.bnTop_btnDownLoad.Image = global::CBSys.WinForm.Properties.Resources.table;
             this.bnTop_btnDownLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnDownLoad.Name = "bnTop_btnDownLoad";
-            this.bnTop_btnDownLoad.Size = new System.Drawing.Size(52, 22);
+            this.bnTop_btnDownLoad.Size = new System.Drawing.Size(63, 24);
             this.bnTop_btnDownLoad.Tag = "3";
             this.bnTop_btnDownLoad.Text = "下载";
             // 
@@ -341,21 +354,22 @@
             this.bnTop_btnBatDownLoad.Image = global::CBSys.WinForm.Properties.Resources.table_multiple;
             this.bnTop_btnBatDownLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnBatDownLoad.Name = "bnTop_btnBatDownLoad";
-            this.bnTop_btnBatDownLoad.Size = new System.Drawing.Size(76, 22);
+            this.bnTop_btnBatDownLoad.Size = new System.Drawing.Size(93, 24);
             this.bnTop_btnBatDownLoad.Tag = "4";
             this.bnTop_btnBatDownLoad.Text = "批量下载";
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 662);
+            this.ClientSize = new System.Drawing.Size(1085, 828);
             this.Controls.Add(this.bnTop);
             this.Controls.Add(this.dgv1);
             this.Controls.Add(this.msMail);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msMail;
-            this.MinimumSize = new System.Drawing.Size(830, 700);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(1101, 863);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "主窗体";
@@ -403,5 +417,6 @@
         private System.Windows.Forms.ToolStripButton bnTop_btnOpen;
         private System.Windows.Forms.ToolStripButton bnTop_btnDownLoad;
         private System.Windows.Forms.ToolStripButton bnTop_btnBatDownLoad;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTool_ManagerRL;
     }
 }
