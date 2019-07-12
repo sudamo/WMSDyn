@@ -10,6 +10,7 @@ namespace CBSys.WinForm
     /// </summary>
     public partial class frmManage_RL_Edit : Form
     {
+        #region Fields,Constructs
         private string _FormType;
         private int _PID;
         private string _Trade;
@@ -30,6 +31,7 @@ namespace CBSys.WinForm
 
             InitializeComponent();
         }
+        #endregion
 
         private void frmManage_RL_Edit_Load(object sender, EventArgs e)
         {
@@ -82,16 +84,6 @@ namespace CBSys.WinForm
             cbxCategory.DataSource = dtBox;
             cbxCategory.DisplayMember = "FName";
             cbxCategory.ValueMember = "FValue";
-        }
-
-        /// <summary>
-        /// 取消
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Close();
         }
 
         /// <summary>
@@ -148,6 +140,37 @@ namespace CBSys.WinForm
                 MessageBox.Show("保存成功!");
             }
             Close();
+        }
+
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbxCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {            
+            switch(cbxCategory.SelectedIndex)
+            {
+                case 0:
+                    lbl_Catetory_Tip.Text = "一码一图";
+                    break;
+                case 1:
+                    lbl_Catetory_Tip.Text = "一码两图,同时打开";
+                    break;
+                case 2:
+                    lbl_Catetory_Tip.Text = "一码两图,打开其一";
+                    break;
+            }
         }
     }
 }

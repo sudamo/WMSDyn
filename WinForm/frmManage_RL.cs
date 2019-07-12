@@ -177,6 +177,12 @@ namespace CBSys.WinForm
 
         private void Search()
         {
+            if (bnTop_txtTrade.Text.Trim().Equals(string.Empty) && bnTop_txtCarSeries.Text.Trim().Equals(string.Empty) && bnTop_txtCarType.Text.Trim().Equals(string.Empty))
+            {
+                MessageBox.Show("筛选条件不能都为空。");
+                return;
+            }
+
             GetDataSource("Search");
             bn_lblRLCount.Text = "图纸关联总数量：" + CommonFunc.GetDrawing_RL_Count();
         }

@@ -40,6 +40,7 @@
             this.bnTop_tss = new System.Windows.Forms.ToolStripSeparator();
             this.bnTop_btnSearch = new System.Windows.Forms.ToolStripButton();
             this.bnTop_tss2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bnTop_btnAdd = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnEdit = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnClear = new System.Windows.Forms.ToolStripButton();
             this.bnTop_btnDelete = new System.Windows.Forms.ToolStripButton();
@@ -63,7 +64,6 @@
             this.bs1 = new System.Windows.Forms.BindingSource(this.components);
             this.cms1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cms1_Copy = new System.Windows.Forms.ToolStripMenuItem();
-            this.bnTop_btnAdd = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.bnTop)).BeginInit();
             this.bnTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bnBottom)).BeginInit();
@@ -100,7 +100,7 @@
             this.bnTop.MovePreviousItem = null;
             this.bnTop.Name = "bnTop";
             this.bnTop.PositionItem = null;
-            this.bnTop.Size = new System.Drawing.Size(1006, 27);
+            this.bnTop.Size = new System.Drawing.Size(754, 27);
             this.bnTop.TabIndex = 23;
             this.bnTop.Text = "bindingNavigator1";
             this.bnTop.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnTop_ItemClicked);
@@ -108,36 +108,36 @@
             // bnTop_lblTrade
             // 
             this.bnTop_lblTrade.Name = "bnTop_lblTrade";
-            this.bnTop_lblTrade.Size = new System.Drawing.Size(54, 24);
+            this.bnTop_lblTrade.Size = new System.Drawing.Size(44, 24);
             this.bnTop_lblTrade.Text = "商品名";
             this.bnTop_lblTrade.ToolTipText = "图纸名称（包含）";
             // 
             // bnTop_txtTrade
             // 
             this.bnTop_txtTrade.Name = "bnTop_txtTrade";
-            this.bnTop_txtTrade.Size = new System.Drawing.Size(100, 27);
+            this.bnTop_txtTrade.Size = new System.Drawing.Size(76, 27);
             // 
             // bnTop_lblCarSeries
             // 
             this.bnTop_lblCarSeries.Name = "bnTop_lblCarSeries";
-            this.bnTop_lblCarSeries.Size = new System.Drawing.Size(39, 24);
+            this.bnTop_lblCarSeries.Size = new System.Drawing.Size(32, 24);
             this.bnTop_lblCarSeries.Text = "车系";
             // 
             // bnTop_txtCarSeries
             // 
             this.bnTop_txtCarSeries.Name = "bnTop_txtCarSeries";
-            this.bnTop_txtCarSeries.Size = new System.Drawing.Size(100, 27);
+            this.bnTop_txtCarSeries.Size = new System.Drawing.Size(76, 27);
             // 
             // bnTop_lblCarType
             // 
             this.bnTop_lblCarType.Name = "bnTop_lblCarType";
-            this.bnTop_lblCarType.Size = new System.Drawing.Size(39, 24);
+            this.bnTop_lblCarType.Size = new System.Drawing.Size(32, 24);
             this.bnTop_lblCarType.Text = "车型";
             // 
             // bnTop_txtCarType
             // 
             this.bnTop_txtCarType.Name = "bnTop_txtCarType";
-            this.bnTop_txtCarType.Size = new System.Drawing.Size(100, 27);
+            this.bnTop_txtCarType.Size = new System.Drawing.Size(76, 27);
             // 
             // bnTop_tss
             // 
@@ -149,7 +149,7 @@
             this.bnTop_btnSearch.Image = global::CBSys.WinForm.Properties.Resources.zoom;
             this.bnTop_btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnSearch.Name = "bnTop_btnSearch";
-            this.bnTop_btnSearch.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnSearch.Size = new System.Drawing.Size(56, 24);
             this.bnTop_btnSearch.Tag = "1";
             this.bnTop_btnSearch.Text = "查询";
             // 
@@ -158,12 +158,21 @@
             this.bnTop_tss2.Name = "bnTop_tss2";
             this.bnTop_tss2.Size = new System.Drawing.Size(6, 27);
             // 
+            // bnTop_btnAdd
+            // 
+            this.bnTop_btnAdd.Image = global::CBSys.WinForm.Properties.Resources.add;
+            this.bnTop_btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnAdd.Name = "bnTop_btnAdd";
+            this.bnTop_btnAdd.Size = new System.Drawing.Size(56, 24);
+            this.bnTop_btnAdd.Tag = "2";
+            this.bnTop_btnAdd.Text = "添加";
+            // 
             // bnTop_btnEdit
             // 
             this.bnTop_btnEdit.Image = global::CBSys.WinForm.Properties.Resources.book_edit;
             this.bnTop_btnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnEdit.Name = "bnTop_btnEdit";
-            this.bnTop_btnEdit.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnEdit.Size = new System.Drawing.Size(56, 24);
             this.bnTop_btnEdit.Tag = "3";
             this.bnTop_btnEdit.Text = "编辑";
             // 
@@ -172,7 +181,7 @@
             this.bnTop_btnClear.Image = global::CBSys.WinForm.Properties.Resources.book_delete;
             this.bnTop_btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnClear.Name = "bnTop_btnClear";
-            this.bnTop_btnClear.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnClear.Size = new System.Drawing.Size(56, 24);
             this.bnTop_btnClear.Tag = "4";
             this.bnTop_btnClear.Text = "清除";
             this.bnTop_btnClear.ToolTipText = "清除无效关联关系";
@@ -182,7 +191,7 @@
             this.bnTop_btnDelete.Image = global::CBSys.WinForm.Properties.Resources.delete;
             this.bnTop_btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.bnTop_btnDelete.Name = "bnTop_btnDelete";
-            this.bnTop_btnDelete.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnDelete.Size = new System.Drawing.Size(56, 24);
             this.bnTop_btnDelete.Tag = "5";
             this.bnTop_btnDelete.Text = "删除";
             this.bnTop_btnDelete.ToolTipText = "删除选中关联关系";
@@ -210,14 +219,14 @@
             this.bn_lblRecordCount,
             this.bn_tss5,
             this.bn_lblRLCount});
-            this.bnBottom.Location = new System.Drawing.Point(0, 693);
+            this.bnBottom.Location = new System.Drawing.Point(0, 550);
             this.bnBottom.MoveFirstItem = null;
             this.bnBottom.MoveLastItem = null;
             this.bnBottom.MoveNextItem = null;
             this.bnBottom.MovePreviousItem = null;
             this.bnBottom.Name = "bnBottom";
             this.bnBottom.PositionItem = null;
-            this.bnBottom.Size = new System.Drawing.Size(1006, 28);
+            this.bnBottom.Size = new System.Drawing.Size(754, 27);
             this.bnBottom.TabIndex = 24;
             this.bnBottom.Text = "bindingNavigator1";
             this.bnBottom.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.bnBottom_ItemClicked);
@@ -225,7 +234,7 @@
             // bt_tss1
             // 
             this.bt_tss1.Name = "bt_tss1";
-            this.bt_tss1.Size = new System.Drawing.Size(6, 28);
+            this.bt_tss1.Size = new System.Drawing.Size(6, 27);
             // 
             // btnPrevious
             // 
@@ -235,13 +244,13 @@
             this.btnPrevious.Image = global::CBSys.WinForm.Properties.Resources.resultset_previous;
             this.btnPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(24, 25);
+            this.btnPrevious.Size = new System.Drawing.Size(24, 24);
             this.btnPrevious.Tag = "1";
             // 
             // bn_tss2
             // 
             this.bn_tss2.Name = "bn_tss2";
-            this.bn_tss2.Size = new System.Drawing.Size(6, 28);
+            this.bn_tss2.Size = new System.Drawing.Size(6, 27);
             // 
             // btnNext
             // 
@@ -251,13 +260,13 @@
             this.btnNext.Image = global::CBSys.WinForm.Properties.Resources.resultset_next;
             this.btnNext.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(24, 25);
+            this.btnNext.Size = new System.Drawing.Size(24, 24);
             this.btnNext.Tag = "2";
             // 
             // bn_tss3
             // 
             this.bn_tss3.Name = "bn_tss3";
-            this.bn_tss3.Size = new System.Drawing.Size(6, 28);
+            this.bn_tss3.Size = new System.Drawing.Size(6, 27);
             // 
             // btnGotoPage
             // 
@@ -266,7 +275,7 @@
             this.btnGotoPage.Image = global::CBSys.WinForm.Properties.Resources.arrow_redo;
             this.btnGotoPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGotoPage.Name = "btnGotoPage";
-            this.btnGotoPage.Size = new System.Drawing.Size(78, 25);
+            this.btnGotoPage.Size = new System.Drawing.Size(68, 24);
             this.btnGotoPage.Tag = "3";
             this.btnGotoPage.Text = "跳转到";
             // 
@@ -274,18 +283,18 @@
             // 
             this.bn_txtCurrentPage.BackColor = System.Drawing.Color.LightGray;
             this.bn_txtCurrentPage.Name = "bn_txtCurrentPage";
-            this.bn_txtCurrentPage.Size = new System.Drawing.Size(52, 28);
+            this.bn_txtCurrentPage.Size = new System.Drawing.Size(40, 27);
             // 
             // bn_lblSeparate
             // 
             this.bn_lblSeparate.Name = "bn_lblSeparate";
-            this.bn_lblSeparate.Size = new System.Drawing.Size(53, 25);
+            this.bn_lblSeparate.Size = new System.Drawing.Size(45, 24);
             this.bn_lblSeparate.Text = "页 / 共";
             // 
             // bn_lblPageCount
             // 
             this.bn_lblPageCount.Name = "bn_lblPageCount";
-            this.bn_lblPageCount.Size = new System.Drawing.Size(69, 25);
+            this.bn_lblPageCount.Size = new System.Drawing.Size(56, 24);
             this.bn_lblPageCount.Text = "@总页数";
             // 
             // bn_cbxPageSize
@@ -294,36 +303,36 @@
             this.bn_cbxPageSize.BackColor = System.Drawing.SystemColors.Info;
             this.bn_cbxPageSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.bn_cbxPageSize.Name = "bn_cbxPageSize";
-            this.bn_cbxPageSize.Size = new System.Drawing.Size(99, 28);
+            this.bn_cbxPageSize.Size = new System.Drawing.Size(75, 27);
             this.bn_cbxPageSize.SelectedIndexChanged += new System.EventHandler(this.bn_cbxPageSize_SelectedIndexChanged);
             // 
             // bn_lblPageSize
             // 
             this.bn_lblPageSize.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.bn_lblPageSize.Name = "bn_lblPageSize";
-            this.bn_lblPageSize.Size = new System.Drawing.Size(69, 25);
+            this.bn_lblPageSize.Size = new System.Drawing.Size(56, 24);
             this.bn_lblPageSize.Text = "每页显示";
             // 
             // bn_tss4
             // 
             this.bn_tss4.Name = "bn_tss4";
-            this.bn_tss4.Size = new System.Drawing.Size(6, 28);
+            this.bn_tss4.Size = new System.Drawing.Size(6, 27);
             // 
             // bn_lblRecordCount
             // 
             this.bn_lblRecordCount.Name = "bn_lblRecordCount";
-            this.bn_lblRecordCount.Size = new System.Drawing.Size(84, 25);
+            this.bn_lblRecordCount.Size = new System.Drawing.Size(68, 24);
             this.bn_lblRecordCount.Text = "@总记录数";
             // 
             // bn_tss5
             // 
             this.bn_tss5.Name = "bn_tss5";
-            this.bn_tss5.Size = new System.Drawing.Size(6, 28);
+            this.bn_tss5.Size = new System.Drawing.Size(6, 27);
             // 
             // bn_lblRLCount
             // 
             this.bn_lblRLCount.Name = "bn_lblRLCount";
-            this.bn_lblRLCount.Size = new System.Drawing.Size(129, 25);
+            this.bn_lblRLCount.Size = new System.Drawing.Size(104, 24);
             this.bn_lblRLCount.Text = "图纸关联总数量：";
             // 
             // dgv1
@@ -334,14 +343,13 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv1.EnableHeadersVisualStyles = false;
-            this.dgv1.Location = new System.Drawing.Point(0, 31);
-            this.dgv1.Margin = new System.Windows.Forms.Padding(4);
+            this.dgv1.Location = new System.Drawing.Point(0, 25);
             this.dgv1.Name = "dgv1";
             this.dgv1.ReadOnly = true;
             this.dgv1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.dgv1.RowTemplate.Height = 23;
             this.dgv1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv1.Size = new System.Drawing.Size(993, 658);
+            this.dgv1.Size = new System.Drawing.Size(745, 526);
             this.dgv1.TabIndex = 25;
             this.dgv1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Edit);
             this.dgv1.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv1_RowHeaderMouseClick);
@@ -353,34 +361,27 @@
             this.cms1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cms1_Copy});
             this.cms1.Name = "cms1";
-            this.cms1.Size = new System.Drawing.Size(154, 28);
+            this.cms1.Size = new System.Drawing.Size(137, 26);
             // 
             // cms1_Copy
             // 
             this.cms1_Copy.Name = "cms1_Copy";
-            this.cms1_Copy.Size = new System.Drawing.Size(153, 24);
+            this.cms1_Copy.Size = new System.Drawing.Size(136, 22);
             this.cms1_Copy.Tag = "1";
             this.cms1_Copy.Text = "复制当前行";
             this.cms1_Copy.Click += new System.EventHandler(this.cms1_Copy_Click);
             // 
-            // bnTop_btnAdd
-            // 
-            this.bnTop_btnAdd.Image = global::CBSys.WinForm.Properties.Resources.add;
-            this.bnTop_btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bnTop_btnAdd.Name = "bnTop_btnAdd";
-            this.bnTop_btnAdd.Size = new System.Drawing.Size(63, 24);
-            this.bnTop_btnAdd.Tag = "2";
-            this.bnTop_btnAdd.Text = "添加";
-            // 
             // frmManage_RL
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 721);
+            this.ClientSize = new System.Drawing.Size(754, 577);
             this.Controls.Add(this.dgv1);
             this.Controls.Add(this.bnBottom);
             this.Controls.Add(this.bnTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MinimumSize = new System.Drawing.Size(770, 615);
             this.Name = "frmManage_RL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图纸关联关系管理";

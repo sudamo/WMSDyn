@@ -47,24 +47,27 @@
             // lblTrade
             // 
             this.lblTrade.AutoSize = true;
-            this.lblTrade.Location = new System.Drawing.Point(12, 26);
+            this.lblTrade.Location = new System.Drawing.Point(9, 21);
+            this.lblTrade.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTrade.Name = "lblTrade";
-            this.lblTrade.Size = new System.Drawing.Size(67, 15);
+            this.lblTrade.Size = new System.Drawing.Size(53, 12);
             this.lblTrade.TabIndex = 0;
             this.lblTrade.Text = "商品名：";
             // 
             // txtTrade
             // 
-            this.txtTrade.Location = new System.Drawing.Point(85, 23);
+            this.txtTrade.Location = new System.Drawing.Point(64, 18);
+            this.txtTrade.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTrade.Name = "txtTrade";
-            this.txtTrade.Size = new System.Drawing.Size(361, 25);
+            this.txtTrade.Size = new System.Drawing.Size(272, 21);
             this.txtTrade.TabIndex = 1;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(139, 336);
+            this.btnSave.Location = new System.Drawing.Point(100, 275);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 25);
+            this.btnSave.Size = new System.Drawing.Size(60, 25);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "保存(&S)";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -72,9 +75,10 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(258, 336);
+            this.btnCancel.Location = new System.Drawing.Point(200, 275);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 25);
+            this.btnCancel.Size = new System.Drawing.Size(60, 25);
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "取消(&C)";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -83,86 +87,96 @@
             // lblCarSeries
             // 
             this.lblCarSeries.AutoSize = true;
-            this.lblCarSeries.Location = new System.Drawing.Point(27, 57);
+            this.lblCarSeries.Location = new System.Drawing.Point(20, 46);
+            this.lblCarSeries.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCarSeries.Name = "lblCarSeries";
-            this.lblCarSeries.Size = new System.Drawing.Size(52, 15);
+            this.lblCarSeries.Size = new System.Drawing.Size(41, 12);
             this.lblCarSeries.TabIndex = 0;
             this.lblCarSeries.Text = "车系：";
             // 
             // txtCarSeries
             // 
-            this.txtCarSeries.Location = new System.Drawing.Point(85, 54);
+            this.txtCarSeries.Location = new System.Drawing.Point(64, 43);
+            this.txtCarSeries.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCarSeries.Name = "txtCarSeries";
-            this.txtCarSeries.Size = new System.Drawing.Size(361, 25);
+            this.txtCarSeries.Size = new System.Drawing.Size(272, 21);
             this.txtCarSeries.TabIndex = 2;
             // 
             // lblCarType
             // 
             this.lblCarType.AutoSize = true;
-            this.lblCarType.Location = new System.Drawing.Point(27, 88);
+            this.lblCarType.Location = new System.Drawing.Point(20, 70);
+            this.lblCarType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCarType.Name = "lblCarType";
-            this.lblCarType.Size = new System.Drawing.Size(52, 15);
+            this.lblCarType.Size = new System.Drawing.Size(41, 12);
             this.lblCarType.TabIndex = 0;
             this.lblCarType.Text = "车型：";
             // 
             // txtCarType
             // 
-            this.txtCarType.Location = new System.Drawing.Point(85, 85);
+            this.txtCarType.Location = new System.Drawing.Point(64, 68);
+            this.txtCarType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCarType.Name = "txtCarType";
-            this.txtCarType.Size = new System.Drawing.Size(361, 25);
+            this.txtCarType.Size = new System.Drawing.Size(272, 21);
             this.txtCarType.TabIndex = 3;
             // 
             // lblCategoryID
             // 
             this.lblCategoryID.AutoSize = true;
-            this.lblCategoryID.Location = new System.Drawing.Point(27, 119);
+            this.lblCategoryID.Location = new System.Drawing.Point(20, 95);
+            this.lblCategoryID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblCategoryID.Name = "lblCategoryID";
-            this.lblCategoryID.Size = new System.Drawing.Size(52, 15);
+            this.lblCategoryID.Size = new System.Drawing.Size(41, 12);
             this.lblCategoryID.TabIndex = 0;
             this.lblCategoryID.Text = "类别：";
             // 
             // lblSourcePath
             // 
             this.lblSourcePath.AutoSize = true;
-            this.lblSourcePath.Location = new System.Drawing.Point(12, 169);
+            this.lblSourcePath.Location = new System.Drawing.Point(8, 130);
+            this.lblSourcePath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSourcePath.Name = "lblSourcePath";
-            this.lblSourcePath.Size = new System.Drawing.Size(67, 15);
+            this.lblSourcePath.Size = new System.Drawing.Size(53, 12);
             this.lblSourcePath.TabIndex = 0;
             this.lblSourcePath.Text = "源路径：";
             // 
             // txtSourcePath
             // 
-            this.txtSourcePath.Location = new System.Drawing.Point(12, 187);
+            this.txtSourcePath.Location = new System.Drawing.Point(10, 144);
+            this.txtSourcePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtSourcePath.Multiline = true;
             this.txtSourcePath.Name = "txtSourcePath";
-            this.txtSourcePath.Size = new System.Drawing.Size(434, 143);
+            this.txtSourcePath.Size = new System.Drawing.Size(326, 115);
             this.txtSourcePath.TabIndex = 5;
             // 
             // cbxCategory
             // 
             this.cbxCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategory.FormattingEnabled = true;
-            this.cbxCategory.Location = new System.Drawing.Point(85, 116);
+            this.cbxCategory.Location = new System.Drawing.Point(64, 93);
+            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbxCategory.Name = "cbxCategory";
-            this.cbxCategory.Size = new System.Drawing.Size(104, 23);
+            this.cbxCategory.Size = new System.Drawing.Size(79, 20);
             this.cbxCategory.TabIndex = 4;
+            this.cbxCategory.SelectedIndexChanged += new System.EventHandler(this.cbxCategory_SelectedIndexChanged);
             // 
             // lbl_Catetory_Tip
             // 
             this.lbl_Catetory_Tip.AutoSize = true;
             this.lbl_Catetory_Tip.BackColor = System.Drawing.SystemColors.Control;
             this.lbl_Catetory_Tip.ForeColor = System.Drawing.Color.Red;
-            this.lbl_Catetory_Tip.Location = new System.Drawing.Point(9, 142);
+            this.lbl_Catetory_Tip.Location = new System.Drawing.Point(147, 95);
+            this.lbl_Catetory_Tip.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbl_Catetory_Tip.Name = "lbl_Catetory_Tip";
-            this.lbl_Catetory_Tip.Size = new System.Drawing.Size(415, 15);
+            this.lbl_Catetory_Tip.Size = new System.Drawing.Size(53, 12);
             this.lbl_Catetory_Tip.TabIndex = 8;
-            this.lbl_Catetory_Tip.Text = "1:一码一图；2:一码两图，同时打开；3:一码两图，打开其一";
+            this.lbl_Catetory_Tip.Text = "类别提示";
             // 
             // frmManage_RL_Edit
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 373);
+            this.ClientSize = new System.Drawing.Size(348, 306);
             this.ControlBox = false;
             this.Controls.Add(this.lbl_Catetory_Tip);
             this.Controls.Add(this.cbxCategory);
@@ -178,8 +192,9 @@
             this.Controls.Add(this.lblCarSeries);
             this.Controls.Add(this.lblTrade);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximumSize = new System.Drawing.Size(480, 420);
-            this.MinimumSize = new System.Drawing.Size(480, 420);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximumSize = new System.Drawing.Size(364, 344);
+            this.MinimumSize = new System.Drawing.Size(364, 344);
             this.Name = "frmManage_RL_Edit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图纸关联关系";
