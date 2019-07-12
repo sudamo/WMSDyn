@@ -585,9 +585,31 @@ namespace CBSys.WinForm.Unity
             SQLHelper.ExecuteNonQuery(_sql);
         }
 
-        internal static void EditDrawing_RL(int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
+        /// <summary>
+        /// 判断图纸管理关系中-商品名，车系，车型是否存在
+        /// </summary>
+        /// <param name="pTrade"></param>
+        /// <param name="pCarSeries"></param>
+        /// <param name="pCarType"></param>
+        /// <returns></returns>
+        internal static bool CheckDrawing_RL_UK(string pTrade, string pCarSeries, string pCarType)
         {
-            _sql = "UPDATE BD_Drawing_RL SET F_PAEZ_TRADE = '" + pTrade + "',F_PAEZ_CARSERIES = '" + pCarSeries + "',F_PAEZ_CARTYPE = '" + pCarType + "',SourcePath = '" + pSourcePath + "',CategoryId = " + pCategoryID + " WHERE PID = " + pPID;
+            _sql = "SELECT COUNT(*) FROM BD_Drawing_RL WHERE IsDelete = 0 AND F_PAEZ_TRADE = '" + pTrade + "' AND F_PAEZ_CARSERIES = '" + pCarSeries + "' AND F_PAEZ_CARTYPE = '" + pCarType + "'";
+
+            _obj = SQLHelper.ExecuteScalar(_sql);
+            if (_obj != null && _obj.ToString() != "0")
+                return false;
+            else
+                return true;
+        }
+
+        internal static void EditDrawing_RL(string pFromType, int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
+        {
+            if (pFromType == "Add")
+                _sql = @"INSERT INTO BD_Drawing_RL(CategoryId,SourcePath,F_PAEZ_TRADE,F_PAEZ_CARSERIES,F_PAEZ_CARTYPE)
+                VALUES(" + pCategoryID + ",'" + pSourcePath + "','" + pTrade + "','" + pCarSeries + "','" + pCarType + "')";
+            else if (pFromType == "Edit")
+                _sql = "UPDATE BD_Drawing_RL SET F_PAEZ_TRADE = '" + pTrade + "',F_PAEZ_CARSERIES = '" + pCarSeries + "',F_PAEZ_CARTYPE = '" + pCarType + "',SourcePath = '" + pSourcePath + "',CategoryId = " + pCategoryID + " WHERE PID = " + pPID;
 
             SQLHelper.ExecuteNonQuery(_sql);
         }

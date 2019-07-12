@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using CBSys.WinForm.Unity;
@@ -160,12 +161,15 @@ namespace CBSys.WinForm
                     Search();
                     break;
                 case "2":
-                    Edit(null, null);
+                    Add();
                     break;
                 case "3":
-                    Clear();
+                    Edit(null, null);
                     break;
                 case "4":
+                    Clear();
+                    break;
+                case "5":
                     Delete();
                     break;
             }
@@ -175,6 +179,11 @@ namespace CBSys.WinForm
         {
             GetDataSource("Search");
             bn_lblRLCount.Text = "图纸关联总数量：" + CommonFunc.GetDrawing_RL_Count();
+        }
+        private void Add()
+        {
+            frmManage_RL_Edit frm = new frmManage_RL_Edit("Add", 0, "", "", "", "", 1);
+            frm.ShowDialog();
         }
         private void Edit(object sender, DataGridViewCellEventArgs e)
         {
@@ -188,7 +197,7 @@ namespace CBSys.WinForm
             string strSourcePath = dgv1.CurrentRow.Cells[5].Value.ToString();
             int iCategoryID = int.Parse(dgv1.CurrentRow.Cells[4].Value.ToString());
 
-            frmManage_RL_Edit frm = new frmManage_RL_Edit(iPid, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
+            frmManage_RL_Edit frm = new frmManage_RL_Edit("Edit", iPid, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
             frm.ShowDialog();
         }
         private void Clear()
@@ -291,6 +300,30 @@ namespace CBSys.WinForm
                 GetDataSource("ChangePageSize");
             }
             catch { }
+        }
+
+        private void dgv1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
+
+            if (e.Button == MouseButtons.Right && e.RowIndex > -1)
+            {
+                Point _Point = dgv1.PointToClient(Cursor.Position);
+                cms1.Show(dgv1, _Point);
+            }
+        }
+
+        private void cms1_Copy_Click(object sender, EventArgs e)
+        {
+            string strTrade = dgv1.CurrentRow.Cells[1].Value.ToString();
+            string strCarSeries = dgv1.CurrentRow.Cells[2].Value.ToString();
+            string strCarType = dgv1.CurrentRow.Cells[3].Value.ToString();
+            string strSourcePath = dgv1.CurrentRow.Cells[5].Value.ToString();
+            int iCategoryID = int.Parse(dgv1.CurrentRow.Cells[4].Value.ToString());
+
+            frmManage_RL_Edit frm = new frmManage_RL_Edit("Add", 0, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
+            frm.ShowDialog();
         }
     }
 }

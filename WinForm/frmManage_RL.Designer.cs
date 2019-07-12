@@ -33,16 +33,23 @@
             this.bnTop = new System.Windows.Forms.BindingNavigator(this.components);
             this.bnTop_lblTrade = new System.Windows.Forms.ToolStripLabel();
             this.bnTop_txtTrade = new System.Windows.Forms.ToolStripTextBox();
-            this.bnTop_tss = new System.Windows.Forms.ToolStripSeparator();
-            this.bnTop_tss2 = new System.Windows.Forms.ToolStripSeparator();
-            this.bnTop_lblCarType = new System.Windows.Forms.ToolStripLabel();
-            this.bnTop_txtCarType = new System.Windows.Forms.ToolStripTextBox();
             this.bnTop_lblCarSeries = new System.Windows.Forms.ToolStripLabel();
             this.bnTop_txtCarSeries = new System.Windows.Forms.ToolStripTextBox();
+            this.bnTop_lblCarType = new System.Windows.Forms.ToolStripLabel();
+            this.bnTop_txtCarType = new System.Windows.Forms.ToolStripTextBox();
+            this.bnTop_tss = new System.Windows.Forms.ToolStripSeparator();
+            this.bnTop_btnSearch = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_tss2 = new System.Windows.Forms.ToolStripSeparator();
+            this.bnTop_btnEdit = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_btnClear = new System.Windows.Forms.ToolStripButton();
+            this.bnTop_btnDelete = new System.Windows.Forms.ToolStripButton();
             this.bnBottom = new System.Windows.Forms.BindingNavigator(this.components);
             this.bt_tss1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
             this.bn_tss2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnNext = new System.Windows.Forms.ToolStripButton();
             this.bn_tss3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
             this.bn_txtCurrentPage = new System.Windows.Forms.ToolStripTextBox();
             this.bn_lblSeparate = new System.Windows.Forms.ToolStripLabel();
             this.bn_lblPageCount = new System.Windows.Forms.ToolStripLabel();
@@ -53,20 +60,17 @@
             this.bn_tss5 = new System.Windows.Forms.ToolStripSeparator();
             this.bn_lblRLCount = new System.Windows.Forms.ToolStripLabel();
             this.dgv1 = new System.Windows.Forms.DataGridView();
-            this.btnPrevious = new System.Windows.Forms.ToolStripButton();
-            this.btnNext = new System.Windows.Forms.ToolStripButton();
-            this.btnGotoPage = new System.Windows.Forms.ToolStripButton();
-            this.bnTop_btnSearch = new System.Windows.Forms.ToolStripButton();
-            this.bnTop_btnEdit = new System.Windows.Forms.ToolStripButton();
-            this.bnTop_btnClear = new System.Windows.Forms.ToolStripButton();
-            this.bnTop_btnDelete = new System.Windows.Forms.ToolStripButton();
             this.bs1 = new System.Windows.Forms.BindingSource(this.components);
+            this.cms1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cms1_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.bnTop_btnAdd = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.bnTop)).BeginInit();
             this.bnTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bnBottom)).BeginInit();
             this.bnBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs1)).BeginInit();
+            this.cms1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bnTop
@@ -85,6 +89,7 @@
             this.bnTop_tss,
             this.bnTop_btnSearch,
             this.bnTop_tss2,
+            this.bnTop_btnAdd,
             this.bnTop_btnEdit,
             this.bnTop_btnClear,
             this.bnTop_btnDelete});
@@ -112,15 +117,16 @@
             this.bnTop_txtTrade.Name = "bnTop_txtTrade";
             this.bnTop_txtTrade.Size = new System.Drawing.Size(100, 27);
             // 
-            // bnTop_tss
+            // bnTop_lblCarSeries
             // 
-            this.bnTop_tss.Name = "bnTop_tss";
-            this.bnTop_tss.Size = new System.Drawing.Size(6, 27);
+            this.bnTop_lblCarSeries.Name = "bnTop_lblCarSeries";
+            this.bnTop_lblCarSeries.Size = new System.Drawing.Size(39, 24);
+            this.bnTop_lblCarSeries.Text = "车系";
             // 
-            // bnTop_tss2
+            // bnTop_txtCarSeries
             // 
-            this.bnTop_tss2.Name = "bnTop_tss2";
-            this.bnTop_tss2.Size = new System.Drawing.Size(6, 27);
+            this.bnTop_txtCarSeries.Name = "bnTop_txtCarSeries";
+            this.bnTop_txtCarSeries.Size = new System.Drawing.Size(100, 27);
             // 
             // bnTop_lblCarType
             // 
@@ -133,16 +139,53 @@
             this.bnTop_txtCarType.Name = "bnTop_txtCarType";
             this.bnTop_txtCarType.Size = new System.Drawing.Size(100, 27);
             // 
-            // bnTop_lblCarSeries
+            // bnTop_tss
             // 
-            this.bnTop_lblCarSeries.Name = "bnTop_lblCarSeries";
-            this.bnTop_lblCarSeries.Size = new System.Drawing.Size(39, 24);
-            this.bnTop_lblCarSeries.Text = "车系";
+            this.bnTop_tss.Name = "bnTop_tss";
+            this.bnTop_tss.Size = new System.Drawing.Size(6, 27);
             // 
-            // bnTop_txtCarSeries
+            // bnTop_btnSearch
             // 
-            this.bnTop_txtCarSeries.Name = "bnTop_txtCarSeries";
-            this.bnTop_txtCarSeries.Size = new System.Drawing.Size(100, 27);
+            this.bnTop_btnSearch.Image = global::CBSys.WinForm.Properties.Resources.zoom;
+            this.bnTop_btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnSearch.Name = "bnTop_btnSearch";
+            this.bnTop_btnSearch.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnSearch.Tag = "1";
+            this.bnTop_btnSearch.Text = "查询";
+            // 
+            // bnTop_tss2
+            // 
+            this.bnTop_tss2.Name = "bnTop_tss2";
+            this.bnTop_tss2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // bnTop_btnEdit
+            // 
+            this.bnTop_btnEdit.Image = global::CBSys.WinForm.Properties.Resources.book_edit;
+            this.bnTop_btnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnEdit.Name = "bnTop_btnEdit";
+            this.bnTop_btnEdit.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnEdit.Tag = "3";
+            this.bnTop_btnEdit.Text = "编辑";
+            // 
+            // bnTop_btnClear
+            // 
+            this.bnTop_btnClear.Image = global::CBSys.WinForm.Properties.Resources.book_delete;
+            this.bnTop_btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnClear.Name = "bnTop_btnClear";
+            this.bnTop_btnClear.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnClear.Tag = "4";
+            this.bnTop_btnClear.Text = "清除";
+            this.bnTop_btnClear.ToolTipText = "清除无效关联关系";
+            // 
+            // bnTop_btnDelete
+            // 
+            this.bnTop_btnDelete.Image = global::CBSys.WinForm.Properties.Resources.delete;
+            this.bnTop_btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnDelete.Name = "bnTop_btnDelete";
+            this.bnTop_btnDelete.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnDelete.Tag = "5";
+            this.bnTop_btnDelete.Text = "删除";
+            this.bnTop_btnDelete.ToolTipText = "删除选中关联关系";
             // 
             // bnBottom
             // 
@@ -184,15 +227,48 @@
             this.bt_tss1.Name = "bt_tss1";
             this.bt_tss1.Size = new System.Drawing.Size(6, 28);
             // 
+            // btnPrevious
+            // 
+            this.btnPrevious.AutoToolTip = false;
+            this.btnPrevious.BackColor = System.Drawing.SystemColors.Control;
+            this.btnPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPrevious.Image = global::CBSys.WinForm.Properties.Resources.resultset_previous;
+            this.btnPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(24, 25);
+            this.btnPrevious.Tag = "1";
+            // 
             // bn_tss2
             // 
             this.bn_tss2.Name = "bn_tss2";
             this.bn_tss2.Size = new System.Drawing.Size(6, 28);
             // 
+            // btnNext
+            // 
+            this.btnNext.AutoToolTip = false;
+            this.btnNext.BackColor = System.Drawing.SystemColors.Control;
+            this.btnNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNext.Image = global::CBSys.WinForm.Properties.Resources.resultset_next;
+            this.btnNext.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(24, 25);
+            this.btnNext.Tag = "2";
+            // 
             // bn_tss3
             // 
             this.bn_tss3.Name = "bn_tss3";
             this.bn_tss3.Size = new System.Drawing.Size(6, 28);
+            // 
+            // btnGotoPage
+            // 
+            this.btnGotoPage.AutoToolTip = false;
+            this.btnGotoPage.BackColor = System.Drawing.SystemColors.Control;
+            this.btnGotoPage.Image = global::CBSys.WinForm.Properties.Resources.arrow_redo;
+            this.btnGotoPage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGotoPage.Name = "btnGotoPage";
+            this.btnGotoPage.Size = new System.Drawing.Size(78, 25);
+            this.btnGotoPage.Tag = "3";
+            this.btnGotoPage.Text = "跳转到";
             // 
             // bn_txtCurrentPage
             // 
@@ -268,78 +344,33 @@
             this.dgv1.Size = new System.Drawing.Size(993, 658);
             this.dgv1.TabIndex = 25;
             this.dgv1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Edit);
+            this.dgv1.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv1_RowHeaderMouseClick);
             this.dgv1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgv1_RowStateChanged);
             // 
-            // btnPrevious
+            // cms1
             // 
-            this.btnPrevious.AutoToolTip = false;
-            this.btnPrevious.BackColor = System.Drawing.SystemColors.Control;
-            this.btnPrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPrevious.Image = global::CBSys.WinForm.Properties.Resources.resultset_previous;
-            this.btnPrevious.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(24, 25);
-            this.btnPrevious.Tag = "1";
+            this.cms1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cms1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cms1_Copy});
+            this.cms1.Name = "cms1";
+            this.cms1.Size = new System.Drawing.Size(154, 28);
             // 
-            // btnNext
+            // cms1_Copy
             // 
-            this.btnNext.AutoToolTip = false;
-            this.btnNext.BackColor = System.Drawing.SystemColors.Control;
-            this.btnNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNext.Image = global::CBSys.WinForm.Properties.Resources.resultset_next;
-            this.btnNext.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(24, 25);
-            this.btnNext.Tag = "2";
+            this.cms1_Copy.Name = "cms1_Copy";
+            this.cms1_Copy.Size = new System.Drawing.Size(153, 24);
+            this.cms1_Copy.Tag = "1";
+            this.cms1_Copy.Text = "复制当前行";
+            this.cms1_Copy.Click += new System.EventHandler(this.cms1_Copy_Click);
             // 
-            // btnGotoPage
+            // bnTop_btnAdd
             // 
-            this.btnGotoPage.AutoToolTip = false;
-            this.btnGotoPage.BackColor = System.Drawing.SystemColors.Control;
-            this.btnGotoPage.Image = global::CBSys.WinForm.Properties.Resources.arrow_redo;
-            this.btnGotoPage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnGotoPage.Name = "btnGotoPage";
-            this.btnGotoPage.Size = new System.Drawing.Size(78, 25);
-            this.btnGotoPage.Tag = "3";
-            this.btnGotoPage.Text = "跳转到";
-            // 
-            // bnTop_btnSearch
-            // 
-            this.bnTop_btnSearch.Image = global::CBSys.WinForm.Properties.Resources.zoom;
-            this.bnTop_btnSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bnTop_btnSearch.Name = "bnTop_btnSearch";
-            this.bnTop_btnSearch.Size = new System.Drawing.Size(63, 24);
-            this.bnTop_btnSearch.Tag = "1";
-            this.bnTop_btnSearch.Text = "查询";
-            // 
-            // bnTop_btnEdit
-            // 
-            this.bnTop_btnEdit.Image = global::CBSys.WinForm.Properties.Resources.book_edit;
-            this.bnTop_btnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bnTop_btnEdit.Name = "bnTop_btnEdit";
-            this.bnTop_btnEdit.Size = new System.Drawing.Size(63, 24);
-            this.bnTop_btnEdit.Tag = "2";
-            this.bnTop_btnEdit.Text = "编辑";
-            // 
-            // bnTop_btnClear
-            // 
-            this.bnTop_btnClear.Image = global::CBSys.WinForm.Properties.Resources.book_delete;
-            this.bnTop_btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bnTop_btnClear.Name = "bnTop_btnClear";
-            this.bnTop_btnClear.Size = new System.Drawing.Size(63, 24);
-            this.bnTop_btnClear.Tag = "3";
-            this.bnTop_btnClear.Text = "清除";
-            this.bnTop_btnClear.ToolTipText = "清除无效关联关系";
-            // 
-            // bnTop_btnDelete
-            // 
-            this.bnTop_btnDelete.Image = global::CBSys.WinForm.Properties.Resources.delete;
-            this.bnTop_btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bnTop_btnDelete.Name = "bnTop_btnDelete";
-            this.bnTop_btnDelete.Size = new System.Drawing.Size(63, 24);
-            this.bnTop_btnDelete.Tag = "4";
-            this.bnTop_btnDelete.Text = "删除";
-            this.bnTop_btnDelete.ToolTipText = "删除选中关联关系";
+            this.bnTop_btnAdd.Image = global::CBSys.WinForm.Properties.Resources.add;
+            this.bnTop_btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bnTop_btnAdd.Name = "bnTop_btnAdd";
+            this.bnTop_btnAdd.Size = new System.Drawing.Size(63, 24);
+            this.bnTop_btnAdd.Tag = "2";
+            this.bnTop_btnAdd.Text = "添加";
             // 
             // frmManage_RL
             // 
@@ -363,6 +394,7 @@
             this.bnBottom.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bs1)).EndInit();
+            this.cms1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -401,5 +433,8 @@
         private System.Windows.Forms.ToolStripLabel bn_lblRLCount;
         private System.Windows.Forms.DataGridView dgv1;
         private System.Windows.Forms.BindingSource bs1;
+        private System.Windows.Forms.ContextMenuStrip cms1;
+        private System.Windows.Forms.ToolStripMenuItem cms1_Copy;
+        private System.Windows.Forms.ToolStripButton bnTop_btnAdd;
     }
 }

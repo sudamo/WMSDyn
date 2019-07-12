@@ -10,6 +10,7 @@ namespace CBSys.WinForm
     /// </summary>
     public partial class frmManage_RL_Edit : Form
     {
+        private string _FormType;
         private int _PID;
         private string _Trade;
         private string _CarSeries;
@@ -17,9 +18,9 @@ namespace CBSys.WinForm
         private string _SourcePath;
         private int _CategoryID;
 
-
-        public frmManage_RL_Edit(int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
+        public frmManage_RL_Edit(string pFormType, int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
         {
+            _FormType = pFormType;
             _PID = pPID;
             _Trade = pTrade;
             _CarSeries = pCarSeries;
@@ -33,6 +34,15 @@ namespace CBSys.WinForm
         private void frmManage_RL_Edit_Load(object sender, EventArgs e)
         {
             FillCombobox();
+
+            if (_FormType == "Add")
+            {
+                Text = "图纸关联关系-新增";
+            }
+            else if (_FormType == "Edit")
+            {
+                Text = "图纸关联关系-编辑";
+            }
 
             txtTrade.Text = _Trade;
             txtCarSeries.Text = _CarSeries;
@@ -74,22 +84,69 @@ namespace CBSys.WinForm
             cbxCategory.ValueMember = "FValue";
         }
 
+        /// <summary>
+        /// 取消
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// 保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
-            _Trade = txtTrade.Text.Trim();
-            _CarSeries = txtCarSeries.Text.Trim();
-            _CarType = txtCarType.Text.Trim();
+            if (txtSourcePath.Text.Trim() == string.Empty || txtTrade.Text.Trim() == string.Empty || txtCarSeries.Text.Trim() == string.Empty || txtCarType.Text.Trim() == string.Empty)
+            {
+                MessageBox.Show("还有信息未填写，请检查。");
+                return;
+            }
+
             _SourcePath = txtSourcePath.Text.Trim();
             _CategoryID = int.Parse(cbxCategory.SelectedValue.ToString());
 
-            CommonFunc.EditDrawing_RL(_PID, _Trade, _CarSeries, _CarType, _SourcePath, _CategoryID);
+            if (_FormType == "Add")
+            {
+                _Trade = txtTrade.Text.Trim();
+                _CarSeries = txtCarSeries.Text.Trim();
+                _CarType = txtCarType.Text.Trim();
 
-            MessageBox.Show("保存成功!");
+                //先判断唯一性
+                if (CommonFunc.CheckDrawing_RL_UK(_Trade, _CarSeries, _CarType))
+                    CommonFunc.EditDrawing_RL("Add", 0, _Trade, _CarSeries, _CarType, _SourcePath, _CategoryID);
+                else
+                {
+                    MessageBox.Show("数据库中已经存在此商品名、车型、车型：[" + _Trade + "|" + _CarSeries + "|" + _CarType + "]");
+                    return;
+                }
+            }
+            else
+            {
+                if (!(_Trade == txtTrade.Text.Trim() && _CarSeries == txtCarSeries.Text.Trim() && _CarType == txtCarType.Text.Trim()))
+                {
+                    _Trade = txtTrade.Text.Trim();
+                    _CarSeries = txtCarSeries.Text.Trim();
+                    _CarType = txtCarType.Text.Trim();
+
+                    //先判断唯一性
+                    if (CommonFunc.CheckDrawing_RL_UK(_Trade, _CarSeries, _CarType))
+                        CommonFunc.EditDrawing_RL("Edit", _PID, _Trade, _CarSeries, _CarType, _SourcePath, _CategoryID);
+                    else
+                    {
+                        MessageBox.Show("数据库中已经存在此商品名、车型、车型：[" + _Trade + "|" + _CarSeries + "|" + _CarType + "]");
+                        return;
+                    }
+                }
+                else
+                    CommonFunc.EditDrawing_RL("Edit", _PID, _Trade, _CarSeries, _CarType, _SourcePath, _CategoryID);
+
+                MessageBox.Show("保存成功!");
+            }
             Close();
         }
     }

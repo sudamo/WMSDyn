@@ -41,6 +41,7 @@
             this.lblSourcePath = new System.Windows.Forms.Label();
             this.txtSourcePath = new System.Windows.Forms.TextBox();
             this.cbxCategory = new System.Windows.Forms.ComboBox();
+            this.lbl_Catetory_Tip = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblTrade
@@ -146,12 +147,24 @@
             this.cbxCategory.Size = new System.Drawing.Size(104, 23);
             this.cbxCategory.TabIndex = 4;
             // 
+            // lbl_Catetory_Tip
+            // 
+            this.lbl_Catetory_Tip.AutoSize = true;
+            this.lbl_Catetory_Tip.BackColor = System.Drawing.SystemColors.Control;
+            this.lbl_Catetory_Tip.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Catetory_Tip.Location = new System.Drawing.Point(9, 142);
+            this.lbl_Catetory_Tip.Name = "lbl_Catetory_Tip";
+            this.lbl_Catetory_Tip.Size = new System.Drawing.Size(415, 15);
+            this.lbl_Catetory_Tip.TabIndex = 8;
+            this.lbl_Catetory_Tip.Text = "1:一码一图；2:一码两图，同时打开；3:一码两图，打开其一";
+            // 
             // frmManage_RL_Edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(462, 373);
             this.ControlBox = false;
+            this.Controls.Add(this.lbl_Catetory_Tip);
             this.Controls.Add(this.cbxCategory);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -169,7 +182,7 @@
             this.MinimumSize = new System.Drawing.Size(480, 420);
             this.Name = "frmManage_RL_Edit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "图纸关联关系编辑";
+            this.Text = "图纸关联关系";
             this.Load += new System.EventHandler(this.frmManage_RL_Edit_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -190,5 +203,6 @@
         private System.Windows.Forms.Label lblSourcePath;
         private System.Windows.Forms.TextBox txtSourcePath;
         private System.Windows.Forms.ComboBox cbxCategory;
+        private System.Windows.Forms.Label lbl_Catetory_Tip;
     }
 }
