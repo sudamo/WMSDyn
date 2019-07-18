@@ -297,28 +297,28 @@ namespace CBSys.WinForm.Unity
             SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = '" + pSourcePath + "'");
         }
 
-        ///// <summary>
-        ///// 更新图纸-编辑
-        ///// </summary>
-        ///// <param name="pEntry"></param>
-        //internal static void UpdateDrawingForEidt(DrawingInfo pEntry)
-        //{
-        //    SqlParameter[] parms = new SqlParameter[]
-        //    {
-        //        new SqlParameter("@PID", SqlDbType.Int),
-        //        new SqlParameter("@FileName", SqlDbType.VarChar),
-        //        new SqlParameter("@SourcePath", SqlDbType.VarChar),
-        //        new SqlParameter("@Creator", SqlDbType.VarChar)
-        //    };
-        //    parms[0].Value = pEntry.PID;
-        //    parms[1].Value = pEntry.FileName;
-        //    parms[2].Value = pEntry.SourcePath;
-        //    parms[3].Value = pEntry.Creator;
+        /// <summary>
+        /// 更新图纸-编辑
+        /// </summary>
+        /// <param name="pEntry"></param>
+        internal static void UpdateDrawing(int pPID, string pFileName, string pSourcePath)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@PID", SqlDbType.Int),
+                new SqlParameter("@FileName", SqlDbType.VarChar),
+                new SqlParameter("@SourcePath", SqlDbType.VarChar),
+                new SqlParameter("@Creator", SqlDbType.VarChar)
+            };
+            parms[0].Value = pPID;
+            parms[1].Value = pFileName;
+            parms[2].Value = pSourcePath;
+            parms[3].Value = UserSetting.UserInf.UserName;
 
-        //    _sql = "UPDATE BD_Drawing SET FileName = @FileName,SourcePath = @SourcePath,Creator = @Creator,CreationDate = GETDATE(),Description = '修改-图纸替换' WHERE PID = @PID";
+            _sql = "UPDATE BD_Drawing SET FileName = @FileName,SourcePath = @SourcePath,Creator = @Creator,CreationDate = GETDATE(),Description = '修改-图纸更新' WHERE PID = @PID";
 
-        //    SQLHelper.ExecuteNonQuery(_sql, parms);
-        //}
+            SQLHelper.ExecuteNonQuery(_sql, parms);
+        }
 
         /// <summary>
         /// 更新图纸-导入
@@ -328,31 +328,38 @@ namespace CBSys.WinForm.Unity
         {
             SqlParameter[] parms = new SqlParameter[]
             {
+                new SqlParameter("@PID",SqlDbType.Int),
                 new SqlParameter("@FMaterialId",SqlDbType.Int),
                 new SqlParameter("@FNumber", SqlDbType.VarChar),
                 new SqlParameter("@FileName",SqlDbType.VarChar),
                 new SqlParameter("@FileSuffix",SqlDbType.VarChar),
-                new SqlParameter("@FileSize",SqlDbType.BigInt),
 
+                new SqlParameter("@FileSize",SqlDbType.BigInt),
                 new SqlParameter("@SourcePath",SqlDbType.VarChar),
                 new SqlParameter("@Creator",SqlDbType.VarChar),
                 new SqlParameter("@Description",SqlDbType.VarChar),
                 new SqlParameter("@Context",SqlDbType.Binary,pDrawingInf.Context.Length)
             };
-            parms[0].Value = pDrawingInf.FMaterialId;
-            parms[1].Value = pDrawingInf.FNumber;
-            parms[2].Value = pDrawingInf.FileName;
-            parms[3].Value = pDrawingInf.FileSuffix;
-            parms[4].Value = pDrawingInf.FileSize;
+            parms[0].Value = pDrawingInf.PID;
+            parms[1].Value = pDrawingInf.FMaterialId;
+            parms[2].Value = pDrawingInf.FNumber;
+            parms[3].Value = pDrawingInf.FileName;
+            parms[4].Value = pDrawingInf.FileSuffix;
 
-            parms[5].Value = pDrawingInf.SourcePath;
-            parms[6].Value = pDrawingInf.Creator;
-            parms[7].Value = pDrawingInf.Description;
-            parms[8].Value = pDrawingInf.Context;
+            parms[5].Value = pDrawingInf.FileSize;
+            parms[6].Value = pDrawingInf.SourcePath;
+            parms[7].Value = pDrawingInf.Creator;
+            parms[8].Value = pDrawingInf.Description;
+            parms[9].Value = pDrawingInf.Context;
 
-            _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
-            INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
-            VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
+            if (pDrawingInf.PID != 0)
+                _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE PID = @PID;
+                INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
+                VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
+            else
+                _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
+                INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
+                VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
 
             SQLHelper.ExecuteNonQuery(_sql, parms);
         }

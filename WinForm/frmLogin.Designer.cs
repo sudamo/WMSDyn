@@ -53,7 +53,7 @@
             // btnLogin
             // 
             this.btnLogin.Location = new System.Drawing.Point(60, 130);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(2);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(65, 27);
             this.btnLogin.TabIndex = 16;
@@ -75,7 +75,7 @@
             // 
             this.txtUser.Font = new System.Drawing.Font("宋体", 12F);
             this.txtUser.Location = new System.Drawing.Point(88, 60);
-            this.txtUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUser.Margin = new System.Windows.Forms.Padding(2);
             this.txtUser.Name = "txtUser";
             this.txtUser.Size = new System.Drawing.Size(100, 26);
             this.txtUser.TabIndex = 14;
@@ -85,7 +85,7 @@
             // 
             this.txtPWD.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPWD.Location = new System.Drawing.Point(88, 90);
-            this.txtPWD.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPWD.Margin = new System.Windows.Forms.Padding(2);
             this.txtPWD.Name = "txtPWD";
             this.txtPWD.PasswordChar = '*';
             this.txtPWD.Size = new System.Drawing.Size(100, 26);
@@ -150,6 +150,8 @@
             this.Controls.Add(this.txtPWD);
             this.Controls.Add(this.lblPWD);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(272, 224);
+            this.MinimumSize = new System.Drawing.Size(272, 224);
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "登录";

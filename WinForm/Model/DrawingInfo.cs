@@ -6,7 +6,7 @@ namespace CBSys.WinForm.Model
     {
         public DrawingInfo() { }
 
-        public DrawingInfo(int? pFMaterialId, string pFNumber, string pSourcePath, string pFileName, string pFileSuffix, long pFileSize, string pCreator, DateTime pCreationDate, bool pFlag, bool pIsDelete, string pDescription, byte[] pContext)
+        public DrawingInfo(int pPID,int? pFMaterialId, string pFNumber, string pSourcePath, string pFileName, string pFileSuffix, long pFileSize, string pCreator, DateTime pCreationDate, bool pFlag, bool pIsDelete, string pDescription, byte[] pContext)
         {
             _FMaterialId = pFMaterialId;
             _FNumber = pFNumber;

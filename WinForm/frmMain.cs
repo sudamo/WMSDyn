@@ -219,7 +219,7 @@ namespace CBSys.WinForm
                 FileSize = fs.Length;
                 fs.Close();
 
-                DrawingInfo DrawingInf = new DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, UserSetting.UserInf.UserName, DateTime.Now, false, false, "用户上传", Context);
+                DrawingInfo DrawingInf = new DrawingInfo(0, 0, "", SourcePath, FileName, FileSuffix, FileSize, UserSetting.UserInf.UserName, DateTime.Now, false, false, "用户上传", Context);
                 if (CommonFunc.Check_DrawingFileName(SourcePath))
                 {
                     CommonFunc.UpdateDrawing(DrawingInf);
@@ -264,7 +264,7 @@ namespace CBSys.WinForm
                     FileSize = fs.Length;
                     fs.Close();//?
 
-                    entry = new DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, "System", DateTime.Now, false, false, "批量导入", Context);
+                    entry = new DrawingInfo(0, 0, "", SourcePath, FileName, FileSuffix, FileSize, "System", DateTime.Now, false, false, "批量导入", Context);
 
                     try
                     {

@@ -50,7 +50,7 @@ namespace CBSys.WinForm
                 FileSize = fs.Length;
                 fs.Close();
 
-                _Entry = new DrawingInfo(0, "", SourcePath, FileName, FileSuffix, FileSize, UserSetting.UserInf.UserName, DateTime.Now, false, false, "修改-图纸替换", Context);
+                _Entry = new DrawingInfo(_PID, 0, "", SourcePath, FileName, FileSuffix, FileSize, UserSetting.UserInf.UserName, DateTime.Now, false, false, "修改-图纸替换", Context);
             }
         }
 
@@ -62,19 +62,11 @@ namespace CBSys.WinForm
                 return;
             }
 
-            //DrawingInfo entry = new DrawingInfo();
-
-            //entry.PID = _PID;
-            //entry.FileName = txtFileName.Text.Trim();
-            //entry.SourcePath = txtSourcePath.Text.Trim();
-            //entry.Creator = UserSetting.UserInf.UserName;
-
-            //CommonFunc.UpdateDrawingForEidt(entry);
-
             if (_Entry == null)
-                return;
+                CommonFunc.UpdateDrawing(_PID, txtFileName.Text.Trim(), txtSourcePath.Text.Trim());
+            else
+                CommonFunc.UpdateDrawing(_Entry);
 
-            CommonFunc.UpdateDrawing(_Entry);
             MessageBox.Show("更新成功。");
             DialogResult = DialogResult.OK;
             Close();

@@ -125,6 +125,7 @@
             this.MaximumSize = new System.Drawing.Size(365, 250);
             this.MinimumSize = new System.Drawing.Size(365, 250);
             this.Name = "frmManage_Edit";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图纸-编辑";
             this.Load += new System.EventHandler(this.frmManage_Edit_Load);
             this.ResumeLayout(false);
