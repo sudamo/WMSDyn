@@ -126,6 +126,12 @@
     <Compile Include="frmManage.Designer.cs">
       <DependentUpon>frmManage.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmManage_Edit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManage_Edit.Designer.cs">
+      <DependentUpon>frmManage_Edit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmManage_RL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmManage.resx">
       <DependentUpon>frmManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmManage_Edit.resx">
+      <DependentUpon>frmManage_Edit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmManage_RL.resx">
       <DependentUpon>frmManage_RL.cs</DependentUpon>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Data;
+using System.Data.SqlClient;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Data.SqlClient;
 using System.Net.NetworkInformation;
 using Microsoft.Win32;
 using Kingdee.BOS.WebApi.Client;
@@ -41,7 +41,7 @@ namespace CBSys.WinForm.Unity
             UserInfo entry;
             K3CloudApiClient client = new K3CloudApiClient(UserSetting.K3CloudInf.C_URL);
             bool bLogin = client.Login(UserSetting.K3CloudInf.C_ZTID, UserSetting.K3CloudInf.C_USERNAME, UserSetting.K3CloudInf.C_PWD, 2052);
-            string strJson = "{\"FormId\":\"BD_Empinfo\",\"FieldKeys\":\"FNAME,FNumber,FPERSONID,FSTAFFID,FPOSTDEPT\",\"FilterString\":\"FNAME = '" + UserSetting.K3CloudInf.C_USERNAME + "'\",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
+            string strJson = "{\"FormId\":\"BD_Empinfo\",\"FieldKeys\":\"FNAME,FNumber,FPERSONID,FSTAFFID,FPOSTDEPT,FUseOrgId\",\"FilterString\":\"FNAME = '" + UserSetting.K3CloudInf.C_USERNAME + "'\",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
 
             if (bLogin)
             {
@@ -55,6 +55,7 @@ namespace CBSys.WinForm.Unity
                     entry.PersonId = list[0][2] == null ? 0 : int.Parse(list[0][2].ToString());
                     entry.StaffId = list[0][3] == null ? 0 : int.Parse(list[0][3].ToString());
                     entry.FDeptId = list[0][4] == null ? 0 : int.Parse(list[0][4].ToString());
+                    entry.UseOrgId = list[0][5] == null ? 100508 : int.Parse(list[0][5].ToString());
                     return entry;
                 }
                 catch
@@ -205,7 +206,7 @@ namespace CBSys.WinForm.Unity
         {
             if (!pFileName.Trim().Equals(string.Empty))
             {
-                _sql = @"SELECT DR.[FileName] 图纸,ISNULL(RL.F_PAEZ_TRADE,'') 商品名,ISNULL(RL.F_PAEZ_CARSERIES,'') 车系,ISNULL(RL.F_PAEZ_CARTYPE,'') 车型,ISNULL(RL.CategoryId,'') 类型
+                _sql = @"SELECT DR.PID,DR.[FileName] 图纸,ISNULL(RL.F_PAEZ_TRADE,'') 商品名,ISNULL(RL.F_PAEZ_CARSERIES,'') 车系,ISNULL(RL.F_PAEZ_CARTYPE,'') 车型,ISNULL(RL.CategoryId,'') 类型
 	                ,CASE ISNULL(DR.Flag,0) WHEN 0 THEN '否' ELSE '是' END 锁定,DR.[Description] 描述,DR.SourcePath 源路
                 FROM BD_Drawing DR
                 LEFT JOIN BD_Drawing_RL RL ON RL.SourcePath = DR.SourcePath
@@ -235,182 +236,202 @@ namespace CBSys.WinForm.Unity
         /// <returns></returns>
         internal static DataTable GetDrawing(string pFileName, bool pGeneral, bool pArt, bool pCust)
         {
-            //string strJson;
-            //DataTable dtReturn;
-            //DataTable dtMTL = new DataTable();
-            //DataRow dr;
-            //dtMTL.Columns.Add("F_PAEZ_Trade");
+            if (UserSetting.IsFenChang)
+            {
+                SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@OrgId", SqlDbType.VarChar),
+                    new SqlParameter("@FileName", SqlDbType.VarChar),
+                    new SqlParameter("@General", SqlDbType.Bit),
+                    new SqlParameter("@Art", SqlDbType.Bit),
+                    new SqlParameter("@Cust", SqlDbType.Bit)
+                };
+                parms[0].Value = UserSetting.UserInf.UseOrgId.ToString();
+                parms[1].Value = pFileName;
+                parms[2].Value = pGeneral ? 1 : 0;
+                parms[3].Value = pArt ? 1 : 0;
+                parms[4].Value = pCust ? 1 : 0;
 
-            //dtMTL.Columns.Add("F_PAEZ_CarSeries");
-            //dtMTL.Columns.Add("F_PAEZ_CarType");
+                return SQLHelper.ExecuteTable("DM_GetDrawingByOrder", CommandType.StoredProcedure, parms);
+            }
+            else
+            {
+                SqlParameter[] parms = new SqlParameter[]
+                {
+                    new SqlParameter("@DeptId", SqlDbType.VarChar),
+                    new SqlParameter("@FileName", SqlDbType.VarChar),
+                    new SqlParameter("@General", SqlDbType.Bit),
+                    new SqlParameter("@Art", SqlDbType.Bit),
+                    new SqlParameter("@Cust", SqlDbType.Bit)
+                };
+                parms[0].Value = UserSetting.UserInf.FDeptId.ToString();
+                parms[1].Value = pFileName;
+                parms[2].Value = pGeneral ? 1 : 0;
+                parms[3].Value = pArt ? 1 : 0;
+                parms[4].Value = pCust ? 1 : 0;
 
-            //dtMTL.Columns.Add("F_PAEZ_UNICARSERIES");
-            //dtMTL.Columns.Add("F_PAEZ_UNICARTYPE");
+                return SQLHelper.ExecuteTable("DM_GetDrawingByDEPT", CommandType.StoredProcedure, parms);
+            }
+        }
 
-            //dtMTL.Columns.Add("F_PAEZ_ARTSCARSERIES");
-            //dtMTL.Columns.Add("F_PAEZ_ARTSCARTYPE");
+        /// <summary>
+        /// 检查Drawing文件名是否存在
+        /// </summary>
+        /// <param name="pSourcePath"></param>
+        /// <returns></returns>
+        internal static bool Check_DrawingFileName(string pSourcePath)
+        {
+            _obj = SQLHelper.ExecuteScalar("SELECT COUNT(*) FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
 
-            //dtMTL.Columns.Add("F_PAEZ_CUSTOMIZESERIES");
-            //dtMTL.Columns.Add("F_PAEZ_CUSTOMIZETYPE");
+            if ((int)_obj > 0) return true;
 
-            //dtMTL.Columns.Add("FPRODUCTIONSEQ");
-            //dtMTL.Columns.Add("FCUSTID");
-            //dtMTL.Columns.Add("FBILLNO");
-            //dtMTL.Columns.Add("FMATERIALID");
+            return false;
+        }
 
-            ////UserSetting.UserInf.FDeptId = 100699;//test
+        /// <summary>
+        /// 删除图纸
+        /// </summary>
+        /// <param name="pSourcePath"></param>
+        internal static void DeleteDrawing(string pSourcePath)
+        {
+            SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = '" + pSourcePath + "'");
+        }
 
-            //if (UserSetting.UserInf == null || UserSetting.UserInf.FDeptId == 0) return null;
-            //K3CloudApiClient client = new K3CloudApiClient(UserSetting.K3CloudInf.C_URL);
-            //DepartmentInfo entry = new DepartmentInfo();
-            //bool bLogin = client.Login(UserSetting.K3CloudInf.C_ZTID, UserSetting.K3CloudInf.C_USERNAME, UserSetting.K3CloudInf.C_PWD, 2052);
+        ///// <summary>
+        ///// 更新图纸-编辑
+        ///// </summary>
+        ///// <param name="pEntry"></param>
+        //internal static void UpdateDrawingForEidt(DrawingInfo pEntry)
+        //{
+        //    SqlParameter[] parms = new SqlParameter[]
+        //    {
+        //        new SqlParameter("@PID", SqlDbType.Int),
+        //        new SqlParameter("@FileName", SqlDbType.VarChar),
+        //        new SqlParameter("@SourcePath", SqlDbType.VarChar),
+        //        new SqlParameter("@Creator", SqlDbType.VarChar)
+        //    };
+        //    parms[0].Value = pEntry.PID;
+        //    parms[1].Value = pEntry.FileName;
+        //    parms[2].Value = pEntry.SourcePath;
+        //    parms[3].Value = pEntry.Creator;
 
-            //if (UserSetting.UserInf.UserName != "Administrator")
-            //    strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES.FDATAVALUE,F_PAEZ_UNICARTYPE.FDATAVALUE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE,FPRODUCTIONSEQ,FCUSTID.FName,FBillNo,FMATERIALID\",\"FilterString\":\"FStatus IN(3,4) AND FBillNo = 'MO038081' AND FWorkShopID=" + UserSetting.UserInf.FDeptId + " \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
-            //else
-            //    strJson = "{\"FormId\":\"PRD_MO\",\"FieldKeys\":\"F_PAEZ_Trade,F_PAEZ_CarSeries,F_PAEZ_CarType,F_PAEZ_UNICARSERIES.FDATAVALUE,F_PAEZ_UNICARTYPE.FDATAVALUE,F_PAEZ_ARTSCARSERIES,F_PAEZ_ARTSCARTYPE,F_PAEZ_CUSTOMIZESERIES,F_PAEZ_CUSTOMIZETYPE,FPRODUCTIONSEQ,FCUSTID.FName,FBillNo,FMATERIALID\",\"FilterString\":\"FStatus IN(3,4) \",\"OrderString\":\"\",\"TopRowCount\":\"0\",\"StartRow\":\"0\",\"Limit\":\"0\"}";
+        //    _sql = "UPDATE BD_Drawing SET FileName = @FileName,SourcePath = @SourcePath,Creator = @Creator,CreationDate = GETDATE(),Description = '修改-图纸替换' WHERE PID = @PID";
 
-            //if (bLogin)
-            //{
-            //    try
-            //    {
-            //        List<List<object>> list = client.ExecuteBillQuery(strJson);
-            //        if (list.Count > 0)
-            //        {
-            //            for (int i = 0; i < list.Count; i++)
-            //            {
-            //                dr = dtMTL.NewRow();
-            //                dr["F_PAEZ_Trade"] = list[i][0] == null ? "" : list[i][0].ToString();
-            //                dr["F_PAEZ_CarSeries"] = list[i][1] == null ? "" : list[i][1].ToString();
-            //                dr["F_PAEZ_CarType"] = list[i][2] == null ? "" : list[i][2].ToString();
-            //                dr["F_PAEZ_UNICARSERIES"] = list[i][3] == null ? "" : list[i][3].ToString();
-            //                dr["F_PAEZ_UNICARTYPE"] = list[i][4] == null ? "" : list[i][4].ToString();
-            //                dr["F_PAEZ_ARTSCARSERIES"] = list[i][5] == null ? "" : list[i][5].ToString();
-            //                dr["F_PAEZ_ARTSCARTYPE"] = list[i][6] == null ? "" : list[i][6].ToString();
-            //                dr["F_PAEZ_CUSTOMIZESERIES"] = list[i][7] == null ? "" : list[i][7].ToString();
-            //                dr["F_PAEZ_CUSTOMIZETYPE"] = list[i][8] == null ? "" : list[i][8].ToString();
-            //                dr["FPRODUCTIONSEQ"] = list[i][9] == null ? "" : list[i][9].ToString();
-            //                dr["FCUSTID"] = list[i][10] == null ? "" : list[i][10].ToString();
-            //                dr["FBILLNO"] = list[i][11] == null ? "" : list[i][11].ToString();
-            //                dr["FMATERIALID"] = list[i][12] == null ? "" : list[i][12].ToString();
+        //    SQLHelper.ExecuteNonQuery(_sql, parms);
+        //}
 
-            //                dtMTL.Rows.Add(dr);
-            //            }
-            //        }
-            //        else
-            //            return null;
-            //    }
-            //    catch(Exception ex)
-            //    {
-            //        return null;
-            //    }
-            //}
-
-            //DataView dv = dtMTL.DefaultView;
-            //dtMTL = dv.ToTable(true, new string[] { "F_PAEZ_Trade", "F_PAEZ_Carseries", "F_PAEZ_Cartype", "F_PAEZ_UNICARSERIES", "F_PAEZ_UNICARTYPE", "F_PAEZ_ARTSCARSERIES", "F_PAEZ_ARTSCARTYPE", "F_PAEZ_CUSTOMIZESERIES", "F_PAEZ_CUSTOMIZETYPE", "FPRODUCTIONSEQ", "FCUSTID", "FBILLNO" });
-
-            //if (pFileName.Equals(string.Empty))
-            //    strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,'' 生产订单号,'' 生产顺序号,'' 客户,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND (";
-            //else
-            //    strSQL = "SELECT DR.[FileName] 图纸,RL.F_PAEZ_TRADE 商品名,RL.F_PAEZ_CARSERIES 车系,RL.F_PAEZ_CARTYPE 车型,RL.CategoryId 类型,'' 生产订单号,'' 生产顺序号,'' 客户,DR.[Description] 描述,RL.SourcePath 源路径 FROM BD_Drawing_RL RL INNER JOIN BD_Drawing DR ON RL.SourcePath = DR.SourcePath WHERE DR.IsDelete = 0 AND DR.FileName LIKE '%" + pFileName + "%' AND (";
-
-            //for (int i = 0; i < dtMTL.Rows.Count; i++)
-            //{
-            //    if (dtMTL.Rows[i]["F_PAEZ_Trade"].ToString().Trim().Equals(string.Empty))
-            //        continue;
-
-            //    //if (!dtMTL.Rows[i]["F_PAEZ_CarSeries"].ToString().Trim().Equals(string.Empty))
-            //    if (pGeneral && !dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString().Trim().Equals(string.Empty))
-            //    {
-            //        strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_UNICARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_UNICARTYPE"].ToString() + "')OR";
-            //    }
-            //    else if (pArt && !dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString().Trim().Equals(string.Empty))
-            //    {
-            //        strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARSERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_ARTSCARTYPE"].ToString() + "')OR";
-            //    }
-            //    else if (pCust && !dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString().Trim().Equals(string.Empty))
-            //    {
-            //        strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZESERIES"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CUSTOMIZETYPE"].ToString() + "')OR";
-            //    }
-            //    else
-            //    {
-            //        strSQL += "(RL.F_PAEZ_TRADE='" + dtMTL.Rows[i]["F_PAEZ_Trade"].ToString() + "' AND RL.F_PAEZ_CARSERIES='" + dtMTL.Rows[i]["F_PAEZ_CarSeries"].ToString() + "' AND RL.F_PAEZ_CARTYPE='" + dtMTL.Rows[i]["F_PAEZ_CarType"].ToString() + "')OR";
-            //    }
-            //}
-
-            //strSQL = strSQL.Substring(0, strSQL.Length - 2);
-            //strSQL += ")";
-
-            //dtReturn = SQLHelper.ExecuteTable(strSQL);
-
-            //if (dtReturn == null || dtReturn.Rows.Count == 0)
-            //    return null;
-
-            //for (int i = 0; i < dtReturn.Rows.Count; i++)
-            //{
-            //    for (int j = 0; j < dtMTL.Rows.Count; j++)
-            //    {
-            //        if (!dtMTL.Rows[j]["F_PAEZ_CarSeries"].ToString().Trim().Equals(string.Empty))
-            //        {
-            //            if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_CarSeries"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_CarType"].ToString())
-            //            {
-            //                dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
-            //                dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
-            //                dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
-            //                break;
-            //            }
-            //        }
-            //        else if (pGeneral && !dtMTL.Rows[j]["F_PAEZ_UNICARSERIES"].ToString().Trim().Equals(string.Empty))
-            //        {
-            //            if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_UNICARSERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_UNICARTYPE"].ToString())
-            //            {
-            //                dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
-            //                dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
-            //                dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
-            //                break;
-            //            }
-            //        }
-            //        else if (pArt && !dtMTL.Rows[j]["F_PAEZ_ARTSCARSERIES"].ToString().Trim().Equals(string.Empty))
-            //        {
-            //            if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_ARTSCARSERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_ARTSCARTYPE"].ToString())
-            //            {
-            //                dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
-            //                dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
-            //                dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
-            //                break;
-            //            }
-            //        }
-            //        else if (pCust && !dtMTL.Rows[j]["F_PAEZ_CUSTOMIZESERIES"].ToString().Trim().Equals(string.Empty))
-            //        {
-            //            if (dtReturn.Rows[i]["商品名"].ToString() == dtMTL.Rows[j]["F_PAEZ_Trade"].ToString() && dtReturn.Rows[i]["车系"].ToString() == dtMTL.Rows[j]["F_PAEZ_CUSTOMIZESERIES"].ToString() && dtReturn.Rows[i]["车型"].ToString() == dtMTL.Rows[j]["F_PAEZ_CUSTOMIZETYPE"].ToString())
-            //            {
-            //                dtReturn.Rows[i]["生产订单号"] = dtMTL.Rows[j]["FBILLNO"];
-            //                dtReturn.Rows[i]["生产顺序号"] = dtMTL.Rows[j]["FPRODUCTIONSEQ"];
-            //                dtReturn.Rows[i]["客户"] = dtMTL.Rows[j]["FCUSTID"];
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-
-            //return dtReturn;
-
-            //20190520
+        /// <summary>
+        /// 更新图纸-导入
+        /// </summary>
+        /// <param name="pDrawingInf"></param>
+        internal static void UpdateDrawing(DrawingInfo pDrawingInf)
+        {
             SqlParameter[] parms = new SqlParameter[]
             {
-                new SqlParameter("@DeptId", SqlDbType.VarChar),
-                new SqlParameter("@FileName", SqlDbType.VarChar),
-                new SqlParameter("@General", SqlDbType.Bit),
-                new SqlParameter("@Art", SqlDbType.Bit),
-                new SqlParameter("@Cust", SqlDbType.Bit)
-            };
-            parms[0].Value = UserSetting.UserInf.FDeptId.ToString();
-            parms[1].Value = pFileName;
-            parms[2].Value = pGeneral ? 1 : 0;
-            parms[3].Value = pArt ? 1 : 0;
-            parms[4].Value = pCust ? 1 : 0;
+                new SqlParameter("@FMaterialId",SqlDbType.Int),
+                new SqlParameter("@FNumber", SqlDbType.VarChar),
+                new SqlParameter("@FileName",SqlDbType.VarChar),
+                new SqlParameter("@FileSuffix",SqlDbType.VarChar),
+                new SqlParameter("@FileSize",SqlDbType.BigInt),
 
-            return SQLHelper.ExecuteTable("DM_GetDrawingByDEPT", CommandType.StoredProcedure, parms);
+                new SqlParameter("@SourcePath",SqlDbType.VarChar),
+                new SqlParameter("@Creator",SqlDbType.VarChar),
+                new SqlParameter("@Description",SqlDbType.VarChar),
+                new SqlParameter("@Context",SqlDbType.Binary,pDrawingInf.Context.Length)
+            };
+            parms[0].Value = pDrawingInf.FMaterialId;
+            parms[1].Value = pDrawingInf.FNumber;
+            parms[2].Value = pDrawingInf.FileName;
+            parms[3].Value = pDrawingInf.FileSuffix;
+            parms[4].Value = pDrawingInf.FileSize;
+
+            parms[5].Value = pDrawingInf.SourcePath;
+            parms[6].Value = pDrawingInf.Creator;
+            parms[7].Value = pDrawingInf.Description;
+            parms[8].Value = pDrawingInf.Context;
+
+            _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
+            INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
+            VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
+
+            SQLHelper.ExecuteNonQuery(_sql, parms);
+        }
+
+        /// <summary>
+        /// 上传图纸
+        /// </summary>
+        /// <param name="pDrawingInf"></param>
+        internal static void UpLoadDrawing(DrawingInfo pDrawingInf)
+        {
+            SqlParameter[] parms = new SqlParameter[]
+            {
+                new SqlParameter("@FMaterialId",SqlDbType.Int),
+                new SqlParameter("@FNumber", SqlDbType.VarChar),
+                new SqlParameter("@FileName",SqlDbType.VarChar),
+                new SqlParameter("@FileSuffix",SqlDbType.VarChar),
+                new SqlParameter("@FileSize",SqlDbType.BigInt),
+
+                new SqlParameter("@SourcePath",SqlDbType.VarChar),
+                new SqlParameter("@Creator",SqlDbType.VarChar),
+                new SqlParameter("@Description",SqlDbType.VarChar),
+                new SqlParameter("@Context",SqlDbType.Binary,pDrawingInf.Context.Length)
+            };
+            parms[0].Value = pDrawingInf.FMaterialId;
+            parms[1].Value = pDrawingInf.FNumber;
+            parms[2].Value = pDrawingInf.FileName;
+            parms[3].Value = pDrawingInf.FileSuffix;
+            parms[4].Value = pDrawingInf.FileSize;
+
+            parms[5].Value = pDrawingInf.SourcePath;
+            parms[6].Value = pDrawingInf.Creator;
+            parms[7].Value = pDrawingInf.Description;
+            parms[8].Value = pDrawingInf.Context;
+
+            _sql = @"INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
+            VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context)";
+
+            SQLHelper.ExecuteNonQuery(_sql, parms);
+        }
+
+        /// <summary>
+        /// Merge MTLDrawing
+        /// </summary>
+        /// <param name="pMTLDrawingInf"></param>
+        internal static void MergeMTLDrawing(MTLDrawingInfo pMTLDrawingInf)
+        {
+            pMTLDrawingInf.Barcode = pMTLDrawingInf.Barcode == null ? "" : pMTLDrawingInf.Barcode;
+            pMTLDrawingInf.FNumber = pMTLDrawingInf.FNumber == null ? "" : pMTLDrawingInf.FNumber;
+            pMTLDrawingInf.F_PAEZ_TRADE = pMTLDrawingInf.F_PAEZ_TRADE == null ? "" : pMTLDrawingInf.F_PAEZ_TRADE;
+            pMTLDrawingInf.F_PAEZ_CARSERIES = pMTLDrawingInf.F_PAEZ_CARSERIES == null ? "" : pMTLDrawingInf.F_PAEZ_CARSERIES;
+            pMTLDrawingInf.F_PAEZ_CARTYPE = pMTLDrawingInf.F_PAEZ_CARTYPE == null ? "" : pMTLDrawingInf.F_PAEZ_CARTYPE;
+            pMTLDrawingInf.Description = pMTLDrawingInf.Description == null ? "" : pMTLDrawingInf.Description;
+
+            _sql = @"MERGE INTO BD_Drawing_RL AS T
+            USING
+            (
+             SELECT " + pMTLDrawingInf.CategoryId + " CategoryId,'" + pMTLDrawingInf.SourcePath + "' SourcePath,'" + pMTLDrawingInf.Barcode + "' Barcode," + pMTLDrawingInf.FMaterialId + " FMaterialId,'" + pMTLDrawingInf.FNumber + "' FNumber,'" + pMTLDrawingInf.F_PAEZ_TRADE + "' F_PAEZ_TRADE,'" + pMTLDrawingInf.F_PAEZ_CARSERIES + "' F_PAEZ_CARSERIES,'" + pMTLDrawingInf.F_PAEZ_CARTYPE + "' F_PAEZ_CARTYPE,1 Flag,'" + pMTLDrawingInf.Description + @"' Description
+            ) AS O 
+            ON T.SourcePath = O.SourcePath AND T.F_PAEZ_TRADE = O.F_PAEZ_TRADE AND T.F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES AND T.F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE
+            WHEN MATCHED AND T.IsDelete = 0
+                THEN UPDATE SET
+                CategoryId = O.CategoryId,Barcode = O.Barcode,FMaterialId = O.FMaterialId,FNumber = O.FNumber,Flag = O.Flag,Description = O.Description
+            WHEN NOT MATCHED
+                THEN INSERT(CategoryId,SourcePath,Barcode,FMaterialId,FNumber,F_PAEZ_TRADE,F_PAEZ_CARSERIES,F_PAEZ_CARTYPE,Flag,Description)
+                VALUES(O.CategoryId,O.SourcePath,O.Barcode,O.FMaterialId,O.FNumber,O.F_PAEZ_TRADE,O.F_PAEZ_CARSERIES,O.F_PAEZ_CARTYPE,O.Flag,O.Description);";
+
+            SQLHelper.ExecuteNonQuery(_sql);
+        }
+
+        /// <summary>
+        /// 修改图纸锁定状态
+        /// </summary>
+        /// <param name="pSourcePath"></param>
+        /// <param name="pStatus"></param>
+        internal static void LockDrawing(string pSourcePath, bool pStatus)
+        {
+            int iFlag = pStatus ? 1 : 0;
+
+            SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing SET Flag = " + iFlag + " WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
         }
 
         /// <summary>
@@ -458,80 +479,7 @@ namespace CBSys.WinForm.Unity
             _sql = "UPDATE BD_Drawing_R SET Managers = '" + UserSetting.Drawing_RInf.Managers + "',U_Users = '" + UserSetting.Drawing_RInf.U_Users + "',D_Users = '" + UserSetting.Drawing_RInf.D_Users + "',U_Users2 = '" + UserSetting.Drawing_RInf.U_Users2 + "' WHERE PID = " + UserSetting.Drawing_RInf.PID;
             SQLHelper.ExecuteNonQuery(_sql);
         }
-
-        /// <summary>
-        /// 上传图纸
-        /// </summary>
-        /// <param name="pDrawingInf"></param>
-        internal static void UpLoadDrawing(DrawingInfo pDrawingInf)
-        {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                new SqlParameter("@FMaterialId",SqlDbType.Int),
-                new SqlParameter("@FNumber", SqlDbType.VarChar),
-                new SqlParameter("@FileName",SqlDbType.VarChar),
-                new SqlParameter("@FileSuffix",SqlDbType.VarChar),
-                new SqlParameter("@FileSize",SqlDbType.BigInt),
-
-                new SqlParameter("@SourcePath",SqlDbType.VarChar),
-                new SqlParameter("@Creator",SqlDbType.VarChar),
-                new SqlParameter("@Description",SqlDbType.VarChar),
-                new SqlParameter("@Context",SqlDbType.Binary,pDrawingInf.Context.Length)
-            };
-            parms[0].Value = pDrawingInf.FMaterialId;
-            parms[1].Value = pDrawingInf.FNumber;
-            parms[2].Value = pDrawingInf.FileName;
-            parms[3].Value = pDrawingInf.FileSuffix;
-            parms[4].Value = pDrawingInf.FileSize;
-
-            parms[5].Value = pDrawingInf.SourcePath;
-            parms[6].Value = pDrawingInf.Creator;
-            parms[7].Value = pDrawingInf.Description;
-            parms[8].Value = pDrawingInf.Context;
-
-            _sql = @"INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
-            VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context)";
-
-            SQLHelper.ExecuteNonQuery(_sql, parms);
-        }
-
-        /// <summary>
-        /// 更新图纸
-        /// </summary>
-        /// <param name="pDrawingInf"></param>
-        internal static void UpdateDrawing(DrawingInfo pDrawingInf)
-        {
-            SqlParameter[] parms = new SqlParameter[]
-            {
-                new SqlParameter("@FMaterialId",SqlDbType.Int),
-                new SqlParameter("@FNumber", SqlDbType.VarChar),
-                new SqlParameter("@FileName",SqlDbType.VarChar),
-                new SqlParameter("@FileSuffix",SqlDbType.VarChar),
-                new SqlParameter("@FileSize",SqlDbType.BigInt),
-
-                new SqlParameter("@SourcePath",SqlDbType.VarChar),
-                new SqlParameter("@Creator",SqlDbType.VarChar),
-                new SqlParameter("@Description",SqlDbType.VarChar),
-                new SqlParameter("@Context",SqlDbType.Binary,pDrawingInf.Context.Length)
-            };
-            parms[0].Value = pDrawingInf.FMaterialId;
-            parms[1].Value = pDrawingInf.FNumber;
-            parms[2].Value = pDrawingInf.FileName;
-            parms[3].Value = pDrawingInf.FileSuffix;
-            parms[4].Value = pDrawingInf.FileSize;
-
-            parms[5].Value = pDrawingInf.SourcePath;
-            parms[6].Value = pDrawingInf.Creator;
-            parms[7].Value = pDrawingInf.Description;
-            parms[8].Value = pDrawingInf.Context;
-
-            _sql = @"UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = @SourcePath;
-            INSERT INTO BD_Drawing(FMaterialId,FNumber,FileName,FileSuffix,FileSize,SourcePath,Creator,Description,Context)
-            VALUES(@FMaterialId,@FNumber,@FileName,@FileSuffix,@FileSize,@SourcePath,@Creator,@Description,@Context);";
-
-            SQLHelper.ExecuteNonQuery(_sql, parms);
-        }
-
+        
         /// <summary>
         /// 图纸关联关系总数
         /// </summary>
@@ -603,6 +551,16 @@ namespace CBSys.WinForm.Unity
                 return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pFromType"></param>
+        /// <param name="pPID"></param>
+        /// <param name="pTrade"></param>
+        /// <param name="pCarSeries"></param>
+        /// <param name="pCarType"></param>
+        /// <param name="pSourcePath"></param>
+        /// <param name="pCategoryID"></param>
         internal static void EditDrawing_RL(string pFromType, int pPID, string pTrade, string pCarSeries, string pCarType, string pSourcePath, int pCategoryID)
         {
             if (pFromType == "Add")
@@ -612,70 +570,6 @@ namespace CBSys.WinForm.Unity
                 _sql = "UPDATE BD_Drawing_RL SET F_PAEZ_TRADE = '" + pTrade + "',F_PAEZ_CARSERIES = '" + pCarSeries + "',F_PAEZ_CARTYPE = '" + pCarType + "',SourcePath = '" + pSourcePath + "',CategoryId = " + pCategoryID + " WHERE PID = " + pPID;
 
             SQLHelper.ExecuteNonQuery(_sql);
-        }
-
-        /// <summary>
-        /// Merge MTLDrawing
-        /// </summary>
-        /// <param name="pMTLDrawingInf"></param>
-        internal static void MergeMTLDrawing(MTLDrawingInfo pMTLDrawingInf)
-        {
-            pMTLDrawingInf.Barcode = pMTLDrawingInf.Barcode == null ? "" : pMTLDrawingInf.Barcode;
-            pMTLDrawingInf.FNumber = pMTLDrawingInf.FNumber == null ? "" : pMTLDrawingInf.FNumber;
-            pMTLDrawingInf.F_PAEZ_TRADE = pMTLDrawingInf.F_PAEZ_TRADE == null ? "" : pMTLDrawingInf.F_PAEZ_TRADE;
-            pMTLDrawingInf.F_PAEZ_CARSERIES = pMTLDrawingInf.F_PAEZ_CARSERIES == null ? "" : pMTLDrawingInf.F_PAEZ_CARSERIES;
-            pMTLDrawingInf.F_PAEZ_CARTYPE = pMTLDrawingInf.F_PAEZ_CARTYPE == null ? "" : pMTLDrawingInf.F_PAEZ_CARTYPE;
-            pMTLDrawingInf.Description = pMTLDrawingInf.Description == null ? "" : pMTLDrawingInf.Description;
-
-            _sql = @"MERGE INTO BD_Drawing_RL AS T
-            USING
-            (
-             SELECT " + pMTLDrawingInf.CategoryId + " CategoryId,'" + pMTLDrawingInf.SourcePath + "' SourcePath,'" + pMTLDrawingInf.Barcode + "' Barcode," + pMTLDrawingInf.FMaterialId + " FMaterialId,'" + pMTLDrawingInf.FNumber + "' FNumber,'" + pMTLDrawingInf.F_PAEZ_TRADE + "' F_PAEZ_TRADE,'" + pMTLDrawingInf.F_PAEZ_CARSERIES + "' F_PAEZ_CARSERIES,'" + pMTLDrawingInf.F_PAEZ_CARTYPE + "' F_PAEZ_CARTYPE,1 Flag,'" + pMTLDrawingInf.Description + @"' Description
-            ) AS O 
-            ON T.SourcePath = O.SourcePath AND T.F_PAEZ_TRADE = O.F_PAEZ_TRADE AND T.F_PAEZ_CARSERIES = O.F_PAEZ_CARSERIES AND T.F_PAEZ_CARTYPE = O.F_PAEZ_CARTYPE
-            WHEN MATCHED AND T.IsDelete = 0
-                THEN UPDATE SET
-                CategoryId = O.CategoryId,Barcode = O.Barcode,FMaterialId = O.FMaterialId,FNumber = O.FNumber,Flag = O.Flag,Description = O.Description
-            WHEN NOT MATCHED
-                THEN INSERT(CategoryId,SourcePath,Barcode,FMaterialId,FNumber,F_PAEZ_TRADE,F_PAEZ_CARSERIES,F_PAEZ_CARTYPE,Flag,Description)
-                VALUES(O.CategoryId,O.SourcePath,O.Barcode,O.FMaterialId,O.FNumber,O.F_PAEZ_TRADE,O.F_PAEZ_CARSERIES,O.F_PAEZ_CARTYPE,O.Flag,O.Description);";
-
-            SQLHelper.ExecuteNonQuery(_sql);
-        }
-
-        /// <summary>
-        /// 检查Drawing文件名是否存在
-        /// </summary>
-        /// <param name="pSourcePath"></param>
-        /// <returns></returns>
-        internal static bool Check_DrawingFileName(string pSourcePath)
-        {
-            _obj = SQLHelper.ExecuteScalar("SELECT COUNT(*) FROM BD_Drawing WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
-
-            if ((int)_obj > 0) return true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// 删除图纸
-        /// </summary>
-        /// <param name="pSourcePath"></param>
-        internal static void DeleteDrawing(string pSourcePath)
-        {
-            SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing SET IsDelete = 1 WHERE SourcePath = '" + pSourcePath + "'");
-        }
-
-        /// <summary>
-        /// 修改图纸锁定状态
-        /// </summary>
-        /// <param name="pSourcePath"></param>
-        /// <param name="pStatus"></param>
-        internal static void LockDrawing(string pSourcePath, bool pStatus)
-        {
-            int iFlag = pStatus ? 1 : 0;
-
-            SQLHelper.ExecuteNonQuery("UPDATE BD_Drawing SET Flag = " + iFlag + " WHERE IsDelete = 0 AND SourcePath = '" + pSourcePath + "'");
         }
 
         /// <summary>

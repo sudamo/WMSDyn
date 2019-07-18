@@ -351,7 +351,6 @@
             this.dgv1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv1.Size = new System.Drawing.Size(745, 526);
             this.dgv1.TabIndex = 25;
-            this.dgv1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Edit);
             this.dgv1.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv1_RowHeaderMouseClick);
             this.dgv1.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgv1_RowStateChanged);
             // 
@@ -380,7 +379,7 @@
             this.Controls.Add(this.bnBottom);
             this.Controls.Add(this.bnTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(770, 615);
             this.Name = "frmManage_RL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

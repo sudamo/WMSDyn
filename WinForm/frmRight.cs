@@ -28,6 +28,14 @@ namespace CBSys.WinForm
             UserSetting.Drawing_RInf.U_Users2 = rtbU_RL.Text;
 
             Unity.CommonFunc.ModifyDrawing_RInfo();
+
+            MessageBox.Show("已经保存。");
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void WriteBox(object sender, EventArgs e)

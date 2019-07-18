@@ -139,6 +139,7 @@ namespace CBSys.WinForm
 
                 MessageBox.Show("保存成功!");
             }
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -149,6 +150,7 @@ namespace CBSys.WinForm
         /// <param name="e"></param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 

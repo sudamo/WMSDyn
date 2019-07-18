@@ -57,15 +57,15 @@
             // txtTrade
             // 
             this.txtTrade.Location = new System.Drawing.Point(64, 18);
-            this.txtTrade.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTrade.Margin = new System.Windows.Forms.Padding(2);
             this.txtTrade.Name = "txtTrade";
             this.txtTrade.Size = new System.Drawing.Size(272, 21);
             this.txtTrade.TabIndex = 1;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(100, 275);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSave.Location = new System.Drawing.Point(100, 280);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(60, 25);
             this.btnSave.TabIndex = 6;
@@ -75,8 +75,8 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(200, 275);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancel.Location = new System.Drawing.Point(200, 280);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(2);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(60, 25);
             this.btnCancel.TabIndex = 7;
@@ -97,7 +97,7 @@
             // txtCarSeries
             // 
             this.txtCarSeries.Location = new System.Drawing.Point(64, 43);
-            this.txtCarSeries.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCarSeries.Margin = new System.Windows.Forms.Padding(2);
             this.txtCarSeries.Name = "txtCarSeries";
             this.txtCarSeries.Size = new System.Drawing.Size(272, 21);
             this.txtCarSeries.TabIndex = 2;
@@ -115,7 +115,7 @@
             // txtCarType
             // 
             this.txtCarType.Location = new System.Drawing.Point(64, 68);
-            this.txtCarType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCarType.Margin = new System.Windows.Forms.Padding(2);
             this.txtCarType.Name = "txtCarType";
             this.txtCarType.Size = new System.Drawing.Size(272, 21);
             this.txtCarType.TabIndex = 3;
@@ -143,10 +143,10 @@
             // txtSourcePath
             // 
             this.txtSourcePath.Location = new System.Drawing.Point(10, 144);
-            this.txtSourcePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSourcePath.Margin = new System.Windows.Forms.Padding(2);
             this.txtSourcePath.Multiline = true;
             this.txtSourcePath.Name = "txtSourcePath";
-            this.txtSourcePath.Size = new System.Drawing.Size(326, 115);
+            this.txtSourcePath.Size = new System.Drawing.Size(326, 100);
             this.txtSourcePath.TabIndex = 5;
             // 
             // cbxCategory
@@ -154,7 +154,7 @@
             this.cbxCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategory.FormattingEnabled = true;
             this.cbxCategory.Location = new System.Drawing.Point(64, 93);
-            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbxCategory.Margin = new System.Windows.Forms.Padding(2);
             this.cbxCategory.Name = "cbxCategory";
             this.cbxCategory.Size = new System.Drawing.Size(79, 20);
             this.cbxCategory.TabIndex = 4;
@@ -176,7 +176,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 306);
+            this.ClientSize = new System.Drawing.Size(349, 312);
             this.ControlBox = false;
             this.Controls.Add(this.lbl_Catetory_Tip);
             this.Controls.Add(this.cbxCategory);
@@ -192,9 +192,9 @@
             this.Controls.Add(this.lblCarSeries);
             this.Controls.Add(this.lblTrade);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.MaximumSize = new System.Drawing.Size(364, 344);
-            this.MinimumSize = new System.Drawing.Size(364, 344);
+            this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximumSize = new System.Drawing.Size(365, 350);
+            this.MinimumSize = new System.Drawing.Size(365, 350);
             this.Name = "frmManage_RL_Edit";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "图纸关联关系";

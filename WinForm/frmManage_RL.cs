@@ -164,7 +164,7 @@ namespace CBSys.WinForm
                     Add();
                     break;
                 case "3":
-                    Edit(null, null);
+                    Edit();
                     break;
                 case "4":
                     Clear();
@@ -190,8 +190,11 @@ namespace CBSys.WinForm
         {
             frmManage_RL_Edit frm = new frmManage_RL_Edit("Add", 0, "", "", "", "", 1);
             frm.ShowDialog();
+
+            if (frm.DialogResult != DialogResult.Cancel)
+                Search();
         }
-        private void Edit(object sender, DataGridViewCellEventArgs e)
+        private void Edit()
         {
             if (dgv1 == null || dgv1.Rows.Count == 0)
                 return;
@@ -205,6 +208,9 @@ namespace CBSys.WinForm
 
             frmManage_RL_Edit frm = new frmManage_RL_Edit("Edit", iPid, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
             frm.ShowDialog();
+
+            if (frm.DialogResult != DialogResult.Cancel)
+                Search();
         }
         private void Clear()
         {
@@ -330,6 +336,9 @@ namespace CBSys.WinForm
 
             frmManage_RL_Edit frm = new frmManage_RL_Edit("Add", 0, strTrade, strCarSeries, strCarType, strSourcePath, iCategoryID);
             frm.ShowDialog();
+
+            if (frm.DialogResult != DialogResult.Cancel)
+                Search();
         }
     }
 }

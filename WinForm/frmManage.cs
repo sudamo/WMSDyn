@@ -181,6 +181,8 @@ namespace CBSys.WinForm
             bs1.DataSource = _DataTemp;
             bnBottom.BindingSource = bs1;
             dgv1.DataSource = bs1;
+
+            dgv1.Columns[0].Visible = false;
         }
 
         /// <summary>
@@ -350,7 +352,14 @@ namespace CBSys.WinForm
         }
         private void Edit()
         {
+            if (dgv1 == null || dgv1.Rows.Count == 0)
+                return;
 
+            frmManage_Edit frm = new frmManage_Edit(int.Parse(dgv1.CurrentRow.Cells[0].Value.ToString()), dgv1.CurrentRow.Cells[1].Value.ToString(), dgv1.CurrentRow.Cells[8].Value.ToString());
+            frm.ShowDialog();
+
+            if (frm.DialogResult != DialogResult.Cancel)
+                Search();
         }
         private void Delete()
         {
@@ -362,7 +371,7 @@ namespace CBSys.WinForm
                 for (int i = 0; i < dgv1.Rows.Count; i++)
                 {
                     if (dgv1.Rows[i].Selected)
-                        CommonFunc.DeleteDrawing(dgv1.Rows[i].Cells[7].Value.ToString());
+                        CommonFunc.DeleteDrawing(dgv1.Rows[i].Cells[8].Value.ToString());
                 }
             }
         }
@@ -377,8 +386,8 @@ namespace CBSys.WinForm
                 {
                     if (dgv1.Rows[i].Selected)
                     {
-                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[7].Value.ToString(), true);
-                        dgv1.Rows[i].Cells[5].Value = "是";
+                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[8].Value.ToString(), true);
+                        dgv1.Rows[i].Cells[6].Value = "是";
                     }
                 }
             }
@@ -397,15 +406,15 @@ namespace CBSys.WinForm
                 {
                     if (dgv1.Rows[i].Selected)
                     {
-                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[7].Value.ToString(), false);
-                        dgv1.Rows[i].Cells[5].Value = "否";
+                        CommonFunc.LockDrawing(dgv1.Rows[i].Cells[8].Value.ToString(), false);
+                        dgv1.Rows[i].Cells[6].Value = "否";
                     }
                 }
             }
         }
         private void Export()
         {
-            
+
         }
     }
 }

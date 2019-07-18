@@ -9,11 +9,12 @@ namespace CBSys.WinForm.Model
     {
         public UserInfo() { }
 
-        public UserInfo(int pUserId, string pUserName, int pDeptId)
+        public UserInfo(int pUserId, string pUserName, int pDeptId,int pUseOrgId)
         {
             _UserId = pUserId;
             _UserName = pUserName;
             _FDeptId = pDeptId;
+            _UseOrgId = pUseOrgId;
         }
 
         private int _PID;
@@ -33,6 +34,7 @@ namespace CBSys.WinForm.Model
         private DateTime _LastLoginDate;
         private byte _Flag;
         private string _Description;
+        private int _UseOrgId;
 
         /// <summary>
         /// 主键
@@ -287,6 +289,22 @@ namespace CBSys.WinForm.Model
             set
             {
                 _Description = value;
+            }
+        }
+
+        /// <summary>
+        /// 组织
+        /// </summary>
+        public int UseOrgId
+        {
+            get
+            {
+                return _UseOrgId;
+            }
+
+            set
+            {
+                _UseOrgId = value;
             }
         }
     }

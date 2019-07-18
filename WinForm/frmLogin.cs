@@ -18,6 +18,11 @@ namespace CBSys.WinForm
             InitializeComponent();
         }
 
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+            chbFC.Checked = ConfigurationManager.AppSettings["IsFenChang"].ToString() == "1";
+        }
+
         /// <summary>
         /// 登陆
         /// </summary>
@@ -52,8 +57,9 @@ namespace CBSys.WinForm
                 UserSetting.DB_ConnectionString = "Data Source=" + strSQL_IP + ";Initial Catalog=WMS;User ID=sa;Password=hncb2018,;Max Pool Size=1024;";
                 //UserSetting.DB_ConnectionString = "Data Source=.;Initial Catalog=WMS;User ID=sa;Password=123456;Max Pool Size=1024;";
                 UserSetting.K3CloudInf = new K3CloudInfo(strURL, strZTID, strUserName, strPWD, "");
+                UserSetting.IsFenChang = chbFC.Checked;
 
-                UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0)) : Unity.CommonFunc.GetUserInfoByName(strUserName);
+                UserSetting.UserInf = strUserName == "Administrator" ? (new UserInfo(0, "Administrator", 0, 0)) : Unity.CommonFunc.GetUserInfoByName(strUserName);
                 if (UserSetting.UserInf == null)
                 {
                     MessageBox.Show("未能获取用户信息", "登录失败");
@@ -71,6 +77,9 @@ namespace CBSys.WinForm
                     MessageBox.Show("未能获取用户权限信息", "登录失败");
                     return;
                 }
+
+                Configuration _Config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                _Config.AppSettings.Settings["IsFenChang"].Value = chbFC.Checked ? "1" : "0";
             }
             catch (Exception ex)
             {

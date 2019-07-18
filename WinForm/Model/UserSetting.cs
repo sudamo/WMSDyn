@@ -17,6 +17,7 @@ namespace CBSys.WinForm.Model
             _Drawing_RInf = pDrawing_RInf;
         }
 
+        private static bool _IsFenChang;
         private static string _DB_ConnectionString;
         private static K3CloudInfo _K3CloudInf;
         private static UserInfo _UserInf;
@@ -96,6 +97,22 @@ namespace CBSys.WinForm.Model
             set
             {
                 _Drawing_RInf = value;
+            }
+        }
+
+        /// <summary>
+        /// 是否分厂登陆
+        /// </summary>
+        public static bool IsFenChang
+        {
+            get
+            {
+                return _IsFenChang;
+            }
+
+            set
+            {
+                _IsFenChang = value;
             }
         }
     }
